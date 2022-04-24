@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style> 
+	div.container
+	{
+		width:30em;
+		border:10px solid;
+	}
+	div.box
+	{
+		box-sizing:border-box;
+		-moz-box-sizing:border-box; /* Firefox */
+		-webkit-box-sizing:border-box; /* Safari */
+		width:50%;
+		border:10px solid red;
+		padding-right:10px;
+		float:left;
+	}
+	.box2{
+		width:50%;
+		border:10px solid red;
+		padding-right:10px;
+		float:left;
+	}
+</style>
+</head>
+<body>
+	<!--css3的box-sizing属性给了开发者选择盒模型解析方式的权利。W3C的盒模型方式被称为“content-box”，IE的被称为“border-box”，使用box-sizing: border-box;就是为了在设置有padding值和border值的时候不把宽度撑开。
+	-->
+	<div class="container">
+		<div class="box">这个 div 占据左半部分。</div>
+		<div class="box2">这个 div 占据右半部分。</div>
+	</div>
+
+</body>
+</html>

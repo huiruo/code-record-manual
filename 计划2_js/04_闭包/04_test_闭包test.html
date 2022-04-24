@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>闭包test</title>
+</head>
+<body>
+	<div>
+		<div id="testId" style="cursor: pointer;">非闭包执行</div>
+		<div id="testId2" style="cursor: pointer;">闭包执行</div>
+	</div>
+<script type="text/javascript">
+
+function fn(){
+	let num = 25
+	console.log('被调用')
+	return function(){
+		return num
+	}
+}
+
+let fn2 = fn()
+console.log(fn2()) // 25
+
+document.getElementById("testId").onclick=function(){
+   		console.log("extends1")
+   		fn_test()
+};
+
+document.getElementById("testId2").onclick=function(){
+   		fn_test2()
+};
+
+//利用闭包，修改下面的代码，让循环输出的结果依次为1， 2， 3， 4， 5
+//输出666666的原因：
+/*
+如果我们直接这样写，根据setTimeout定义的操作在函数调用栈清空之后才会执行的特点，for循环里定义了5个setTimeout操作。而当这些操作开始执行时，for循环的i值，已经先一步变成了6。因此输出结果总为6。
+*/
+function fn_test(){
+	for (var i=1; i<=5; i++) { 
+	    setTimeout( function timer() {
+	        console.log(i); //输出6 6 6 6 6 6
+	    }, i*1000 );
+	}
+}
+function fn_test2(){
+  //2个操作就可以完成题目需求，一是使用自执行函数提供闭包条件，二是传入i值并保存在闭包中
+  //而我们想要让输出结果依次执行，我们就必须借助闭包的特性，每次循环时，将i值保存在一个闭包中，当setTimeout中定义的操作执行时，则访问对应闭包保存的i值即可。
+  for (var i=1; i<=5; i++) { 
+  	console.log("i外:"+i);
+    (function(i) {
+    	console.log("i内:"+i)
+    	console.log("分割线=====")
+        setTimeout( function timer() {
+            console.log(i);
+        }, i*1000 );
+    })(i)
+  }
+}
+
+//setTimeout:知识点扩展
+//setTimeout:知识点扩展，以下运行结果
+/*
+var timer = setTimeout(function() {
+    console.log('setTimeout actions.');
+}, 0);
+console.log('other actions.');
+*/
+/*
+other actions.
+setTimeout actions.
+*/
+/*
+需要等待到函数调用栈清空之后才开始执行。即所有可执行代码执行完毕之后，才会开始执行由setTimeout定义的操作。而这些操作进入队列的顺序，则由设定的延迟时间来决定。
+因此在上面这个例子中，即使我们将延迟时间设置为0，它定义的操作仍然需要等待所有代码执行完毕之后才开始执行。这里的延迟时间，并非相对于setTimeout执行这一刻，而是相对于其他代码执行完毕这一刻。所以上面的例子执行结果就非常容易理解了。
+*/
+
+//知识点扩展2
+console.log("知识点扩展2----->")
+setTimeout(function() {
+    console.log("==a",a);
+}, 0);
+
+var a = 10;
+
+console.log("===b",b);
+console.log("=====fn_AA",fn_AA);
+
+var b = 20;
+
+function fn_AA() {
+    setTimeout(function() {
+        console.log('setTImeout 10ms.');
+    }, 10);
+}
+
+fn_AA.toString = function() {
+    return 30;
+}
+
+console.log("====fn_AA",fn_AA);
+
+setTimeout(function() {
+    console.log('setTimeout 20ms.');
+}, 20);
+
+fn_AA();
+/*打印：
+===b undefined
+
+=====fn_AA ƒ fn_AA() {
+    setTimeout(function() {
+        console.log('setTImeout 10ms.');
+    }, 10);
+}
+====fn_AA ƒ 30
+
+==a 10
+setTImeout 10ms.
+setTimeout 20ms.
+*/
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+
+
+              <img
+                :src="item.url"
+                style="width:100%;height:400px;max-height: 460px"
+                :ref="'imgDiv' + index"
+                @mousewheel.prevent="rollImg(index)"
+              />
+
+
+    // 缩放图片
+    rollImg(index) {
+      /* 获取当前页面的缩放比 若未设置zoom缩放比，则为默认100%，即1，原图大小 */
+      console.log(
+        "获取当前页面的缩放比 若未设置zoom缩放比，则为默认100%，即1，原图大小-->",
+        this.$refs.imgDiv0,
+        "index",
+        index
+      );
+      console.log("zom-1->", this.$refs.imgDiv0[0]);
+      console.log("zom-2->", this.$refs.imgDiv0[0].style);
+      let zoom = parseInt(this.$refs.imgDiv0[0].style.zoom) || 100;
+      /* event.wheelDelta 获取滚轮滚动值并将滚动值叠加给缩放比zoom wheelDelta统一为±120，其中正数表示为向上滚动，负数表示向下滚动 */
+      zoom += event.wheelDelta / 12;
+      /* 最小范围 和 最大范围 的图片缩放尺度 */
+      if (zoom >= 80 && zoom < 500) {
+        this.$refs.imgDiv0[0].style.zoom = zoom + "%";
+      }
+      return false;
+    },
+
+
+
+
+=======================================================
+        //判断滚动方向，因为此demo中只有四页，故边界处理为 0 与 3
+        handleScroll(e){
+            let direction = e.deltaY > 0 ? 'down':'up';  //deltaY为正则滚轮向下，为负滚轮向上
+            if(direction=='down' && e.deltaY >= 125){ //125为用户一次滚动鼠标的wheelDelta的值
+                if(this.initialIndex >= 3){
+                    this.initialIndex = 3
+                }else{
+                    this.initialIndex += 1;
+                    this.setActiveItem(this.initialIndex)
+                }
+            }
+            if(direction=='up' && e.deltaY <= -125){
+                if(this.initialIndex <= 0){
+                    this.initialIndex = 0;
+                    // this.setActiveItem(0)
+                }else{
+                    this.initialIndex -= 1;
+                    this.setActiveItem(this.initialIndex)
+                }
+            }
+        },
+
+
+         mounted(){
+     //监听鼠标滚动事件
+     window.addEventListener('mousewheel',this.handleScroll);
+ },
+
+setActiveItem(index) {  //index为走马灯当前页码
+    let nextIndex = index ++;   
+    this.$refs.carousel.setActiveItem(nextIndex)
+},
+
+
+
+======================
+  directives: {
+    /*
+  focus: {
+    // 指令的定义
+    inserted: function (el) {
+      el.focus()
+    }  //<input v-focus>
+    */
+    drag(el, bindings) {
+      el.onmousedown = function(e) {
+        console.log("er--拖动", e);
+        var disx = e.pageX - el.offsetLeft;
+        var disy = e.pageY - el.offsetTop;
+        document.onmousemove = function(e) {
+          el.style.left = e.pageX - disx + "px";
+          el.style.top = e.pageY - disx + "px";
+        };
+        document.onmouseup = function() {
+          document.onmousemove = document.onmouseup = null;
+        };
+      };
+    }
+  },

@@ -1,0 +1,55 @@
+
+
+computed: {
+...mapState('examine', ['divStaffNull'])
+},
+
+
+
+
+methods: {
+...mapActions('examine', [
+  'setDialogInnerDataDepart',
+  'setDialogRightCustomer',
+  'setUniqueCheckedListRight',
+  'setCheckedListRight',
+  'setDivLogicTypeNull',
+  'setDivStaffSelectNull',
+  'selectStaffAction',
+  'selectDepartAction',
+  'setCheckedList',
+  'setInitDataRightAdjust'
+]),
+or
+// ...mapActions(['setsetDetailSale']),
+or
+...mapActions({
+  addDetailSale: 'setDetailSale'
+}),
+
+
+
+
+
+
+  //mapMutations 使用方法一
+            //            ...mapMutations([
+            //                'increase', // 将 `this.increase()` 映射为 `this.$store.commit('increase')`
+            //            ]),
+            //mapMutations 使用方法二
+            ...mapMutations({
+                increase: 'increase' // 将 `this.increase()` 映射为 `this.$store.commit('increase')`
+            }),
+
+
+
+  //mapActions 使用方法一
+            //            ...mapActions([
+            //                'asyncDecrease' // 将 `this.asyncDecrease()` 映射为 `this.$store.dispatch('asyncDecrease')`
+            //            ]),
+            //mapActions 使用方法二
+            ...mapActions({
+                asyncDecrease: 'asyncDecrease' // 将 `this.asyncDecrease()` 映射为 `this.$store.dispatch('asyncDecrease')`
+            }),
+        }
+    };

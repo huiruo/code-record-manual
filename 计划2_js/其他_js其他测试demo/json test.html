@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Json test</title>
+</head>
+<body>
+  <div>
+  	<button type="submit" onclick="clickAction()">按钮</button>
+	</div>
+<script type="text/javascript">
+	var test={
+      bubbleUrl: "test",
+      type: 10,
+    };
+    function clickAction(){
+    	console.log("clickAction",test)	
+    	// JSON.parse(test); //可以将json字符串转换成json对象
+    	console.log(JSON.stringify(test));//可以将json对象转换成json对符串
+    }
+</script>
+</body>
+</html>

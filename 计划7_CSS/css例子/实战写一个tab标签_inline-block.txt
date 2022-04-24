@@ -1,0 +1,17 @@
+
+
+<View className='mark'><Text>分数80分以上</Text></View>
+    .mark{
+      display: inline-block;
+      padding: 0 16px;
+      height: 60px;
+      line-height: 60px;
+      width: auto;
+      background: rgb(47, 228, 199);
+      font-size: 28px;
+      text-align: center;
+      vertical-align: middle;
+      border: 1PX solid #F7F7F7;
+      border-radius: 30px;
+      color: #fff;
+}

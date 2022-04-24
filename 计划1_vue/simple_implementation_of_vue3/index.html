@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue3</title>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script src="./vue.global.js"></script>
+    <script>
+        function usePosition() {
+            const position = Vue.reactive({ x: 0, y: 0 });
+            function update(e) {
+                position.x = e.pageX;
+                position.y = e.pageY;
+            }
+            /* 挂载 */
+            Vue.onMounted(() => {
+                window.addEventListener('mousemove', update);
+            })
+            /* 卸载 */
+            Vue.onUnmounted(() => {
+                window.removeEventListener('mousemove')
+            })
+            return Vue.toRefs(position);
+        }
+        /* composition API */
+        const App = {
+            setup() {
+                let state = Vue.reactive({ name: "AEIP源" });
+                function change() {
+                    state.name = "aeipyuan";
+                }
+
+                let { x, y } = usePosition();
+
+                return {
+                    state, change,
+                    x, y
+                }
+            },
+            template: `<div @click="change">{{state.name}} x:{{x}} y:{{y}}</div>`
+        }
+        /* 创建 */
+        Vue.createApp(App).mount('#container');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+exec():
+
+为指定的一段字符串执行搜索匹配操作。它的返回值是一个数组或者 null。
+如果你仅仅是为了知道是否匹配，可以使用 RegExp.test() 方法，或者 String.search 方法。
+
+    var result = regexObj.exec(str);
+执行上述语句，会更新正则表达式对象的属性（lastIndex），如果成功匹配，返回一个数组，数组第一个元素是匹配的字符串，其他元素依次为匹配过程中的捕获字符串; 如果匹配失败，返回 null;
+
+注意：
+
+result返回值有两个属性可以记下：
+
+input: 原始字符串，即 str;
+index: 匹配到的字符位于原始字符串的索引值, 索引初始值为0；
+正则表达式属性：
+
+lastIndex: 下一次匹配开始的位置
+例子：
+
+    var re = /hello hu(\w+)/;
+    var str = 'hello huxiao6, balabala, hello huDi, 724';
+    
+    var result = re.exec(str);  // ["hello huxiao6", "xiao6"]
+    result.input;  // "hello huxiao6, balabala, hello huDi, 724"
+    result.index;  // 0
+    
+test():
+
+执行一个检索，用来查看正则表达式与指定的字符串是否匹配。返回 true 或 false
+
+    var result = regexObj.test(str);  // true or false
+match():
+
+字符串匹配到正则表达式时，改方法会提取匹配项。
+
+此方法字符串的方法：
+
+    var result = str.match(regexObj);
+执行上述语句，如果成功匹配，返回一个数组，数组第一个元素是匹配的字符串，其他元素依次为匹配过程中的捕获字符串; 如果匹配失败，返回 null;
+
+如果正则表达式没有"g"标志，返回和 regexObj.exec(str) 相同的结果,并且返回的数组也有 input 和 index 属性；
+如果正则表达式包含 g 标志，则该方法返回一个包含所有匹配结果的数组。如果没有匹配到，则返回 null。
+例子：
+
+    var re = /hello hu(\w+)/;
+    var str = 'hello huxiao6, balabala, hello huDi, 724';
+    
+    var result = str.match(re);  // ["hello huxiao6", "xiao6"]
+    result.input;  // "hello huxiao6, balabala, hello huDi, 724"
+    result.index;  // 0
+
+test() 方法和 exec() 方法比较
+两个方法都用于查看查看某个模式（正则表达式）是否存在于一个字符串中，test() 方法执行速度比 exec() 方法更快， 但exec() 方法返回信息更多；
+正则表达式"g"标识使用
+正则表达式使用"g"标识时，如果要查找目标字符串中所有的匹配，需要多次执行exec()方法，每次执行时，都是从 lastIndex属性指定的位置开始匹配
+
+例子：
+
+    var re = /hello hu(\w+)/;
+    var str = 'hello huxiao6, balabala, hello huDi, 724';
+    
+    第一次执行： var result = re.exec(str);  // ["hello huxiao6", "xiao6"]
+               result.input;  // "hello huxiao6, balabala, hello huDi, 724"
+               result.index;  // 0
+               re.lastIndex;  // 13
+              
+    第二次执行： var result = re.exec(str);  // ["hello huDi", "Di"]
+               result.input;  // "hello huxiao6, balabala, hello huDi, 724"
+               result.index;  // 25
+               re.lastIndex;  // 35
+               
+    第三次执行： var result = re.exec(str);  // null
+    第四次执行： 同第一次执行，第五次执行同第二次。。。。
+    
+使用 string match() 方法查找目标字符串中所有的匹配, 如果匹配成功，返回含有所有匹配项的数组，如果匹配失败，返回 null; 返回数组没有 input 和 index 属性
+
+例子：
+
+      var re = /hello hu(\w+)/g;
+      var str = 'hello huxiao6, balabala, hello huDi, 724';
+      
+      var result = str.match(re);  // ["hello huxiao6", "hello huDi"]         
+      
+
+作者：稀里糊涂姑娘
+链接：https://www.jianshu.com/p/5d759797fdf0
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
