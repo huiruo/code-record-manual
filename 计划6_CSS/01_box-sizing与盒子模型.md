@@ -1,23 +1,3 @@
-
-# 标准盒子模型
-Margin(外边距) - 清除边框外的区域，外边距是透明的。
-Border(边框) - 围绕在内边距和内容外的边框。
-Padding(内边距) - 清除内容周围的区域，内边距是透明的。
-Content(内容) - 盒子的内容，显示文本和图像。
-
-### box-sizing
-默认值:	content-box
-box-sizing: content-box;
-
-语法:
-box-sizing: content-box|border-box|inherit:
-
-### 默认情况下，元素的宽度(width) 和高度(height)计算方式如下：
-```
-width(宽度) + padding(内边距) + border(边框) + margin= 元素实际宽度
-height(高度) + padding(内边距) + border(边框) + margin= 元素实际高度
-```
-
 ### border-box 和 content-box 区别
 * W3C的盒模型方式被称为:content-box
 
