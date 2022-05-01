@@ -11,25 +11,25 @@ indexOf() 方法可返回数组中某个指定的元素位置。
 * */
 
 // const target ='3'
-const target ='5'
+const target = '5'
 
-let arr = ['1','2','3','4']
+let arr = ['1', '2', '3', '4']
 let arrIndex = arr.indexOf(target)
 
 if (arrIndex > -1) {
     console.log("包含");
-    arr.splice(arrIndex,1)
+    arr.splice(arrIndex, 1)
 } else {
     console.log("不包含");
     arr.push(target)
 }
 
-console.log('操作之后:',arr)
+console.log('操作之后:', arr)
 
 /*
 * test 2
 * */
-const testArr = [20,12,362,26,965,22,26,35];
+const testArr = [20, 12, 362, 26, 965, 22, 26, 35];
 const index1 = testArr.indexOf(26);
 
-console.log('test 2:',index1) //3
+console.log('test 2:', index1) //3

@@ -8,7 +8,7 @@ let filters = new Map([
     ['color', 'chocolate'],
 ])
 console.log(filters.size) //3
-filters.set('color','red') // 覆盖旧键
+filters.set('color', 'red') // 覆盖旧键
 console.log(filters.get('color'));  // 'chocolate'
 console.log(filters.delete('color'));
 console.log(filters.get('color'));  // undefined
@@ -27,15 +27,15 @@ const codeMessage = new Map([
     [401, '用户没有权限'],
     [403, '用户得到授权，但是访问是被禁止的'],
     [404, 'Not found'],
-    [408,'请求超时'],
-    [410,'请求的资源被永久删除'],
+    [408, '请求超时'],
+    [410, '请求的资源被永久删除'],
     [500, '服务器内部错误(InternalError)'],
     [502, '网关错误'],
     [503, '服务不可用，服务器暂时过载或维护'],
     [504, '请求超时(Gateway Timeout)'],
 ]);
 
-console.log('map test:',codeMessage.get(504))
+console.log('map test:', codeMessage.get(504))
 
 /* 2
 * Map是一种数据结构，由键值对组成。Map看起来像一个二维数组，存放着一对对键值对，可通过键名获取对应的键值。
@@ -54,7 +54,7 @@ scoreList.forEach((item) => {
 
 const scoreMap = new Map(tempArray);
 
-console.log('Map结构:',scoreMap); // Map结构
+console.log('Map结构:', scoreMap); // Map结构
 console.log(Array.from(scoreMap)); // 转化为数组的形式
 console.log(`Kevin 's score: `, scoreMap.get('Kevin')); // get()获取‘Kevin’对应的键值
 console.log(scoreMap.has('Tim')); // has()判断是否含有键名‘Tim’
@@ -70,9 +70,9 @@ console.log(scoreMap.has('Tim')); // has()判断是否含有键名‘Tim’
 * Map结构是一个二维数组，通过ES6数组解构获取元素值
 * */
 for (let [key, value] of scoreMap) {
-    console.log(`${key} 's score: `,value);
+    console.log(`${key} 's score: `, value);
 }
 
 // 3-2.values() 方法:和keys方法对应，values方法返回的就是Map对象中的value集合。
 const myMap2 = new Map([['Electronic Gadget', 'Smart Phone'], ['Input Devices', 'Mouse']]);
-console.log('values():',myMap2.values());   //output: {"Smart Phone", "Mouse"}
+console.log('values():', myMap2.values());   //output: {"Smart Phone", "Mouse"}

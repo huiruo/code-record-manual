@@ -4,16 +4,16 @@
 const setArray = new Set([1, 1, 2, 2, 3]);
 
 for (let value of setArray) {
-    console.log('set使用',value);
+    console.log('set使用', value);
 }
 
 // 1.array ---> set
-let arr = [1,2,3,4]
-console.log('array ---> set:',new Set(arr))
+let arr = [1, 2, 3, 4]
+console.log('array ---> set:', new Set(arr))
 
 // 2.set --->arr
-let setTem = new Set([1,2,3,4])
-console.log('set --->arr:',Array.form(setTem))
+let setTem = new Set([1, 2, 3, 4])
+console.log('set --->arr:', Array.form(setTem))
 
 /*
 * 2.在数组去重中使用
@@ -23,7 +23,7 @@ const unique = (arr) => Array.from(new Set(arr));
 
 const arr = ['apple', 'banana', 'apple', 'pear', 'strawberry'];
 
-console.log('在数组去重中使用:',unique(arr));
+console.log('在数组去重中使用:', unique(arr));
 
 /*
 * 3.set 的作用:

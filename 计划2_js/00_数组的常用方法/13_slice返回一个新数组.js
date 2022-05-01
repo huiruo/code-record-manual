@@ -12,9 +12,9 @@ testArr[3] = "forth";
 
 console.log(testArr.slice(0));
 console.log(testArr.slice(2));
-console.log(testArr.slice(1,2));
+console.log(testArr.slice(1, 2));
 
-console.log('原数组：',testArr);
+console.log('原数组：', testArr);
 
 /*
 * 2.该方法也 用于字符串
@@ -27,18 +27,18 @@ console.log('原数组：',testArr);
 const str = "abcdefg";
 console.log(str.slice(-1)); // g
 console.log(str.slice(2)); // cdefg
-console.log(str.slice(0,3)); // abc
-console.log(str.slice(0,-2)); // abcde
-console.log(str.slice(-3,-2)); // e
+console.log(str.slice(0, 3)); // abc
+console.log(str.slice(0, -2)); // abcde
+console.log(str.slice(-3, -2)); // e
 
 /*
 * 应用：字符串反转
 * */
-function reverse(str){
-    if(str.length === 1){
+function reverse(str) {
+    if (str.length === 1) {
         return str;
     }
-    return  str.slice(-1) + reverse(str.slice(0,-1));
+    return str.slice(-1) + reverse(str.slice(0, -1));
 }
 const testStr = "helloworld";
-console.log('字符串反转:',reverse(testStr)); // dlrowolleh
+console.log('字符串反转:', reverse(testStr)); // dlrowolleh

@@ -24,14 +24,14 @@ findIndex是传入一个测试条件,也就是函数,找到了返回当前项索
 5.findIndex是用来查找索引的,返回的查找到的符合项的索引.
 * */
 
-const testArr=[{id:1,name:'张三'},{id:2,name:'李四'},{id:3,name:'王五'},{id:2,name:'赵六'}]
+const testArr = [{ id: 1, name: '张三' }, { id: 2, name: '李四' }, { id: 3, name: '王五' }, { id: 2, name: '赵六' }]
 
 let arrIndex = testArr.findIndex(item => {
     return item.name === '张三';
 });
 
 if (arrIndex > -1) {
-    console.log("包含",testArr[arrIndex]);
+    console.log("包含", testArr[arrIndex]);
 } else {
     console.log("不包含");
 }

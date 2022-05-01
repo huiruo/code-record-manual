@@ -1,3 +1,3 @@
 
 const testStr = 'abc,abcd,aaa'
-console.log('to arr:',testStr.split(","))
+console.log('to arr:', testStr.split(","))
