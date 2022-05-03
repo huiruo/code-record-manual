@@ -1,6 +1,3 @@
-
-
-
 ## 步骤1.要引入main.css,需要像引入JavaScript文件那样，修改入口文件main.js:
 ```js
 // 通过 CommonJS 规范导入 css 模块
