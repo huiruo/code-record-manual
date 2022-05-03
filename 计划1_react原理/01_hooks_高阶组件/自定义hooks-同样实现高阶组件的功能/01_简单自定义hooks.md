@@ -1,3 +1,4 @@
+参考：https://juejin.cn/post/6920842427221671943
 #### 1.为什么要自定义hooks
 有时候我们会想要在组件之间重用一些状态逻辑。目前为止，有两种主流方案来解决这个问题：[高阶组件](https://zh-hans.reactjs.org/docs/higher-order-components.html)和 [render props](https://zh-hans.reactjs.org/docs/render-props.html)。自定义 Hook 可以让你在不增加组件的情况下达到同样的目的。
 ```

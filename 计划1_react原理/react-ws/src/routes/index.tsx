@@ -10,6 +10,7 @@ import { P404 } from '../pages/p404/index';
 import { UseMemoDemo } from '../pages/useMemo';
 import { MemoDemo } from '../pages/memoDemo';
 import { UseCallbackDemo } from '../pages/useCallback-demo';
+import { CountTimer } from '../pages/count-timer';
 
 export const routesConfig = [
   {
@@ -40,6 +41,12 @@ export const routesConfig = [
     path: 'useCallbackDemo',
     title: 'UseCallbackDemo',
     element: <UseCallbackDemo />,
+    children: []
+  },
+  {
+    path: 'countTimer',
+    title: 'CountTimer',
+    element: <CountTimer />,
     children: []
   },
   {

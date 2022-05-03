@@ -1,4 +1,3 @@
-
 #### 数组解构
 ```javaScript
 function ExampleWithManyStates() {
@@ -49,3 +48,16 @@ function Counter({initialCount}) {
 > ```
 >
 > `useReducer` 是另一种可选方案，它更适合用于管理包含多个子值的 state 对象。
+
+#### useState中的第二个参数更新状态和class中的this.setState区别？
+
+##### `在正常的react的事件流里（如onClick等）`
++ setState和useState中的set函数是异步执行的（不会立即更新state的结果）
++ 多次执行setState和useState的set函数，组件只会重新渲染一次
+
++ 不同的是，setState会更新当前作用域下的状态，但是set函数不会更新，只能在新渲染的组件作用域中访问到
++ 同时setState会进行state的合并，但是useState中的set函数做的操作相当于是直接替换，只不过内部有个防抖的优化才导致组件不会立即被重新渲染
+
+##### `在setTimeout，Promise.then等异步事件或者原生事件中`
++ setState和useState的set函数是同步执行的（立即重新渲染组件）
++ 多次执行setState和useState的set函数，每一次的执行都会调用一次render
