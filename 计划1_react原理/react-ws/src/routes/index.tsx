@@ -7,10 +7,14 @@ import {
 import { Main } from '../pages/main';
 import { HOC } from '../pages/HOC/index';
 import { P404 } from '../pages/p404/index';
+import { UseMemoDemo } from '../pages/useMemo';
+import { MemoDemo } from '../pages/memoDemo';
+import { UseCallbackDemo } from '../pages/useCallback-demo';
 
-const routesConfig = [
+export const routesConfig = [
   {
     path: '/',
+    title: 'main',
     element: <Main />,
     children: []
   },
@@ -18,6 +22,24 @@ const routesConfig = [
     path: 'HOC',
     title: '高阶组件',
     element: <HOC />,
+    children: []
+  },
+  {
+    path: 'useMemoDemo',
+    title: 'useMemoDemo',
+    element: <UseMemoDemo />,
+    children: []
+  },
+  {
+    path: 'memoDemo',
+    title: 'MemoDemo',
+    element: <MemoDemo />,
+    children: []
+  },
+  {
+    path: 'useCallbackDemo',
+    title: 'UseCallbackDemo',
+    element: <UseCallbackDemo />,
     children: []
   },
   {

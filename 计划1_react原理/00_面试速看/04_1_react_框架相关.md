@@ -1,4 +1,3 @@
-
 # 一.react 和vue不同点
 ### 理念上的不同重点：
 ```
@@ -62,102 +61,6 @@ react，它没有纯粹意义上的vm对象，它有的是属性和状态。用�
 因为单纯的 react 本质就是一个 render 函数。入参是 state，也就是 model，出参是 html，也就是渲染结果交给浏览器。这也是为什么 react 会和函数式，以及不可变数据结构扯上关系的原因。
 一个用于 render 的函数，划分为 v 是没错的吧。state 也就是 model 应该包含在 react 中吗？私以为是不包含的，因为那是入参，是使用者提供的，react 对 model并没有任何操作，你每一次状态更新的时候，在其看来都是一个“新的”state，然后返回一个“新的”结果。
 反观 vue，内部也有 state，但是并不是作为入参而是作为 vue 组件的一部分，因为只有内部的这个 state 是和 view 绑定的，对这个 state  进行修改的时候会同步修改对应的那一部分 view。至于 c ，你说我这么一个函数式设计思路的库，追求的就是无状态无副作用，被钦点为 c 是不是有点说不过去。
-```
-
-### 详细解释 React 组件的生命周期方法_重点
-一些最重要的生命周期方法是：
-```
-1.componentWillMount() – 在渲染之前执行，在客户端和服务器端都会执行。---->React16弃用
-2.componentDidMount() – 仅在初次渲染后在客户端执行。
-3.componentWillReceiveProps() – 当从父类接收到 props 并且在调用另一个渲染器之前调用。---->React16弃用
-4.shouldComponentUpdate() – 根据特定条件返回 true 或 false。如果你希望更新组件，请返回true 否则返回 false。默认情况下，它返回 false。
-5.componentWillUpdate() – 在 DOM 中进行渲染之前调用。---->React16弃用
-6.componentDidUpdate() – 在渲染发生后立即调用。
-7.componentWillUnmount() – 从 DOM 卸载组件后调用。用于清理内存空间。
-```
-###### react16之前的生命周期
-```
-- 初始化阶段
-
-- - `constructor` 构造函数
-  - `getDefaultProps``props`默认值
-  - `getInitialState``state`默认值
-
-- 挂载阶段
-
-- - `componentWillMount` 组件初始化渲染前调用
-  - `render` 组件渲染
-  - `componentDidMount`组件挂载到 `DOM`后调用
-
-- 更新阶段
-
-- - `componentWillReceiveProps` 组件将要接收新 `props`前调用
-  - `shouldComponentUpdate` 组件是否需要更新
-  - `componentWillUpdate` 组件更新前调用
-  - `render`组件渲染
-  - `componentDidUpdate` 组件更新后调用
-
-- 卸载阶段
-
-- - `componentWillUnmount` 组件卸载前调用
-```
-###### 总结：
-```
-只执行一次： constructor、componentWillMount、componentDidMount
-
-执行多次：render 、子组件的componentWillReceiveProps、componentWillUpdate、componentDidUpdate
-
-有条件的执行：componentWillUnmount（页面离开，组件销毁时）
-
-不执行的：根组件（ReactDOM.render在DOM上的组件）的componentWillReceiveProps（因为压根没有父组件给传递props）
-```
-
-###### 2.react16生命周期:
-```
-React16`新的生命周期弃用了 `componentWillMount、componentWillReceivePorps，componentWillUpdate`新增了 `getDerivedStateFromProps、getSnapshotBeforeUpdate`来代替弃用的三个钩子函数。
-
-React16并没有删除这三个钩子函数，但是不能和新增的钩子函数混用， `React17`将会删除这三个钩子函数，新增了对错误的处理（ `componentDidCatch`）
-```
-
-```
-- 初始化阶段
-
-- - `constructor` 构造函数
-  - getDefaultProps   props默认值
-  - getInitialState tate默认值
-
-- 挂载阶段
-
-- - `staticgetDerivedStateFromProps(props,state)`    ---->react16新增
-  - `render`
-  - `componentDidMount`
-```
-###### 新属性介绍:getDerivedStateFromProps
-```
-`getDerivedStateFromProps`：组件每次被 `rerender`的时候，包括在组件构建之后(虚拟 `dom`之后，实际 `dom`挂载之前)，每次获取新的 `props`或 `state`之后；每次接收新的props之后都会返回一个对象作为新的 `state`，返回null则说明不需要更新 `state`；配合 `componentDidUpdate`，可以覆盖 `componentWillReceiveProps`的所有用法.
-```
-
-```
-- 更新阶段
-
-- - `staticgetDerivedStateFromProps(props,state)`
-  - `shouldComponentUpdate`
-  - `render`
-  - `getSnapshotBeforeUpdate(prevProps,prevState)`
-  - `componentDidUpdate`
-```
-
-###### 新属性介绍:`getSnapshotBeforeUpdate`
-```
-> `getSnapshotBeforeUpdate`：触发时间: `update`发生的时候，在 `render`之后，在组件 `dom`渲染之前；返回一个值，作为 `componentDidUpdate`的第三个参数；配合 `componentDidUpdate`, 可以覆盖 `componentWillUpdate`的所有用法
-
-- 卸载阶段
-
-- - `componentWillUnmount`
-
-- 错误处理
-
-- - `componentDidCatch`
 ```
 
 ### 三.React如何提高性能

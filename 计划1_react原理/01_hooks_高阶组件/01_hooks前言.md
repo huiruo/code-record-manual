@@ -8,6 +8,16 @@
 + 不要在render方法中使用HOC，会发生组件不必要的卸载和重新渲染，影响性能问题；
 + 组件的ref不会被高阶组件获取，需要采用Refs转发；
 
+```
+`Reack Hooks 本身就是为了解决组件间逻辑公用的问题的。`
+
+ 预置了大量的Hooks， 最重要两个的就是： `useState` and `useEffect`.
+
+useState 使我们在`不借助 ES6 class 的前提下， 在组件内部使用 state 成为可能`。
+
+useEffect 取代了 `componentDidMount, componentDidUpdate, and componentWillUnmount`, 提供了一个`统一的API`。
+```
+
 ##### 实例：
 比如操作日志打印，权限控制等，以操作日志打印为例，要实现以下需求：在进入某些页面组件时，需要打印出日志并传送至服务器。
 ```javaScript
