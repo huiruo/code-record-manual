@@ -1,7 +1,4 @@
-
-
 ### 01.`useReducer`
-
 > ```js
 > const [state, dispatch] = useReducer(reducer, initialArg, init);
 > ```
@@ -9,7 +6,6 @@
 > [`useState`](https://zh-hans.reactjs.org/docs/hooks-reference.html#usestate) 的替代方案。它接收一个形如 `(state, action) => newState` 的 reducer，并返回当前的 state 以及与其配套的 `dispatch` 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）
 
 在某些场景下，`useReducer` 会比 `useState` 更适用，例如 state 逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 等。并且，使用 `useReducer` 还能给那些会触发深更新的组件做性能优化，因为[你可以向子组件传递 `dispatch` 而不是回调函数](https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down) 。
-
 
 
 ```js
@@ -42,8 +38,6 @@ React 会确保 dispatch 函数的标识是稳定的，并且不会在组件重�
 */
 ```
 
-
-
 ### 02.指定初始 state
 
 有两种不同初始化 `useReducer` state 的方式，你可以根据使用场景选择其中的一种。将初始 state 作为第二个参数传入 `useReducer` 是最简单的方法：
@@ -55,15 +49,12 @@ React 会确保 dispatch 函数的标识是稳定的，并且不会在组件重�
   );
 ```
 
-
-
 ### 03.惰性初始化
-
 你可以选择惰性地创建初始 state。为此，需要将 `init` 函数作为 `useReducer` 的第三个参数传入，这样初始 state 将被设置为 `init(initialArg)`。
 
 这么做可以将用于计算 state 的逻辑提取到 reducer 外部，这也为将来对重置 state 的 action 做处理提供了便利：
 
-```
+```javaScript
 function init(initialCount) {
   return {count: initialCount};
 }
@@ -96,10 +87,6 @@ function Counter({initialCount}) {
   );
 }
 ```
-
-#### 
-
-
 
 ### 04.`useRef`
 
@@ -136,5 +123,3 @@ function TextInputWithFocusButton() {
 这是因为它创建的是一个普通 Javascript 对象。而 `useRef()` 和自建一个 `{current: ...}` 对象的唯一区别是，`useRef` 会在每次渲染时返回同一个 ref 对象。
 
 请记住，当 ref 对象内容发生变化时，`useRef` 并*不会*通知你。变更 `.current` 属性不会引发组件重新渲染。如果想要在 React 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用[回调 ref](https://zh-hans.reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node) 来实现。
-
-### `  `
