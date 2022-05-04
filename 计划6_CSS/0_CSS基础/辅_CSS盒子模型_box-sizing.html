@@ -26,12 +26,12 @@
 </style>
 </head>
 <body>
-	<!--css3的box-sizing属性给了开发者选择盒模型解析方式的权利。W3C的盒模型方式被称为“content-box”，IE的被称为“border-box”，使用box-sizing: border-box;就是为了在设置有padding值和border值的时候不把宽度撑开。
+	<!--css3的box-sizing属性给了开发者选择盒模型解析方式的权利。W3C的盒模型方式被称为“content-box”，
+	加了box-sizing:border-box属性，padding和border的值就不会在影响元素的宽高，相当于把padding和border的值都算在content里
 	-->
 	<div class="container">
 		<div class="box">这个 div 占据左半部分。</div>
 		<div class="box2">这个 div 占据右半部分。</div>
 	</div>
-
 </body>
 </html>
