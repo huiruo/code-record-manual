@@ -1,7 +1,7 @@
 /*
-* 创建一个仅用于封装继承过程的函数，该函数在内部以某种方式来增强对象，最后再像真地做了所有工作一样返回对象。
-* 典型的寄生继承：用父类构造函数的proptype创建一个空对象，并将这个对象指向子类构造函数的proptype。
-* */
+ * 创建一个仅用于封装继承过程的函数，该函数在内部以某种方式来增强对象，最后再像真地做了所有工作一样返回对象。
+ * 典型的寄生继承：用父类构造函数的proptype创建一个空对象，并将这个对象指向子类构造函数的proptype。
+ * */
 
 /*
 在上述例子中，createAnother函数接收了一个参数，也就是将要作为新对象基础的对象。
@@ -22,20 +22,20 @@ anotherPerson是基于person创建的一个新对象，新对象不仅具有pers
 */
 
 // 例子2：与寄生构造函数和工厂模式类似，创建一个仅用于封装继承过程的函数，该函数在内部以某种方式来增强对象，最后返回对象。
-function createAnother(original){
-    let clone = Object.create(original);    //通过调用函数创建一个新对象
-    clone.sayHi = function(){               //以某种方式来增强这个对象
-        console.log("Hi");
-    };
-    return clone;                        //返回这个对象
+function createAnother(original) {
+  let clone = Object.create(original); //通过调用函数创建一个新对象
+  clone.sayHi = function () {
+    //以某种方式来增强这个对象
+    console.log("Hi");
+  };
+  return clone; //返回这个对象
 }
 let person = {
-    name: "Bob",
-    friends: ["Shelby", "Court", "Van"]
+  name: "Bob",
+  friends: ["Shelby", "Court", "Van"],
 };
 let anotherPerson = createAnother(person);
 anotherPerson.sayHi();
-
 
 //6.寄生继承 start
 //6.寄生继承:创建一个封装基础过程的函数，该函数内部以某种方式来增强对象，最后再像真的是它做了所有工作一样返回对象。

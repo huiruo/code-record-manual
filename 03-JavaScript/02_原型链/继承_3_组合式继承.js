@@ -1,28 +1,28 @@
 // #### 3.组合继承:使用原型链实现对原型方法的继承，借用构造函数来实现对实例属性的继承。
 
 /*
-* 实际上不管代码怎么变，继承都基于两种方式：
-* 1.通过原型链，即子类的原型指向父类的实例从而实现原型共享。
-* 2.借用构造函数，即通过js的apply、call实现子类调用父类的属性、方法；
-*
-* A.原型链方式可以实现所有属性方法共享，但无法做到属性、方法独享例如Sub1修改了父类的函数，其他所有的子类Sub2、Sub3...想调用旧的函数就无法实现了）
-* B.而借用构造函数除了能独享属性、方法外还能在子类构造函数中传递参数，但代码无法复用。总体而言就是可以**实现所有属性方法独享，但无法做到属性、方法
-* 共享**（例如，Sub1新增了一个函数，然后想让Sub2、Sub3...都可以用的话就无法实现了，只能Sub2、Sub3...各自在构造函数中新增）
-*
-* 组合继承就是把以上两种继承方式一起使用，把共享的属性、方法用原型链继承实现，独享的属性、方法用借用构造函数实现，所以组合继承几乎完美实现了js的继承；
-*
-* 组合继承有一个小bug，实现的时候调用了两次超类（父类）;
-* 性能上不合格啊有木有！怎么解决呢？于是“寄生继承”就出来了
-* */
+ * 实际上不管代码怎么变，继承都基于两种方式：
+ * 1.通过原型链，即子类的原型指向父类的实例从而实现原型共享。
+ * 2.借用构造函数，即通过js的apply、call实现子类调用父类的属性、方法；
+ *
+ * A.原型链方式可以实现所有属性方法共享，但无法做到属性、方法独享例如Sub1修改了父类的函数，其他所有的子类Sub2、Sub3...想调用旧的函数就无法实现了）
+ * B.而借用构造函数除了能独享属性、方法外还能在子类构造函数中传递参数，但代码无法复用。总体而言就是可以**实现所有属性方法独享，但无法做到属性、方法
+ * 共享**（例如，Sub1新增了一个函数，然后想让Sub2、Sub3...都可以用的话就无法实现了，只能Sub2、Sub3...各自在构造函数中新增）
+ *
+ * 组合继承就是把以上两种继承方式一起使用，把共享的属性、方法用原型链继承实现，独享的属性、方法用借用构造函数实现，所以组合继承几乎完美实现了js的继承；
+ *
+ * 组合继承有一个小bug，实现的时候调用了两次超类（父类）;
+ * 性能上不合格啊有木有！怎么解决呢？于是“寄生继承”就出来了
+ * */
 
 /*
-* 实现：
-* 使用原型链实现对原型方法的继承，借用构造函数来实现对实例属性的继承。
-* 缺点在子类实力化的过程中父类函数执行了2次
-* 缺点 Dog Animal指向了同一块统建，当改变其中任意一个值另外一个也改变
-* */
+ * 实现：
+ * 使用原型链实现对原型方法的继承，借用构造函数来实现对实例属性的继承。
+ * 缺点在子类实力化的过程中父类函数执行了2次
+ * 缺点 Dog Animal指向了同一块统建，当改变其中任意一个值另外一个也改变
+ * */
 function hasPrototypeProperty(object, name) {
-  return !object.hasOwnProperty(name) && (name in object);
+  return !object.hasOwnProperty(name) && name in object;
 }
 // 父类
 function SuperType(name) {
@@ -33,7 +33,6 @@ function SuperType(name) {
 SuperType.prototype.sayName = function () {
   console.log(this.name);
 };
-
 
 // 子类
 function SubType(name, age) {
@@ -52,20 +51,19 @@ SubType.prototype.sayAge = function () {
 const instance1 = new SubType("Nicholas", 29);
 
 instance1.colors.push("black");
-console.log('组合继承例子2:', instance1.colors);  //"red,blue,green,black"
+console.log("组合继承例子2:", instance1.colors); //"red,blue,green,black"
 
-instance1.sayName();      //"Nicholas";
-instance1.sayAge();       //29
+instance1.sayName(); //"Nicholas";
+instance1.sayAge(); //29
 
 const instance2 = new SubType("Greg", 27);
-console.log('组合继承例子2:', instance2.colors);  //"red,blue,green"
-instance2.sayName();      //"Greg";
-instance2.sayAge();       //27
+console.log("组合继承例子2:", instance2.colors); //"red,blue,green"
+instance2.sayName(); //"Greg";
+instance2.sayAge(); //27
 
 //delete instance1.name;
-console.log('组合继承例子2', hasPrototypeProperty(instance1, "colors"));
-console.log('组合继承例子2:', hasPrototypeProperty(instance1, "name"));
-
+console.log("组合继承例子2", hasPrototypeProperty(instance1, "colors"));
+console.log("组合继承例子2:", hasPrototypeProperty(instance1, "name"));
 
 //5.组合继承
 //5.组合继承:通过调用父类构造，继承父类的属性并保留传参的优点，然后通过将父类实例作为子类原型，实现函数复用

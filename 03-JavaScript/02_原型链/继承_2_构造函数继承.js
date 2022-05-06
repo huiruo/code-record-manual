@@ -13,10 +13,10 @@
 * */
 
 /*
-* 实现：
-* 正式因为有了上述的缺点，才有了构造函数继承，构造函数继承的核心思想就是SuperClass.call(this,id),
-* 直接改变this的指向，使通过this创建的属性和方法在子类中复制一份，因为是单独复制的，所以各个实例化的子类互不影响。但是会造成内存浪费的问题：
-* */
+ * 实现：
+ * 正式因为有了上述的缺点，才有了构造函数继承，构造函数继承的核心思想就是SuperClass.call(this,id),
+ * 直接改变this的指向，使通过this创建的属性和方法在子类中复制一份，因为是单独复制的，所以各个实例化的子类互不影响。但是会造成内存浪费的问题：
+ * */
 
 /*
 1.解决了1中，子类实例共享父类引用属性的问题
@@ -28,22 +28,21 @@
 3.无法实现函数复用，每个子类都有父类实例函数的副本，影响性能
 */
 function SuperType() {
-    console.log('aa:', this)   // aa: SubType{}:因为调用 调用SuperType.call(this)
-    this.colors = ["red", "blue", "green"];
+  console.log("aa:", this); // aa: SubType{}:因为调用 调用SuperType.call(this)
+  this.colors = ["red", "blue", "green"];
 }
 function SubType() {
-    //inherit from SuperType
-    SuperType.call(this);
-    // 打印: SubType{colors: Array(3)}
-    console.log(this)   // 如果不调用SuperType.call(this) 打印SubType{}
+  //inherit from SuperType
+  SuperType.call(this);
+  // 打印: SubType{colors: Array(3)}
+  console.log(this); // 如果不调用SuperType.call(this) 打印SubType{}
 }
 let instance1 = new SubType();
 instance1.colors.push("black");
-console.log(instance1.colors);    //"red,blue,green,black"
+console.log(instance1.colors); //"red,blue,green,black"
 
 let instance2 = new SubType();
-console.log(instance2.colors);    //"red,blue,green"
-
+console.log(instance2.colors); //"red,blue,green"
 
 /*
 function Cat_2(name){
@@ -57,4 +56,3 @@ console.log("B-2:",cat_2.sleep()); //B-2: undefined----->Tom正在睡觉！
 console.log("B-3:",cat_2 instanceof Animal); // false
 console.log("B-4:",cat_2 instanceof Cat_2); // true
 * */
-

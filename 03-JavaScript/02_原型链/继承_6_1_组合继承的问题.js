@@ -7,24 +7,23 @@
 
 * */
 
-function SuperType(name){
-    this.name = name;
-    this.colors = ["red", "blue", "green"];
+function SuperType(name) {
+  this.name = name;
+  this.colors = ["red", "blue", "green"];
 }
 
-SuperType.prototype.sayName = function(){
-    alert(this.name);
-}
+SuperType.prototype.sayName = function () {
+  alert(this.name);
+};
 
-function SubType(name, age){
-    SuperType.call(this, name);　　//第二次调用SuperType()
-
-    this.age = age;
+function SubType(name, age) {
+  SuperType.call(this, name); //第二次调用SuperType()
+  this.age = age;
 }
-SubType.prototype = new SuperType();　　//第一次调用SuperType()
-SubType.prototype.sayAge = function(){
-    alert(this.age);
-}
+SubType.prototype = new SuperType(); //第一次调用SuperType()
+SubType.prototype.sayAge = function () {
+  alert(this.age);
+};
 
 /*
 在第一次调用SuperType构造函数时，SubType.prototype会得到两个属性： name和colors； 他们都是SuperType的实例属性，只不过现在位于SubType的原型中。

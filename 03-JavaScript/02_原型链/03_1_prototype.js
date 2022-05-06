@@ -1,15 +1,15 @@
 function Person(name) {
-    console.log("this",this)
-    this.name = name;
+  console.log("this", this);
+  this.name = name;
 }
 
 Person.prototype = {
-    getName: function() {
-        return this.name;
-    }
-}
+  getName: function () {
+    return this.name;
+  },
+};
 
-var sonObj= new Person("Tom");
+var sonObj = new Person("Tom");
 
 /*
 注意：题1_1_prototype能否取到值.js 也有New具体解析
@@ -22,10 +22,9 @@ var sonObj  = {}; // 创建空对象obj
 sonObj.__proto__ = Person.prototype; // 将空对象的__proto__成员指向Person对象的prototype成员对象,也就是说构造sonObj，也可以称之为初始化sonObj。
 Person.call(sonObj); // 类似完成了继承
 * */
-console.log(sonObj.getName());   // "Tom"
+console.log(sonObj.getName()); // "Tom"
 
-
-console.log('分割线==========>')
+console.log("分割线==========>");
 /*
 #### 重点：原型链和原型对象
 > 只有函数才有 prototype,这个属性时一个指针，指向一个对象，它是显示修改对象的原型的属性。当试图访问一个对象的属性时，如果没有在该对象上找到，
@@ -54,8 +53,8 @@ console.log("FnA.prototype.__proto__:", FnA.prototype.__proto__); //指向Object
 console.log("3-2.是否等", FnA.prototype.__proto__ === Object.prototype); //true
 //-最终指向null
 console.log(
-    "FnA.prototype.__proto__.__proto__:",
-    FnA.prototype.__proto__.__proto__
+  "FnA.prototype.__proto__.__proto__:",
+  FnA.prototype.__proto__.__proto__
 ); //null，所以它就是前面所提到的尽头
 
-console.log('分割线==========>')
+console.log("分割线==========>");

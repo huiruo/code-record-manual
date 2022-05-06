@@ -1,6 +1,6 @@
 /*
-* 将一个类型的实例赋值给另一个构造函数的原型。
-* */
+ * 将一个类型的实例赋值给另一个构造函数的原型。
+ * */
 
 /*优点：
     1.非常纯粹的继承关系，实例是子类的实例，也是父类的实例
@@ -14,15 +14,15 @@
     4.创建子类实例时，无法向父类构造函数传参--->致命
     */
 function SuperType() {
-    this.property = true;
+  this.property = true;
 }
 
 SuperType.prototype.getSuperValue = function () {
-    return this.property;
+  return this.property;
 };
 
 function SubType() {
-    this.subproperty = false;
+  this.subproperty = false;
 }
 
 //inherit from SuperType
@@ -30,17 +30,17 @@ function SubType() {
 SubType.prototype = new SuperType();
 
 SubType.prototype.getSubValue = function () {
-    return this.subproperty;
+  return this.subproperty;
 };
 
 var instance = new SubType();
-console.log('bb:', instance.getSuperValue());   //bb: true
-console.log('aa:', instance.subproperty);   //aa: false
+console.log("bb:", instance.getSuperValue()); //bb: true
+console.log("aa:", instance.subproperty); //aa: false
 // instanceof用于判断一个变量是否某个对象的实例
-console.log(instance instanceof Object);      //true
-console.log(instance instanceof SuperType);   //true
-console.log(instance instanceof SubType);     //true
+console.log(instance instanceof Object); //true
+console.log(instance instanceof SuperType); //true
+console.log(instance instanceof SubType); //true
 
-console.log(Object.prototype.isPrototypeOf(instance));    //true
+console.log(Object.prototype.isPrototypeOf(instance)); //true
 console.log(SuperType.prototype.isPrototypeOf(instance)); //true
-console.log(SubType.prototype.isPrototypeOf(instance));   //true
+console.log(SubType.prototype.isPrototypeOf(instance)); //true

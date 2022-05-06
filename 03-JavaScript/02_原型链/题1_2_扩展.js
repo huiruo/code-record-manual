@@ -1,10 +1,10 @@
-var F = function(){};
-Object.prototype.a = function(){};
-Function.prototype.b = function(){};
+var F = function () {};
+Object.prototype.a = function () {};
+Function.prototype.b = function () {};
 var f = new F();
 
-console.log(f.a)
-console.log(f.b) // undefined
+console.log(f.a);
+console.log(f.b); // undefined
 
 /*
 第一，Function.prototype在声明一个函数的时候就会被实例化；
@@ -21,21 +21,21 @@ Function.prototype是Object的实例对象（prototype本质上也是一个对�
 * */
 
 /*1.Object,Function都属于构造函数*/
-Function
+Function;
 //结果：ƒ Function() { [native code] }
-Object
+Object;
 //结果：ƒ Object() { [native code] }
 
 /*Function.prototype是所有构造函数的原型*/
-var F = function(){}
-F.__proto__ == Function.prototype
+var F = function () {};
+F.__proto__ == Function.prototype;
 //结果：true
 /*Object是Function的实例对象*/
-Object.__proto__.constructor
+Object.__proto__.constructor;
 //结果：ƒ Function() { [native code] }
 
 /*Function.prototype是Object的实例对象*/
-Function.prototype.__proto__.constructor
+Function.prototype.__proto__.constructor;
 //结果：ƒ Object() { [native code] }
 
 /*
@@ -46,7 +46,6 @@ Function.__proto__ ==  Function.prototype;
 Function.prototype.__proto__  ==  Object.prototype;
 Function.__proto__.__proto__  ==  Object.prototype;
 * */
-
 
 /*
 * 题目解析:

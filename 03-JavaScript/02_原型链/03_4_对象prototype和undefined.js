@@ -1,4 +1,3 @@
-
 //步骤3：重点：探究new myA.prototype--->undefined
 // 只有函数才有prototype
 // myA.__proto__ === A.prototype

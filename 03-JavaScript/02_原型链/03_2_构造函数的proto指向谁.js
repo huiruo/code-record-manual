@@ -1,7 +1,7 @@
 /*
-* ### 2021.7.15 面试重点
-* 构造函数的 proto 指向什么?
-* */
+ * ### 2021.7.15 面试重点
+ * 构造函数的 proto 指向什么?
+ * */
 function A() {}
 A.prototype.aPrototype = "test";
 
