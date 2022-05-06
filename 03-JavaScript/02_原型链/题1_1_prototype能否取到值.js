@@ -1,12 +1,12 @@
-var F = function (){}
+var F = function () {};
 
-Object.prototype.a = function (){}
+Object.prototype.a = function () {};
 
-Function.prototype.b = function (){}
+Function.prototype.b = function () {};
 
-var f = new F()
-console.log(f.a)
-console.log(f.b) // undefined
+var f = new F();
+console.log(f.a);
+console.log(f.b); // undefined
 /*
 f.a === Object.prototype.a //=> true
 f.b === Function.prototype.b //=> false
@@ -24,13 +24,13 @@ new的过程拆分成以下三步：
 
 2、 f.__proto__=F.prototype;
 
-3、 F.call(f);也就是说构造p，也可以称之为初始化p。
+3、 F.call(f);也就是说构造f，也可以称之为初始化f。
 * */
-console.log(f.__proto__===F.prototype);  // 返回值为true，证明第2点
+console.log(f.__proto__ === F.prototype); // 返回值为true，证明第2点
 
-console.log(F.__proto__===Function.prototype);  // 返回值为true
+console.log(F.__proto__ === Function.prototype); // 返回值为true
 
-console.log(F.prototype.__proto__===Object.prototype);  // 返回值为true
+console.log(F.prototype.__proto__ === Object.prototype); // 返回值为true
 
 // 重点部分：console.log(f.__proto__.__proto__===Object.prototype);  // 返回值为true
 /*
