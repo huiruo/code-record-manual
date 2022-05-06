@@ -8,7 +8,8 @@ console.log(f.b); // undefined
 
 /*
 第一，Function.prototype在声明一个函数的时候就会被实例化；
-第二，在var f = new F()时，会创建新的对象，生成新的a方法，在f实例对a,b方法的查找上，原型链里不会去Function.prototype里，而是在Object.prot0type里，
+第二，在var f = new F()时，会创建新的对象，生成新的a方法，在f实例对a,b方法的查找上，
+原型链里不会去Function.prototype里，而是在Object.prototype里，
 第三， b方法实际一直都存在于构造函数的原型里，因为F是一个构造函数，所以F.b()是可以执行的；
 第四， 实际上在此到题目的上下文中，创建的所有的Object.prototype都存在a方法，它对应的实例也都存在a方法,而b方法则是所有的Function.prototype都存在b方法，它对应的实例也都存在b方法;
 * */

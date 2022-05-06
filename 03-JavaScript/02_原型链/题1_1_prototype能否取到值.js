@@ -1,12 +1,71 @@
 var F = function () {};
 
+F.prototype.c = function(){};
+
 Object.prototype.a = function () {};
 
 Function.prototype.b = function () {};
 
 var f = new F();
+console.log('f.__proto__1:',f.__proto__)
+/*
+c: ƒ ()
+constructor: ƒ ()
+[[Prototype]]: Object
+* */
+console.log('f.__proto__2:',f.__proto__.__proto__)
+/*
+a: ƒ ()
+constructor: ƒ Object()
+hasOwnProperty: ƒ hasOwnProperty()
+isPrototypeOf: ƒ isPrototypeOf()
+propertyIsEnumerable: ƒ propertyIsEnumerable()
+toLocaleString: ƒ toLocaleString()
+toString: ƒ toString()
+valueOf: ƒ valueOf()
+....等
+* */
+console.log('F.__proto__1:',F)
+console.log('F.__proto__2-1:',F.__proto__)
+console.log('F.__proto__2-2:',F.__proto__.b) // 能取到
+
+console.log('f.__proto__',f.__proto__)
+/*
+c: ƒ ()
+constructor: ƒ ()
+[[Prototype]]: Object  -->指向下面打印的
+* */
+console.log('f.__proto__.__proto__',f.__proto__.__proto__)
+/*
+a: ƒ ()
+constructor: ƒ Object()
+hasOwnProperty: ƒ hasOwnProperty()
+isPrototypeOf: ƒ isPrototypeOf()
+propertyIsEnumerable: ƒ propertyIsEnumerable()
+toLocaleString: ƒ toLocaleString()
+toString: ƒ toString()
+valueOf: ƒ valueOf()
+__defineGetter__: ƒ __defineGetter__()
+__defineSetter__: ƒ __defineSetter__()
+__lookupGetter__: ƒ __lookupGetter__()
+__lookupSetter__: ƒ __lookupSetter__()
+__proto__: null
+get __proto__: ƒ __proto__()
+set __proto__: ƒ __proto__()
+* */
+
+console.log('F.__proto__3:',Function.prototype) // ['length', 'name', 'arguments', 'caller', 'constructor', 'apply', 'bind', 'call', 'toString', 'b']
+console.log('F.__proto__4:',Object.getOwnPropertyNames(Function.prototype))
+console.log(Object.getOwnPropertyNames(Function)) // ['length', 'name', 'prototype']
+// 那就去 f.__proto__.__proto__找，也就是Object.prototype中去找，于是就找到了a这个属性。
 console.log(f.a);
-console.log(f.b); // undefined
+console.log(f.b); // undefined，但是能取到c
+/*
+第二，在var f = new F()时，会创建新的对象，生成新的a方法，在f实例对a,b方法的查找上，
+原型链里不会去Function.prototype里，而是在Object.prototype里，
+* */
+
+
 /*
 f.a === Object.prototype.a //=> true
 f.b === Function.prototype.b //=> false
