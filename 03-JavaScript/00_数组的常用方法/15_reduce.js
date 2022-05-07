@@ -15,11 +15,11 @@
 // 用法1，数组求和：例子index是从1开始的，第一次的prev的值是数组的第一个值。数组长度是4，但是reduce函数循环3次。
 let arr = [0, 1, 2, 3, 4]
 let arr1 = arr.reduce((preValue, curValue, index, arr) => {
-    console.log(preValue, curValue, index);
+    console.log('数组求和:',preValue, curValue, index);
     return preValue + curValue
-}
-)
-console.log(arr1)    // 10
+})
+
+console.log('数组求和结果：',arr1)    // 10
 
 // 用法2：求乘积
 const arr2 = [1, 2, 3, 4];
