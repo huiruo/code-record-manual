@@ -11,7 +11,7 @@ proto 指向的是当前对象的原型对象，而 prototype 指向的，是以
 * */
 
 //简略代码: myA实例的原型指向构造函数的原型
-function FnA() {}
+function FnA() { }
 FnA.prototype.aPrototype = "test";
 
 var myA = new FnA();
