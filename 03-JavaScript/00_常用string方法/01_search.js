@@ -8,4 +8,4 @@
 const str = "hey JudE";
 const re = /[A-Z]/g;
 console.log(str.search(re)); // returns 4
-console.log(str[str.search(re)])
+console.log(str[str.search(re)]) // J
