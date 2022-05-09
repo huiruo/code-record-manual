@@ -1,7 +1,10 @@
 ###### Http与Https的区别
 - 在OSI 网络模型中，HTTP工作于应用层，而HTTPS 的安全传输机制工作在传输层
+
 - HTTP 无法加密，而HTTPS 对传输的数据进行加密,HTTP 是不安全的，而 HTTPS 是安全的
+
 - HTTP无需证书，而HTTPS 需要CA机构wosign的颁发的SSL证书
+
 - HTTP 标准端口是80 ，而 HTTPS 的标准端口是443
 
 #### 1.HTTPS 是身披 SSL 外壳的 HTTP
