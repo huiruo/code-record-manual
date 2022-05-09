@@ -129,3 +129,186 @@ const commonConfig = {
 - 书写导入语句时，尽量写上后缀名
 
 因为项目中用的 jsx 较多，所以配置 extensions: [".jsx",".js"],
+
+#### 方式 4 使用 DllPlugin 优化
+
+- 在使用 webpack 进行打包时候，对于依赖的第三方库，如 react，react-dom 等这些不会修改的依赖，可以让它和业务代码分开打包；
+
+- 只要不升级依赖库版本，之后 webpack 就只需要打包项目业务代码，遇到需要导入的模块在某个动态链接库中时，就直接去其中获取；而不用再去编译第三方库，这样第三方库就只需要打包一次。
+
+接入需要完成的事：
+
+```
+将依赖的第三方模块抽离，打包到一个个单独的动态链接库中
+当需要导入的模块存在动态链接库中时，让其直接从链接库中获取
+项目依赖的所有动态链接库都需要被加载
+```
+
+- 接入工具(webpack 已内置)
+
+```
+ DllPlugin插件：用于打包出一个个单独的动态链接库文件；
+ DllReferencePlugin:用于在主要的配置文件中引入DllPlugin插件打包好的动态链接库文件
+```
+
+> 配置 webpack_dll.config.js 构建动态链接库
+
+```javaScript
+const path = require('path');
+const DllPlugin = require('webpack/lib/DllPlugin');
+
+module.exports = {
+    mode: 'production',
+    entry: {
+        // 将React相关模块放入一个动态链接库
+        react: ['react','react-dom','react-router-dom','react-loadable'],
+        librarys: ['wangeditor'],
+        utils: ['axios','js-cookie']
+    },
+    output: {
+        filename: '[name]-dll.js',
+        path: path.resolve(__dirname, 'dll'),
+        // 存放动态链接库的全局变量名，加上_dll_防止全局变量冲突
+        library: '_dll_[name]'
+    },
+    // 动态链接库的全局变量名称，需要可output.library中保持一致，也是输出的manifest.json文件中name的字段值
+    // 如react.manifest.json字段中存在"name":"_dll_react"
+    plugins: [
+        new DllPlugin({
+            name: '_dll_[name]',
+            path: path.join(__dirname, 'dll', '[name].manifest.json')
+        })
+    ]
+}
+```
+
+> webpack.pro.config.js 中使用
+
+```javaScript
+const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
+plugins: [
+    // 告诉webpack使用了哪些动态链接库
+        new DllReferencePlugin({
+            manifest: require('./dll/react.manifest.json')
+        }),
+        new DllReferencePlugin({
+            manifest: require('./dll/librarys.manifest.json')
+        }),
+        new DllReferencePlugin({
+            manifest: require('./dll/utils.manifest.json')
+        }),
+]
+```
+
+```
+注意：在webpack_dll.config.js文件中，DllPlugin中的name参数必须和output.library中的一致；因为DllPlugin的name参数影响输出的manifest.json的name；而webpack.pro.config.js中的DllReferencePlugin会读取manifest.json的name，将值作为从全局变量中获取动态链接库内容时的全局变量名
+
+执行构建
+  webpack --progress --colors --config ./webpack.dll.config.js
+
+  webpack --progress --colors --config ./webpack.prod.js
+
+html中引入dll.js文件
+```
+
+#### 方式 5.HappyPack 并行构建优化
+
+核心原理：将 webpack 中最耗时的 loader 文件转换操作任务，分解到多个进程中并行处理，从而减少构建时间。
+
+```
+安装：npm i -D happypack
+重新配置rules部分,将loader交给happypack来分配：
+
+参数：
+threads：代表开启几个子进程去处理这一类文件，默认是3个；
+verbose:是否运行HappyPack输出日志，默认true；
+threadPool：代表共享进程池，即多个HappyPack示例使用一个共享进程池中的子进程去处理任务，以防资源占有过多
+```
+
+```javaScript
+const HappyPack = require('happypack');
+const happyThreadPool = HappyPack.ThreadPool({size: 5}); //构建共享进程池，包含5个进程
+...
+plugins: [
+    // happypack并行处理
+    new HappyPack({
+        // 用唯一ID来代表当前HappyPack是用来处理一类特定文件的，与rules中的use对应
+        id: 'babel',
+        loaders: ['babel-loader?cacheDirectory'],//默认设置loader处理
+        threadPool: happyThreadPool,//使用共享池处理
+    }),
+    new HappyPack({
+        // 用唯一ID来代表当前HappyPack是用来处理一类特定文件的，与rules中的use对应
+        id: 'css',
+        loaders: [
+            'css-loader',
+            'postcss-loader',
+            'sass-loader'],
+            threadPool: happyThreadPool
+    })
+],
+module: {
+    rules: [
+    {
+        test: /\.(js|jsx)$/,
+        use: ['happypack/loader?id=babel'],
+        exclude: path.resolve(__dirname,' ./node_modules'),
+    },
+    {
+        test: /\.(scss|css)$/,
+        //使用的mini-css-extract-plugin提取css此处，如果放在上面会出错
+        use: [MiniCssExtractPlugin.loader,'happypack/loader?id=css'],
+        include:[
+            path.resolve(__dirname,'src'),
+            path.join(__dirname, './node_modules/antd')
+        ]
+    },
+}
+```
+
+#### 方式 6 代码压缩用 ParallelUglifyPlugin 代替自带的 UglifyJsPlugin 插件
+
+自带的 JS 压缩插件是单线程执行的，而 webpack-parallel-uglify-plugin 可以并行的执行
+配置参数：
+
+```
+ uglifyJS: {}：用于压缩 ES5 代码时的配置，Object 类型
+ test: /.js$/g:使用正则去匹配哪些文件需要被 ParallelUglifyPlugin 压缩，默认是 /.js$/
+ include: []:使用正则去包含被压缩的文件，默认为 [].
+ exclude: []: 使用正则去包含不被压缩的文件，默认为 []
+ cacheDir: ''：缓存压缩后的结果，下次遇到一样的输入时直接从缓存中获取压缩后的结果并返回，默认不会缓存，开启缓存设置一个目录路径
+ workerCount: ''：开启几个子进程去并发的执行压缩。默认是当前运行电脑的 CPU 核数减去1
+ sourceMap: false：是否为压缩后的代码生成对应的Source Map, 默认不生成
+```
+
+```javaScript
+...
+minimizer: [
+    // webpack:production模式默认有配有js压缩，但是如果这里设置了css压缩，js压缩也要重新设置,因为使用minimizer会自动取消webpack的默认配置
+    new optimizeCssPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+        canPrint: true
+    }),
+    new ParallelUglifyPlugin({
+        cacheDir: '.cache/',
+        uglifyJS:{
+            output: {
+           // 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，可以设置为false
+                beautify: false,
+        //是否保留代码中的注释，默认为保留，为了达到更好的压缩效果，可以设置为false
+                comments: false
+            },
+            compress: {
+            //是否在UglifyJS删除没有用到的代码时输出警告信息，默认为输出
+                warnings: false,
+            //是否删除代码中所有的console语句，默认为不删除，开启后，会删除所有的console语句
+                drop_console: true,
+            //是否内嵌虽然已经定义了，但是只用到一次的变量，比如将 var x = 1; y = x, 转换成 y = 1, 默认为否
+                collapse_vars: true,
+            }
+        }
+}),
+]
+```
