@@ -23,6 +23,7 @@ console.log('是否是函数:', isFun('test'))
 // 方法1：
 let result = { a: '22' }
 console.log('是否对象1:', typeof result === 'object' && result !== null)
+
 //方法2
 Object.prototype.toString.call(result) === '[object Object]'
 console.log('是否对象2：:', Object.prototype.toString.call(result) === '[object Object]')
