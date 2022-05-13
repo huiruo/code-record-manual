@@ -1,3 +1,24 @@
+#### effect模拟生命周期
+```javaScript
+useEffect(()=>{
+    console.log('componentDidMount')
+    return () => {
+        console.log('will unmount');
+    }
+}, [])
+
+// componentDidUpdate 1 和 componentWillUnmount
+useEffect(()=>{
+  document.title = `You clicked ${count} times`;
+  return()=>{
+    // 以及 componentWillUnmount 执行的内容       
+  }
+}, [count])
+
+// componentDidUpdate 2
+useEffect(() => console.log('mounted or updated'));
+```
+
 
 #### effect 的执行时机
 请记得 React 会等待浏览器完成画面渲染之后才会延迟调用 `useEffect`，因此会使得额外操作很方便

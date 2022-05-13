@@ -1,5 +1,20 @@
 ### 浏览器event loop
-以下事件属于微任务:
+
+- 首先执行同步代码，这属于宏任务
+- 当执行完所有同步代码后，执行栈为空，查询是否有异步代码需要执行
+- 执行所有微任务
+- 当执行完所有微任务后
+- 然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是 setTimeout 中的回调函数
+```
+微任务包括 process.nextTick ，promise ，MutationObserver 。
+
+宏任务包括 script ， setTimeout  ，setInterval ，setImmediate ，I/O ，UI rendering 。
+
+这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了 script ，浏览器会先执行一个宏任务，接下来有异步代码的话才会先执行微任务。
+```
+
+
+
 然后执行微任务，最后执行宏任务，即使定时器的时间为0也是如此;
 ```js
 1. Promise:new Promise().then 的回调
