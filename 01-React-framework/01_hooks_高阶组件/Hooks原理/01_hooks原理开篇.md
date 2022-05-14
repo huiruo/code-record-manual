@@ -1,6 +1,19 @@
-
 参考自：
 https://github.com/closertb/closertb.github.io/issues/57
+
+#### 问题1： setState()函数在任何情况下都会导致组件重渲染吗？如果setState中的state没有发生改变呢？
+没有导致state的值发生变化的this.setState()是否会导致重渲染----->会
+
+#### 问题2： 如果state和从父组件传过来的props都没变化，那他就一定不会发生重渲染吗？
+当React重新渲染时ParentComponent，它将自动重新渲染ChildComponent。要解决的唯一途径是实现shouldComponentUpdate
+```javaScript
+shouldComponentUpdate(nextProps,nextState){
+    if(nextState.Number == this.state.Number){
+      return false
+    }
+}
+```
+
 #### 问题1 说说你对 React的理解
 #### 问题2 react hooks用过么，知道其原理么；
 第一个问题：
