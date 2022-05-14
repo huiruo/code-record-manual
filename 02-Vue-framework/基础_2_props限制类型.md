@@ -1,5 +1,5 @@
-# 限制两种类型
-```
+#### 限制两种类型
+```javaScript
   props: {
     classId: [Number, String],
     default() {
@@ -8,8 +8,8 @@
   },
 ```
 
-# 实战限制Object类型
-```
+#### 实战限制Object类型
+```javaScript
   props: {
     countHistory: {
       type: Number,
@@ -24,8 +24,8 @@
   },
 ```
 
-# 实战，限制数组类型
-```
+#### 实战，限制数组类型
+```javaScript
 row: {
     type: Array,
     default() {
@@ -34,8 +34,8 @@ row: {
 }
 ```
 
-# 一种类型
-```
+#### 一种类型
+```javaScript
   props: {
     visible: {
       type: Boolean,
@@ -51,31 +51,30 @@ row: {
 
 ```
 
-
-### 其他参考
-```js
+#### 其他参考
+```javaScript
 props:{
       //数组
       imageList:{
         type: Array,
         default: ()=>[
-          {imageName:'p1',url: 'http://gplove.top/dog1.png'},
-          {imageName:'p2',url: 'http://gplove.top/dog2.png'},
-          {imageName:'p3',url: 'http://gplove.top/dog3.png'},
+          {imageName:'p1',url: 'www'},
+          {imageName:'p2',url: 'www'},
+          {imageName:'p3',url: 'www'},
         ]
       },
       //对象
       audio:{
         type: Object,
         default: ()=>{
-          return {audioName:'多余的解释.mp3',audioUrl:'http://gplove.top/audio1.mp3'}
+          return {audioName:'test',audioUrl:'wwww'}
         }
       }
     },
 }
 ```
 
-```js
+```javaScript
 props: {
     array: {
         type: Array,

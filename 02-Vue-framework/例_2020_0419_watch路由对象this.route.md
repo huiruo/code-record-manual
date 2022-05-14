@@ -1,9 +1,6 @@
-
-
-this.$route
-当前激活的路由信息对象。这个属性是只读的，里面的属性是 immutable (不可变) 的，不过你可以 watch (监测变化) 它。
-
- watch: {
+this.$route 当前激活的路由信息对象。这个属性是只读的，里面的属性是 immutable (不可变) 的，不过你可以 watch (监测变化) 它。
+```
+watch: {
     $route: {
       handler: function(route) {
         const query = route.query
@@ -16,18 +13,12 @@ this.$route
       },
       immediate: true
     }
-  },
+},
+```
 
-
-上面的代码中，query是vue router的路由对象属性，redirect 是路由的重定向属性，为 vud-element-admin 的路由配置项:“在面包屑中点击会重定向去的地址”。
-
-Vue-element-admin 官方文档中，panjiachen对上述代码的解说
-
-在用 spa(单页面应用) 这种开发模式的之前，用户每次点击侧边栏都会重新请求这个页面，用户渐渐养成了点击侧边栏当前路由来刷新 view 的习惯。但现在 spa 就不一样了，用户点击当前高亮的路由并不会刷新 view，因为 vue-router 会拦截你的路由，它判断你的 url 并没有任何变化，所以它不会触发任何钩子或者是 view 的变化。
-
-
-
-
+#### 方法1：watch
+用户点击当前高亮的路由并不会刷新 view，因为 vue-router 会拦截你的路由，它判断你的 url 并没有任何变化，所以它不会触发任何钩子或者是 view 的变化。
+```
 //---------------------------
 vue 监听路由变化
 方法一：通过 watch
@@ -49,12 +40,12 @@ watch: {
     deep: true
   }
 },
+```
 
 
 
-方法二：：通过 vue-router 的钩子函数 beforeRouteEnter  beforeRouteUpdate  beforeRouteLeave
-
-
+#### 方法二：：通过 vue-router 的钩子函数 beforeRouteEnter  beforeRouteUpdate  beforeRouteLeave
+```
 <script>
   // 引入 Tabbar组件
   import mTabbar from './components/Tabbar'
@@ -109,3 +100,4 @@ watch: {
     }
   }
 </script>
+```

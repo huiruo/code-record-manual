@@ -1,6 +1,5 @@
 <template>
   <div style="height: 100%;width: 100%">
-    <!--自定义导航  -->
     <div
       class="van-nav-bar--fixed van-nav-bar van-hairline--bottom"
       style="z-index: 1;line-height:56px"
@@ -99,7 +98,6 @@ export default {
 };
 </script>
 <style scoped>
-/*  头部*/
 .van-nav-bar--fixed {
   top: 0;
   left: 0;
@@ -121,21 +119,6 @@ export default {
 .van-hairline--bottom::after {
   border-bottom-width: 1px;
 }
-/* 头部终 */
-/* .van-field__control {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    resize: none;
-    display: block;
-    color: #323233;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    background-color: #3F51B5!important;
-    font-size: 23px;
-
-} */
 .van-search--show-action {
   padding-right: 0;
   padding-left: 0;
