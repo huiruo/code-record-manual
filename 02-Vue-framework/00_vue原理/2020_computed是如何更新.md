@@ -1,7 +1,4 @@
-
-
-
-## 来看看vue中data属性和computed相关的源代码。
+#### 来看看vue中data属性和computed相关的源代码。
 ```js
 // src/core/instance/state.js
 // 初始化组件的state

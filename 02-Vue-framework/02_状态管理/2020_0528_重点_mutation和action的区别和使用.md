@@ -5,7 +5,6 @@ Action：业务代码、异步请求。
 ```
 
 ### 02.action 和 mutations 也很类似，主要的区别在于mutations 只能是同步操作,action 可以包含异步操作，而且可以通过 action 来提交 mutations
-
 ```text
 mutations 有一个固有参数 state，接收的是 Vuex 中的 state 对象
 
@@ -22,7 +21,7 @@ this.$store.commit(“mutation函数名”，发送到mutation中的数据)
 ```
 
 ### 使用：01.在action中提交mutation ：
-```js
+```javaScript
 const store = new Vuex.Store({
   state: {
     count: 0
@@ -40,7 +39,7 @@ const store = new Vuex.Store({
 })
 ```
 
-```js
+```javaScript
 // 第一种写法简写形式
 　　const actions = {
 　　　　action的函数名({commit}) { 
@@ -56,17 +55,18 @@ const store = new Vuex.Store({
 　　　　}
 　　}
 ```
-    async login3({ commit }, value) {
-      const result = await getInfo()
-      console.log("getInfo:", result)
-      return new Promise((resolve, reject)=>{
-                // axios.post(`${INTERFACE.SUBMIT_INFO}/${result.num}/products`, {...params}).then(data => {
-        //   resolve(data)
-        resolve(data) 
-      }).catch((err) => {
-        console.log('login2错误')
-      })
-    },
 
-
-
+#### 异步active
+```javaScript
+async login3({ commit }, value) {
+  const result = await getInfo()
+  console.log("getInfo:", result)
+  return new Promise((resolve, reject)=>{
+            // axios.post(`${INTERFACE.SUBMIT_INFO}/${result.num}/products`, {...params}).then(data => {
+    //   resolve(data)
+    resolve(data) 
+  }).catch((err) => {
+    console.log('login2错误')
+  })
+},
+```
