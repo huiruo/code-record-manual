@@ -1,5 +1,3 @@
-
-
 let obj = {
     name:'js',
     age:1,

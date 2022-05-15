@@ -1,8 +1,12 @@
 
 /*
+Reflect是ECMAScript2015中提供的一个全新的内置对象
 静态方法:上面这些方法的作用，大部分与 Object 对象的同名方法的作用都是相同的，而且它与 Proxy 对象的方法是一 一对应的。
+
 Reflect.apply(target, thisArg, args)
+
 Reflect.construct(target, args)
+
 Reflect.get(target, name, receiver)
     Reflect.get 方法查找并返回 target 对象的 name 属性，如果没有该属性，则返回 undefined。
 
@@ -10,17 +14,24 @@ Reflect.set(target, name, value, receiver)
     Reflect.set 方法设置 target 对象的 name 属性等于 value。
 
 Reflect.defineProperty(target, name, desc)
+
 Reflect.deleteProperty(target, name)
+
 Reflect.has(target, name)
     'foo' in myObject // true
     // 新写法
     Reflect.has(myObject, 'foo') // true
 
 Reflect.ownKeys(target)
+
 Reflect.isExtensible(target)
+
 Reflect.preventExtensions(target)
+
 Reflect.getOwnPropertyDescriptor(target, name)
+
 Reflect.getPrototypeOf(target)
+
 Reflect.setPrototypeOf(target, prototype)
 * */
 

@@ -2,7 +2,7 @@
 ##### 1.vue2响应式
 ```text
 1.数据在data中注册，编译时直接将data中的所有数据绑定监听
-2.利用Object.defineProperyty()监听数据的get和set
+2.利用Object.defineProperty()监听数据的get和set
 3.用Observe,Dep,Watcher三个类实现依赖收集
 
 缺点：对于在html中未使用的数据也设置了监听，需要对每一个基本数据类型都要设置劫持，defineProperty监听不到数组/对象内部变化，同时多次调用observe函数进行递归，性能不高。
