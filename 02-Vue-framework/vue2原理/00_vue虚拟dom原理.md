@@ -54,7 +54,7 @@ https://juejin.cn/post/6858902304599310343
 
 ### 总结
 配图
-![avatar](./框架原理_vue_配图.png)
+![avatar](./图_框架原理_vue.png)
 
 ```
                                             vNode虚拟dom树

@@ -1,4 +1,4 @@
-##### Vue-router跳转和location.href有什么区别
+#### Vue-router跳转和location.href有什么区别
 ```text
 答：使用location.href='/url'来跳转，简单方便，但是刷新了页面；
    使用history.pushState('/url')，无刷新页面，静态跳转；

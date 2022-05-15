@@ -36,8 +36,6 @@ Compile.prototype = {
       let reg = /\{\{(.*)\}\}/;
       let text = node.textContent;
 
-
-
       if (reg.test(text)) {
         let prop = reg.exec(text)[1];
         this.compileText(node, prop); //替换模板
@@ -64,8 +62,10 @@ Compile.prototype = {
   compileModel: function (node, prop) {
     let val = this.vm.$data[prop];
     this.updateModel(node, val);
-
+    // 添加watcher start
+    // 添加watcher start
     new Watcher(this.vm, prop, (value) => {
+      // 当值变化后会调用cb 将新的值传递过来
       this.updateModel(node, value);
     });
 
@@ -78,9 +78,13 @@ Compile.prototype = {
     });
   },
   compileText: function (node, prop) {
+    // // 取文本中的内容
     let text = this.vm.$data[prop];
     this.updateView(node, text);
+    // 添加watcher start
+    // 添加watcher start
     new Watcher(this.vm, prop, (value) => {
+      // 当值变化后会调用cb 将新的值传递过来
       this.updateView(node, value);
     });
   },
@@ -91,6 +95,7 @@ Compile.prototype = {
   updateView: function (node, value) {
     node.textContent = typeof value === 'undefined' ? '' : value;
   },
+  // 是不是指令
   isDirective: function (attr) {
     return attr.indexOf('v-') !== -1;
   },

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue双向绑定原理及实现</title>
+  <style>
+    #app {
+      margin: 20px auto;
+      width: 800px;
+      padding: 200px;
+      text-align: center;
+      border: 2px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <input class="form-control" v-model="name" type="text"> -->
+    <input type="text" v-model="message.a">
+    <h1>{{name}}</h1>
+    {{message.a}} {{b}}
+  </div>
+
+  <script src="./observer.js"></script>
+  <script src="./watcher.js"></script>
+  <script src="./compile.js"></script>
+  <script src="./dep.js"></script>
+  <script src="./index.js"></script>
+  <script>
+    // 参考：https://juejin.cn/post/6844903605414133773
+    const vm = new MVVM({
+      el: "#app",
+      data: {
+        message: { a: 'jw' },
+        b: 'MVVM',
+        name: "test"
+      }
+    });
+  </script>
+</body>
+
+</html>

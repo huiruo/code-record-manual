@@ -11,11 +11,13 @@ function Mvue(options, prop) {
 
   this.init();
 }
+
 Mvue.prototype.init = function () {
   observer(this.$data);
   console.log('step1.1,Mvue.init')
   new Compile(this);
 }
+
 Mvue.prototype.proxyData = function (key) {
   Object.defineProperty(this, key, {
     get: function () {
