@@ -1,19 +1,20 @@
 ### 浏览器event loop
-
-- 首先执行同步代码，这属于宏任务
-- 当执行完所有同步代码后，执行栈为空，查询是否有异步代码需要执行
-- 执行所有微任务
-- 当执行完所有微任务后
-- 然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是 setTimeout 中的回调函数
+1. 首先执行同步代码，这属于宏任务
+2. 当执行完所有同步代码后，执行栈为空，执行过程中如果遇到微任务，就将它添加到微任务的任务队列中
+3. 宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）
+4. 当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染
+5. 然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是 setTimeout 中的回调函数
 ```
-微任务包括 process.nextTick ，promise ，MutationObserver 。
+微任务（发起者: JS引擎）:
+包括 process.nextTick ，promise ，MutationObserver 。
+（简单说下promise对象：表示一个异步操作的最终完成.then (或失败.catch)及其结果值，then和catch都会返回一个函数，函数中的参数为结果值此次执行的结果值 ）
+注意：1.promise构造函数是同步执行，then方法是异步执行
 
-宏任务包括 script ， setTimeout  ，setInterval ，setImmediate ，I/O ，UI rendering 。
+宏任务（发起者:宿主（Node、浏览器））:
+包括 script ， setTimeout  ，setInterval ，setImmediate(node.js) ，I/O ，UI rendering 。
 
 这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了 script ，浏览器会先执行一个宏任务，接下来有异步代码的话才会先执行微任务。
 ```
-
-
 
 然后执行微任务，最后执行宏任务，即使定时器的时间为0也是如此;
 ```js
@@ -47,68 +48,6 @@ setTimeout(function(){
 -当指定的事情完成时，Event Table会将这个函数移入Event Queue。
 -主线程内的任务执行完毕为空，会去Event Queue读取对应的函数，进入主线程执行。
 -上述过程会不断重复，也就是常说的Event Loop(事件循环)。
-```
-
-```js
-因为Promise定义之后便会立即执行，其后的.then()是异步里面的微任务。
-setTimeout(()=>{console.log('我是宏任务')},0);
-
-let promise = new Promise(resolve => {resolve();console.log('新建promise')});
-
-promise.then(value =>{console.log('我是微任务')});
-
-console.log('主流程');
-/*
-新建promise
-主流程
-我是微任务
-我是宏任务
-*/
-```
-题目2：
-```js
-console.log('打印'+1);
-
-setTimeout(function(){
-	console.log('打印setTimeout'+2);
-}) 
-
-new Promise(function(resolve,reject){
-	console.log('打印'+3);
-	resolve()
-}).then(function(){
-	console.log('打印then('+4)
-});;
-
-console.log('打印'+10); 
-
-let promiseA= new Promise(function(resolve,reject){
-	setTimeout(function () {
-		console.log('打印setTimeout'+5);
-	});
-	resolve()
-})
-
-promiseA.then(()=>{
-	console.log('打印then('+6)
-});
-
-setTimeout(function(){ 
-	new Promise(function(resolve,reject){
-		console.log('打印setTimeout'+7);
-	});
-})
-/*
-打印1
-打印3
-打印10
-打印then(4
-
-打印then(6
-打印setTimeout2
-打印setTimeout5
-打印setTimeout7
-*/
 ```
 
 ###### 经典案例
