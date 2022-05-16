@@ -1,8 +1,19 @@
 
 ### Node.js模块里exports与module.exports的区别?
-```
-用一句话来说明就是，require方能看到的只有module.exports这个对象，它是看不到exports对象的，而我们在编写模块时用到的exports对象实际上只是对module.exports的引用。
-```
+require能看到的只有module.exports这个对象，它是看不到exports对象的
+而我们在编写模块时用到的exports对象实际上只是对module.exports的引用
+
+
+总结：
+import会被转化为commonjs格式或者是AMD格式，所以不要把它认为是一种新的模块引用方式。babel默认会把ES6的模块转化为commonjs规范的，你也不用费劲再把它转成AMD了。
+
+所以如下写法是等价的：
+import list from './list';//等价于var list = require('./list');
+
+//可打包在一起的同步代码，使用import语法import list from './list';
+
+//需要独立打包、异步加载的代码，
+使用require.ensurerequire.ensure([], function(require){ var list = require('./list');});
 
 ```js
 exports.name = function(x){
@@ -81,19 +92,3 @@ a1++; ///报错，babel直接编辑不过
 require：输出是值的拷贝，模块就是对象，输入时必须查找对象属性
 import：输出是值的引用，ES6 模块不是对象，而是通过 export 命令显式指定输出的代码，再通过 import 命令输入（这也导致了没法引用 ES6 模块本身，因为它不是对象）
 ```
-
-
-
-总结：
-```
-import会被转化为commonjs格式或者是AMD格式，所以不要把它认为是一种新的模块引用方式。babel默认会把ES6的模块转化为commonjs规范的，你也不用费劲再把它转成AMD了。
-
-所以如下写法是等价的：
-import list from './list';//等价于var list = require('./list');
-
-//可打包在一起的同步代码，使用import语法import list from './list';
-
-//需要独立打包、异步加载的代码，
-使用require.ensurerequire.ensure([], function(require){ var list = require('./list');});
-```
-
