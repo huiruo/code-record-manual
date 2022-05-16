@@ -1,18 +1,39 @@
 /*
+* 采用快排和插入排序算法
+* 
 * 1.数组在原数组上进行排序，不生成副本
+* 比较规则：
+* ====>返回一个负数，第一个参数应该位于第二个参数的前面
+* 两个参数相等，则返回0，
+* ====>返回一个正数,第一个参数应位于第二个参数的之后
+* 
+* 默认是将数组元素转为字符串，然后根据Unicode字符集编号的大小排序。
+
+charCodeAt(index) 返回指定位置字符的 Unicode 编号，取值是 0 - 65535 间的整数，
+与 charAt() 方法执行的操作相似，后者返回的是单个字符。
+
+如果不提供比较器而对数字组成的数组排序，因为会将数字转为字符串再按编号排序而导致错误。
+要获得正确的顺序，只需提供比较器函数：function(a,b){return a-b;}即可。
 */
 let testArr = [6, 9, 2, 5]
 
-console.log('升序：', testArr.sort((a, b) => a - b)) //[2, 5, 6, 9]
+console.log('升序：', testArr.sort((a, b) => {
+    if ((a - b) < 0) {
+        // 在排序后的数组中 a 应该出现在 b 之前,则返回一个小于 0 的值。
+        console.log('负数数不需要交换', 'a:', a, 'b:', b)
+    } else {
+        console.log('正数要交换', 'a:', a, 'b:', b)
+    }
+    return a - b
+})) //[2, 5, 6, 9]
+console.log('是否生成副本:', testArr) // 可见不生成副本
 
-console.log('升序：', testArr.sort((a, b) => b - a)) // [9, 6, 5, 2]
+// console.log('升序：', testArr.sort((a, b) => b - a)) // [9, 6, 5, 2]
 
-/*
-* 2-1.使用sort进行数组排序
-* */
-const numbers1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-console.log('使用sort进行数组排序:numbers.sort()', numbers1.sort());
-// [1, 10, 11, 12, 13, 14, 15, 2, 3, 4, 5, 6, 7, 8, 9]  sort 默认
+const arrStr = ['eeeee', 'b', 'bccc', 'accc', 'afff']
+console.log('字符串排序：', arrStr.sort((a, b) => {
+    return a > b ? 1 : -1;
+})) // ['accc', 'afff', 'b', 'bccc', 'eeeee']
 
 /*
 * 看起来不大对，是吧？这是因为sort方法在对数组做排序时，把元素默认成字符串进行相互比较。我们可以传入自己写的比较函数。
