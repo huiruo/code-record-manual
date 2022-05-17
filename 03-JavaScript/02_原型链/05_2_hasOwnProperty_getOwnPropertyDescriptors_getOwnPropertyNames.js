@@ -6,8 +6,8 @@ const object1 = {
   property1: 42,
 };
 Object.defineProperty(object1, "age", {value:"18", enumerable:false});// 增加不可枚举的属性age
-Object.defineProperty(Object, "prototype2", {value:"18", enumerable:false});// 增加不可枚举的属性age
-Object.defineProperty(Object, "prototype3", {value:"18", enumerable:true});// 增加不可枚举的属性age
+Object.defineProperty(Object, "prototype2", {value:"18", enumerable:false});// 增加不可枚举的属性prototype2
+Object.defineProperty(Object, "prototype3", {value:"18", enumerable:true});// 增加不可枚举的属性prototype3
 
 console.log(object1.hasOwnProperty("property1")); // true
 

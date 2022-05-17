@@ -1,4 +1,34 @@
 
+**不同点1：动态引入require,按需加载**
+
+使用 import 的方式引入，即使最终没用到，module 必定会被加载。使用 require 引入，可以更实际的按需加载 module。如在开发环境时，需要加载浏览器插件库，生产环境则不需要，这时就可以只在满足开发环境的 if 语录中 require 用到的 module。
+```
+旧版本：
+node 直接支持 require ， 没有直接支持 import 。
+
+简言之：import 是在编译过程中执行，而common的require是同步。还有import传的是值引用，require是值拷贝。
+
+import无论在node和浏览器上都不能直接使用吧，需要babel编译
+```
+
+**不同点2：CommonJS 模块输出的是一个值的拷贝**
+一般的说法
+CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用
+```
+我要讲一下使用上的细微差别。import是read-only的。举个例子//// a.js
+module.exports = 0;
+//// main.js
+var a0 = require('./a.js');
+import a1 from './a.js';
+a0++; /// 1
+a1++; ///报错，babel直接编辑不过
+```
+总结不同点2：
+```
+require：输出是值的拷贝，模块就是对象，输入时必须查找对象属性
+import：输出是值的引用，ES6 模块不是对象，而是通过 export 命令显式指定输出的代码，再通过 import 命令输入（这也导致了没法引用 ES6 模块本身，因为它不是对象）
+```
+
 ### Node.js模块里exports与module.exports的区别?
 require能看到的只有module.exports这个对象，它是看不到exports对象的
 而我们在编写模块时用到的exports对象实际上只是对module.exports的引用
@@ -62,33 +92,4 @@ export const fs
 export function readFile
 export {readFile, read}
 export * from 'fs'
-```
-**不同点1：动态引入require,按需加载**
-
-使用 import 的方式引入，即使最终没用到，module 必定会被加载。使用 require 引入，可以更实际的按需加载 module。如在开发环境时，需要加载浏览器插件库，生产环境则不需要，这时就可以只在满足开发环境的 if 语录中 require 用到的 module。
-```
-旧版本：
-node 直接支持 require ， 没有直接支持 import 。
-
-简言之：import 是在编译过程中执行，而common的require是同步。还有import传的是值引用，require是值拷贝。
-
-import无论在node和浏览器上都不能直接使用吧，需要babel编译
-```
-
-**不同点2：CommonJS 模块输出的是一个值的拷贝**
-一般的说法
-CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用
-```
-我要讲一下使用上的细微差别。import是read-only的。举个例子//// a.js
-module.exports = 0;
-//// main.js
-var a0 = require('./a.js');
-import a1 from './a.js';
-a0++; /// 1
-a1++; ///报错，babel直接编辑不过
-```
-总结不同点2：
-```
-require：输出是值的拷贝，模块就是对象，输入时必须查找对象属性
-import：输出是值的引用，ES6 模块不是对象，而是通过 export 命令显式指定输出的代码，再通过 import 命令输入（这也导致了没法引用 ES6 模块本身，因为它不是对象）
 ```
