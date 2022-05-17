@@ -14,7 +14,7 @@ proto 指向的是当前对象的原型对象，而 prototype 指向的，是以
 function FnA() { }
 FnA.prototype.aPrototype = "test";
 
-var myA = new FnA();
+const myA = new FnA();
 console.log("步骤3_是否:", myA.__proto__ === FnA.prototype); //true
 
 //-FnA.prototype.constructor (A的原型的构造函数)指向自己
