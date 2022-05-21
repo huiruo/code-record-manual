@@ -1,3 +1,4 @@
+/*
 import babel from '@babel/core'
 
 import * as parser from "@babel/parser";
@@ -18,3 +19,4 @@ traverse(ast, {
     }
   },
 });
+*/
