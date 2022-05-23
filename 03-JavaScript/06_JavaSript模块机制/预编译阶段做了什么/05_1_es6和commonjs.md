@@ -1,6 +1,25 @@
 
 ### 前言
 在 ES6 之前，社区制定了一些模块加载方案，最主要的有 CommonJS 和 AMD 两种。前者用于服务器，后者用于浏览器。
+由于 CommonJS 并不是 ECMAScript 标准的一部分，所以 类似 module 和 require 并不是 JS 的关键字，仅仅是对象或者函数而已，意识到这一点很重要。
+
+module 是一个对象， require 是一个函数
+```
+module 中的一些属性：
+exports：这就是 module.exports 对应的值，由于还没有赋任何值给它，它目前是一个空对象。
+loaded：表示当前的模块是否加载完成。
+paths：node 模块的加载路径
+
+require 函数中也有一些值得注意的属性：
+
+main 指向当前当前引用自己的模块，所以类似 python 的 __name__ == '__main__', node 也可以用 require.main === module 来确定是否是以当前模块来启动程序的。
+
+extensions 表示目前 node 支持的几种加载模块的方式。
+
+cache 表示 node 中模块加载的缓存，也就是说，当一个模块加载一次后，之后 require 不会再加载一次，而是从缓存中读取。
+
+```
+
 ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范， 成为浏览器和服务器通用的模块解决方案。
 ```javaScript
 // commonjs 写法
