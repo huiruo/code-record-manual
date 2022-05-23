@@ -7,19 +7,22 @@
 
 <body>
     <!-- 注意: 部署时，将 "development.js" 替换为 "production.min.js"。-->
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script> -->
+
+    <!-- 本地调试 -->
+    <script src="./react.development17.js"></script>
+    <script src="./react-dom.development17.js"></script>
     <div id="root"></div>
     <script>
-        const domContainer = document.getElementById('root');
+        const container = document.getElementById('root');
         const element = React.createElement(
             'div',
             { className: 'red' },
             'Click Me'
         )
-        console.log('test====>', element)
+        console.log('createElement 转化后ast树的结构:', element)
         /*
-        createElement 转化后ast树的结构:
         {
             $$typeof: Symbol(react.element)
             key: null
@@ -36,7 +39,7 @@
 
         ReactDOM.render(
             element,
-            domContainer
+            container
         )
     </script>
 </body>
