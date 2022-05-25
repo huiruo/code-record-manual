@@ -1,4 +1,4 @@
-#### 哈希表概述：
+## 哈希表概述：
 ```
 散列表（Hash table，也叫哈希表），是根据关键值(Key)而直接进行访问的数据结构。
 
@@ -16,14 +16,14 @@
 在时间复杂度为o(1),最差的时候 o(n)。
 ```
 
-#### java中hashmap和map关系
+## java中hashmap和map关系
 ```
 Map是存储键和值这样的键值对的数据的集合，但存储的数据是没有顺序的，其键不能重复，但其值是可以重复的。Map是一个接口，HashMap是实现了Map接口的类;
 HashMap是基于哈希表实现的，每一个元素是一个key-value键值对。
 对于 HashMap 而言，系统 key-value 当成一个整体进行处理，系统根据 Hash 算法来计算 key-value 的存储位置，这样可以保证能快速存、取 Map 的 key-value 对。
 ```
 
-#### js中Map
+## js中Map
 ```
 js中只有Map，没有HashMap。
 从上面分析java中的HashMap可以发现，HashMap只是map的一种底层实现方式。所以在js里，用原生的map就够用了

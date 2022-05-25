@@ -24,7 +24,7 @@ https://zhuanlan.zhihu.com/p/355615380
 	- ReactMutableSource.js
 	- ReactStartTransition.js (批量更新的事务的概念)
 
-### react-dom
+## react-dom
 - react-dom
 	- src
 		- clients
@@ -39,44 +39,44 @@ https://zhuanlan.zhihu.com/p/355615380
 	- Scheduler.js
 	- SchedulerMinHeap.js
 
-###### DOM处理
+### DOM处理
 ```
 React17的进行了模式的设置，分别为：Legacy模式、Concurrent模式、Blocking模式，其中Concurrent模式是启用fiber分片的异步渲染方式，而Legacy模式则仍是15的同步渲染模式，Blocking则是介于二者之间的模式，React有意按照这样一种渐进的方式进行过度
 ```
 
-###### 合成事件:ReactDOMEventListeners.js
+### 合成事件:ReactDOMEventListeners.js
 ```
 核心是dispatchEvent进行事件的分发，17之后不再将事件全部冒泡到document去代理，这和浏览器的改进有关，不再需要代理绑定，浏览器可以对更细粒度的区域进行监听
 ```
-###### Schdeuler.js
+### Schdeuler.js
 
-###### SchedulerMinHeap.js
+### SchedulerMinHeap.js
 小顶堆的实现，可对比优先队列的考察，具体可以看一下leetcode的这道题 23. 合并K个升序链表，以及对fiber应用的扩展思考 86. 分隔链表
-###### SchedulePostTask.js
+### SchedulePostTask.js
 
-###### Reconciler & Renderer
+### Reconciler & Renderer
 ```
 在经过了Scheduler的分片及调度后，将分片后的单元调度进合成器中，Reconciler阶段的主要目的是找寻不同，从而对虚拟dom的不同进行fiber层级的派发和合并；对于浏览器的分片可以利用setTimeout及MessageChannel来实现，具体浏览器是如何实现setTimeout的，可以看一下这个浏览器工作原理(16) - setTimeout实现原理，
 
 https://link.zhihu.com/?target=https%3A//blog.csdn.net/u013448372/article/details/108425124
 ```
-###### ReactChildFiber.js
+### ReactChildFiber.js
 
-###### ReactFiber.js
-###### ReactFiberBeginWork.js
-###### ReactFiberCommitWork.js
+### ReactFiber.js
+### ReactFiberBeginWork.js
+### ReactFiberCommitWork.js
 对不同的真实dom类型进行对应提交
 
-###### ReactFiberCompleteWork.js
+### ReactFiberCompleteWork.js
 
-###### 总结
+### 总结
 ```
 createRootFiber => FiberRootNode => initialUpdateQueue => updateContainer => createUpdate => scheduleUpdateOnFiber => renderRootSync => workLoopSync => performUnitOfWork => beginWork => updateHostRoot => processUpdateQueue => reconcileChildFibers => reconcileSingleElement => createFiberFromElement => completeUnitWork => completeWork => createInstance => createElement => finalizeInitialChildren
 
 react16之后通过fiber对整个运行时的stack reconciler进行了修改，实现了分片的协程调度，对于层级较深的js调用栈可以实现停止与启动更细粒度的控制，从而避免js线程的长时间占用而导致的渲染线程的卡死，整体的设计体现了react架构人员的计算机素养相当的扎实，对操作系统乃至整体数据结构把控能力之强，可见一斑，从这个层面上看，国外程序员设计者确实在优化性能等方面总是从计算机最底层的思路去着手，值得我们学习与思考。
 ```
 
-###### 额外
+### 额外
 ```
 实际上通过JSX创建的虚拟元素最终会被编译成调用React的createElement方法，而createElement只是做了一个简单的参数修正，返回一个ReactElement对象这个对象就是将我们的JSX与内部方法链接起来的纽带
 ```
@@ -183,7 +183,7 @@ export function createElement(type, config, children) {
 */
 ```
 
-###### react cloneElement 方法定义
+### react cloneElement 方法定义
 ```ts
 //  备注：1 根据传入 element参数生成 key ref, children , 组合defaultProps 生成props,
 // 2   return 调用ReactElement 函数执行结果
@@ -268,7 +268,7 @@ export function cloneElement(element, config, children) {
 }
 ```
 
-### 定义 jsx 函数
+## 定义 jsx 函数
 ```ts
 //使用：
 //  react 17 中新增的方法， 可用于手动创建reactElement 。使用方式有差异， 除了type元素，

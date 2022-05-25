@@ -1,4 +1,4 @@
-#### tie
+## tie
 ```text
 https://github.com/forsigner/tie 
 https://tiejs.vercel.app/
@@ -9,7 +9,7 @@ cd myapp
 npm run dev
 ```
 
-#### controller
+## controller
 ```javaScript
 import { Controller, Post, Body } from '@tiejs/controller'
 import { Log } from './log.entity'
@@ -26,7 +26,7 @@ export class LogController {
 }
 ```
 
-#### 提供者 (Provider) 是用来组织代码的最小单位
+## 提供者 (Provider) 是用来组织代码的最小单位
 ```text
 服务是业务逻辑的抽象，通常你会在 Controller 或 Resolver 中通过依赖注入的方式调用 Service，TieJS 使用 依赖注入 的方式组织代码，这是非常重要特性，因为它使代码有更好的可读性，也更易于进行单元测试。
 ```
@@ -75,7 +75,7 @@ https://tiejs.vercel.app/docs/basic/graphql
 └── tsconfig.json
 ```
 
-#### 在 TieJS 中，xxx.resolver.ts 是 GraphQL 的端点文件，类似 MVC 架构中的 Controller。
+## 在 TieJS 中，xxx.resolver.ts 是 GraphQL 的端点文件，类似 MVC 架构中的 Controller。
 ```javaScript
 import { Resolver, Query } from 'type-graphql'
 import { Injectable } from '@tiejs/common'
@@ -90,7 +90,7 @@ export class HelloResolver {
 }
 ```
 
-###### 再举个resolver例子：
+### 再举个resolver例子：
 module\auth\auth.resolver.ts
 ```javaScript
 import { User } from '@module/user/user.entity'

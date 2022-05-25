@@ -8,7 +8,7 @@
 ```
 
 
-###### Promise基础雏形
+### Promise基础雏形
 ```js
 //定义了一个状态，执行了立即执行函数。并将resolve, reject传入到立即执行函数中。
 class MyPromise {
@@ -74,7 +74,7 @@ promise1.then((res) => {
 */
 ```
 此时，resolve, reject已经有了，new Promise()时，已经可以调用resolve()方法和reject()方法了。并且，resolve()和reject()时，promise状态也已经发生了改变。并保存了resolve和reject出来的值。
-###### 步骤2：在下一步，状态已经发生改变了，我们是不是要触发then的resolve回调，或者reject回调了。所以，我们来实现then()函数
+### 步骤2：在下一步，状态已经发生改变了，我们是不是要触发then的resolve回调，或者reject回调了。所以，我们来实现then()函数
 ```js
 MyPromise.prototype.then = (onFullFilled, onRejected) => {
 	// onFullFilled, onRejected分别resolve()时的回调函数和reject()时的回调函数
@@ -90,7 +90,7 @@ MyPromise.prototype.then = (onFullFilled, onRejected) => {
 ```
 
 
-###### 步骤3，then()函数的完善
+### 步骤3，then()函数的完善
 ```js
 到此时，只是完成了基本,我们在then函数中，只判断了状态为fufilled时，调了onFullFilled，状态为rejected时，调了onRejected。但如果then()函数被调用时，promise的状态还并未发生改变（也就是还处于pending时），那then()函数内的代码是不是不会执行拉。因为我们并没有写pending状态时的处理代码。如以下情况
 const promise1 = new MyPromise((resolve, reject) => {
@@ -172,7 +172,7 @@ let reject = (val) => {
      }
 }
 ```
-### 到此，就不会再有因为异步代码而执行不了的问题了。看下完整代码，并验证下
+## 到此，就不会再有因为异步代码而执行不了的问题了。看下完整代码，并验证下
 ```js
 class MyPromise {
 	constructor (fun) {
@@ -258,11 +258,11 @@ promise1.then((res) => {
 })
 ```
 
-### Promise.then()的链式调用
+## Promise.then()的链式调用
 ```
 Promise之所以能够进行链式调用，是因为then()方法内部返回了一个Promise实例，而返回的这个Promise实例在继续调用了第二个then()方法。并且第二个then的resolve回调的参数，是上一个then的resolve回调函数的返回值。
 ```
-###### 我们来改造下then
+### 我们来改造下then
 ```js
 MyPromise.prototype.then = function (onFullFilled, onRejected) {
 	// 将then函数内部返回的Promise对象取名为promise2，后续文档中将直接以promise2来表示这个对象
@@ -390,7 +390,7 @@ MyPromise.prototype.then = function (onFullFilled, onRejected) {
 }
 ```
 
-###### 到这一步，我们已经可以处理return一个Promise对象时的情况了。我们来验证一下
+### 到这一步，我们已经可以处理return一个Promise对象时的情况了。我们来验证一下
 ```js
 const promise1 = new MyPromise((resolve, reject) => {
     setTimeout(() => {
@@ -411,7 +411,7 @@ promise1.then((res) => {
 123
 234
 ```
-###### 但此时，又引出一个问题了，上图中，return的Promise里面 ，如果我resolve的不是234，而是resolve了一个新的Promise呢看下面代码
+### 但此时，又引出一个问题了，上图中，return的Promise里面 ，如果我resolve的不是234，而是resolve了一个新的Promise呢看下面代码
 ```js
 const promise1 = new MyPromise((resolve, reject) => {
     setTimeout(() => {
@@ -597,7 +597,7 @@ promise1.then((res) => {
 234
 ```
 
-### Promise.catch()
+## Promise.catch()
 ```js
 其实.catch()，和.then()的reject回调是一样的。只是使用位置不一样罢了。并且.catch()也支持链式调用。也就是说.catch和.then其实是一样的，也返回了一个Promise对象对不对，因为这样才能链式调用。所以其实catch很简单，他其实内部就是执行了一个只有reject回调的then函数。下面我们看下代码
 
@@ -802,7 +802,7 @@ promise1.then('aaa', (err) => {
 ```
 
 
-### 完整代码
+## 完整代码
 ```js
 // 是否是函数
 const isFun = (fun) => typeof fun === 'function'
@@ -1041,8 +1041,8 @@ promise1.then('aaa', (err) => {
 })
 ```
 
-### 核心代码我们已经实现了，剩下的几个Promise.Resolve(),Promise.Reject(),Promise.all(),Promise.race()就比较简单了。我们就不做过多的说明了。大家直接看代码吧
-###### Promise.resolve()
+## 核心代码我们已经实现了，剩下的几个Promise.Resolve(),Promise.Reject(),Promise.all(),Promise.race()就比较简单了。我们就不做过多的说明了。大家直接看代码吧
+### Promise.resolve()
 ```js
 const isPromise = (value) => {
     if ((value != null && typeof value === 'object') || typeof value === 'function') {
@@ -1065,7 +1065,7 @@ MyPromise.resolve = (value) => {
     }
 }
 ```
-###### Promise.reject()
+### Promise.reject()
 ```js
 MyPromise.reject = (value) => {
     return new MyPromise((resolve, reject) => {
@@ -1073,7 +1073,7 @@ MyPromise.reject = (value) => {
     })
 }
 ```
-###### Promise.all()
+### Promise.all()
 all的特点就是如果有其中一个返回了错误（reject），那么就立即返回错误。否则，必须等到所有的都成功之后才会返回
 ```js
 MyPromise.all = (arr) => {
@@ -1110,7 +1110,7 @@ MyPromise.all = (arr) => {
 //promise all
 Promise.all([test(1),test(2)]).then((x)=>{console.log(x)},(y)=>{console.log(y)})
 ```
-###### Promise.race()
+### Promise.race()
 race的特点是，哪个先返回状态，就立即返回这个的状态和值（和赛跑一样，哪个先到，我就用哪个）
 ```js
 MyPromise.race = (arr) => {

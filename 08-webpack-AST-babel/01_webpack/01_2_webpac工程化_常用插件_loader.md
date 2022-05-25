@@ -1,4 +1,4 @@
-### 前端工程化
+## 前端工程化
 
 模块化、组件化、规范化、自动
 简单来说，模块化就是将一个大文件拆分成相互依赖的小文件，再进行统一的拼装和加载。只有这样，才有多人协作的可能。
@@ -10,7 +10,7 @@
 
 1. 用 Webpack+Babel 将所有模块打包成一个文件同步加载，也可以打成多个 chunk 异步加载；
 
-###### 资源的模块化
+### 资源的模块化
 
 Webpack 的强大之处不仅仅在于它统一了 JS 的各种模块系统，取代了 Browserify、RequireJS、SeaJS 的工作。更重要的是它的万能模块加载理念，即所有的资源都可以且也应该模块化。
 资源模块化后，有三个好处：
@@ -20,9 +20,9 @@ Webpack 的强大之处不仅仅在于它统一了 JS 的各种模块系统，�
 - 3.项目结构清晰化。使用 Webpack 后，你的项目结构总可以表示成这样的函数：
   dest = webpack(src, config)
 
-#### 常用 loader 和 plugin
+## 常用 loader 和 plugin
 
-##### 一、常用 loader
+### 一、常用 loader
 
 ```
 JavaScript 相关，如下所示：
@@ -63,7 +63,7 @@ tslint-loader：通过 TSLint 检查 TypeScript 代码；
 mocha-loader：加载 Mocha 测试用例代码。
 ```
 
-##### 二、常用 plugin,扩展 Webpack 的功能
+### 二、常用 plugin,扩展 Webpack 的功能
 
 接收一个数组，数组里的每一项都是一个要使用的 Pulgin 的实例，Pulgin 需要的参数通过构造函数传入
 
@@ -73,7 +73,7 @@ module.exports = {
 }
 ```
 
-##### 三个构建大小插件
+### 三个构建大小插件
 
 - 实际上 webpack4.0 默认是使用 terser-webpack-plugin 这个压缩插件，在此之前是使用 uglifyjs-webpack-plugin
 

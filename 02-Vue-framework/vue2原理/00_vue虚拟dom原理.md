@@ -1,11 +1,11 @@
-### 什么是虚拟dom
+## 什么是虚拟dom
 ```
 如我们所知，在浏览器渲染网页的过程中，加载到HTML文档后，会将文档解析并构建DOM树，然后将其与解析CSS生成的CSSOM树一起结合产生爱的结晶——RenderObject树，然后将RenderObject树渲染成页面（当然中间可能会有一些优化，比如RenderLayer树）。这些过程都存在与渲染引擎之中，渲染引擎在浏览器中是于JavaScript引擎（JavaScriptCore也好V8也好）分离开的，但为了方便JS操作DOM结构，渲染引擎会暴露一些接口供JavaScript调用。由于这两块相互分离，通信是需要付出代价的，因此JavaScript调用DOM提供的接口性能不咋地。各种性能优化的最佳实践也都在尽可能的减少DOM操作次数。
 
 而虚拟DOM干了什么？它直接用JavaScript实现了DOM树（大致上）。组件的HTML结构并不会直接生成DOM，而是映射生成虚拟的JavaScript DOM结构，React又通过在这个虚拟DOM上实现了一个 diff 算法找出最小变更，再把这些变更写入实际的DOM中。这个虚拟DOM以JS结构的形式存在，计算性能会比较好，而且由于减少了实际DOM操作次数，性能会有较大提升
 ```
 
-### 真实DOM和其解析流程
+## 真实DOM和其解析流程
 浏览器渲染引擎工作流程都差不多，大致分为5步，创建DOM树——创建StyleRules——创建Render树——布局Layout——绘制Painting
 ```
 第一步，用HTML分析器，分析HTML元素，构建一颗DOM树(标记化和树构建)。
@@ -16,7 +16,7 @@
 第五步，Render树和节点显示坐标都有了，就调用每个节点paint方法，把它们绘制出来。
 ```
 
-### 直接操作 DOM 性能差
+## 直接操作 DOM 性能差
 ```
 1.DOM 引擎、JS 引擎 相互独立，但又工作在同一线程（主线程）
 2.JS 代码调用 DOM API 必须 挂起 JS 引擎、转换传入参数数据、激活 DOM 引擎，DOM 重绘后再转换可能有的返回值，最后激活 JS 引擎并继续执行
@@ -25,7 +25,7 @@
 
 总结：降低引擎切换频率、减小 DOM 变更规模才是评判各种 DOM 性能优化方案的关键
 ```
-### 为什么虚拟dom快
+## 为什么虚拟dom快
 ```
 Virtual DOM 是 JS 对象树，也有 DOM diff 算法，符合上述关键条件，优化了 DOM 渲染时间；但正因为要一定程度上模拟 DOM 树，内存占用自然更高。
 Virtual DOM只有在重复渲染的时候才可能提高性能，毕竟要多一个运算步骤，也要消耗更多的内存，只渲染一次，不会获得任何性能的好处。
@@ -37,7 +37,7 @@ Virtual DOM只有在重复渲染的时候才可能提高性能，毕竟要多一
 
 ```
 
-### 虚拟dom
+## 虚拟dom
 诞生是基于这么一个概念：改变真实的DOM状态远比改变一个JavaScript对象的花销要大得多。
 ```
 Virtual DOM是一个映射真实DOM的JavaScript对象，如果需要改变任何元素的状态，那么是先在Virtual DOM上进行改变，而不是直接改变真实的DOM。当有变化产生时，一个新的Virtual DOM对象会被创建并计算新旧Virtual DOM之间的差别。之后这些差别会应用在真实的DOM上。
@@ -46,13 +46,13 @@ vdom + diff算法比较了新旧dom的差异之后，还是要用原生方法去
 ```
 
 https://juejin.cn/post/6858902304599310343
-### Vue视图渲染原理解析，从构建VNode到生成真实节点树
+## Vue视图渲染原理解析，从构建VNode到生成真实节点树
 ```
 在 Vue 核心中除了响应式原理外，视图渲染也是重中之重。我们都知道每次更新数据，都会走视图渲染的逻辑，而这当中牵扯的逻辑也是十分繁琐。
 本文主要解析的是初始化视图渲染流程，你将会了解到从挂载组件开始，Vue 是如何构建 VNode，又是如何将 VNode 转为真实节点并挂载到页面。
 ```
 
-### 总结
+## 总结
 配图
 ![avatar](./图_框架原理_vue.png)
 
@@ -100,7 +100,7 @@ vm._update(vm._render())|     createElement—     递归创建节点树，并�
 4.当重新进行渲染之后，会生成一个新的树，将新树与旧树进行对比，就可以最终得出应施加到真实DOM上的改动。最后再通过patch函数施加改动。
 ```
 
-###### 挂载组件($mount)
+### 挂载组件($mount)
 Vue 是一个构造函数，通过 new 关键字进行实例化。
 ```js
 // src/core/instance/index.js
@@ -222,7 +222,7 @@ export function initMixin (Vue: Class<Component>) {
 }
 ```
 
-###### **_init 内会调用 $mount 来挂载组件，而 $mount 方法实际调用的是 mountComponent。**
+### **_init 内会调用 $mount 来挂载组件，而 $mount 方法实际调用的是 mountComponent。**
 mountComponent 除了调用一些生命周期的钩子函数外，最主要是 updateComponent，它就是负责渲染视图的核心方法，其只有一行核心代码：
 ```js
 vm._update(vm._render(), hydrating)
@@ -270,7 +270,7 @@ export function mountComponent (
   return vm
 }
 ```
-###### vm.render
+### vm.render
 ```
 vm._render 创建并返回 VNode，vm._update 接受 VNode 将其转为真实节点。
 
@@ -278,8 +278,8 @@ updateComponent 会被传入 渲染Watcher，每当数据变化触发 Watcher �
 
 所以我们着重分析的是 vm._render 和 vm._update 两个方法，这也是本文主要了解的原理——Vue 视图渲染流程。
 ```
-### 构建VNode
-###### 1.首先是 -render 方法，它用来构建组件的 VNode。
+## 构建VNode
+### 1.首先是 -render 方法，它用来构建组件的 VNode。
 ```js
 首先是 _render 方法，它用来构建组件的 VNode。
 // src/core/instance/render.js
@@ -352,7 +352,7 @@ Vue.prototype._render = function (): VNode {
   }
 }
 ```
-###### 2.-render 内部会执行 render 方法并返回构建好的 VNod
+### 2.-render 内部会执行 render 方法并返回构建好的 VNod
 ```js
 _render 内部会执行 render 方法并返回构建好的 VNode。render 一般是模板编译后生成的方法，也有可能是用户自定义。
 // src/core/instance/render.js
@@ -395,7 +395,7 @@ export function initRender (vm: Component) {
     defineReactive(vm, '$attrs', parentData && parentData.attrs || emptyObject, null, true)
     defineReactive(vm, '$listeners', options._parentListeners || emptyObject, null, true)
 ```
-###### 3.initRender 在初始化就会执行为实例上绑定两个方法
+### 3.initRender 在初始化就会执行为实例上绑定两个方法
 ```js
 initRender 在初始化就会执行为实例上绑定两个方法，分别是 vm._c 和 vm.$createElement。它们两者都是调用 createElement 方法，它是创建 VNode 的核心方法，最后一个参数用于区别是否为用户自定义。
 // src/core/instance/render.js
@@ -407,7 +407,7 @@ export function initRender (vm) {
 vm._c 应用场景是在编译生成的 render 函数中调用，vm.$createElement 则用于用户自定义 render 函数的场景。 就像上面 render 在调用时会传入参数 vm.$createElement，我们在自定义 render 函数接收到的参数就是它。
 */
 ```
-##### 4.createElement
+### 4.createElement
 ```js
 createElement 方法实际上是对 _createElement 方法的封装，它允许传入的参数更加灵活。
 ```
@@ -557,7 +557,7 @@ export function _createElement (
   }
 }
 ```
-###### simpleNormalizeChildren 和 normalizeChildren 均用于规范化 children。由 normalizationType 判断 render 函数是编译生成的还是用户自定义的。
+### simpleNormalizeChildren 和 normalizeChildren 均用于规范化 children。由 normalizationType 判断 render 函数是编译生成的还是用户自定义的。
 
 simpleNormalizeChildren 方法调用场景是 render 函数当函数是编译生成的。
 normalizeChildren 方法的调用场景主要是 render 函数是用户手写的。
@@ -588,7 +588,7 @@ export function normalizeChildren (children: any): ?Array<VNode> {
       : undefined
 }
 ```
-###### 经过对children的规范化，children变成了一个类型为 VNode 的数组。之后就是创建 VNode 的逻辑。
+### 经过对children的规范化，children变成了一个类型为 VNode 的数组。之后就是创建 VNode 的逻辑。
 ```
 如果 tag 是 string 类型，则接着判断如果是内置的一些节点，创建一个普通 VNode；如果是为已注册的组件名，则通过 createComponent 创建一个组件类型的 VNode；否则创建一个未知的标签的 VNode。
 
@@ -625,7 +625,7 @@ if (typeof tag === 'string') {
   vnode = createComponent(tag, data, context, children)
 }
 ```
-### 生成真实dom(-update)
+## 生成真实dom(-update)
 ```js
 _update 里最核心的方法就是 vm.__patch__ 方法，不同平台的 __patch__ 方法的定义会稍有不同，在 web 平台中它是这样定义的
 可以看到 __patc__ 实际调用的是 patch 方法。
@@ -676,7 +676,7 @@ export function createPatchFunction (backend) {
 }
 ```
 
-### patch
+## patch
 ```js
 // initial render
 vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
@@ -789,7 +789,7 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
   return vnode.elm
 }
 ```
-###### 通过检查属性 nodeType（真实节点才有的属性）， 判断 oldVnode 是否为真实节点。
+### 通过检查属性 nodeType（真实节点才有的属性）， 判断 oldVnode 是否为真实节点。
 ```js
 const isRealElement = isDef(oldVnode.nodeType)
 if (isRealElement) {
@@ -797,13 +797,13 @@ if (isRealElement) {
   oldVnode = emptyNodeAt(oldVnode)
 }
 ```
-###### 很明显第一次的 isRealElement 是为 true，因此会调用 emptyNodeAt 将其转为 VNode：
+### 很明显第一次的 isRealElement 是为 true，因此会调用 emptyNodeAt 将其转为 VNode：
 ```js
 function emptyNodeAt (elm) {
   return new VNode(nodeOps.tagName(elm).toLowerCase(), {}, [], undefined, elm)
 }
 ```
-###### 接着会调用 createElm 方法，它就是将 VNode 转为真实dom 的核心方法：
+### 接着会调用 createElm 方法，它就是将 VNode 转为真实dom 的核心方法：
 ```js
 function createElm (
   vnode,
@@ -954,7 +954,7 @@ function invokeInsertHook (vnode, queue, initial) {
 ```
 
 
-### 为什么操作dom渲染成本高
+## 为什么操作dom渲染成本高
 ```
 涉及到浏览器引擎的知识，现在我们回忆一下，JavaScript是解析引擎的，页面渲染是渲染引擎的。因此不可避免地要进行两个线程之间的通信，操作越频繁，两个线程通信消耗的性能就越多。
 你用传统的原生api或jQuery去操作DOM时，浏览器会从构建DOM树开始从头到尾执行一遍流程。
@@ -969,7 +969,7 @@ DOM是为了提高性能，在React中是虚拟DOM比对,vue 2.0 采用中等粒
 ```
 
 
-### vue虚拟dom
+## vue虚拟dom
 ```js
 Object对象来模拟真实DOM结构，这个对象包含标签名 (tag)、属性 (attrs) 和子元素对象 (children) 三个属性，通过vue中的render()函数把虚拟dom编译成真实dom，在通过appendChild()添加到页面中。
 <ul>
@@ -985,16 +985,16 @@ let ulDom = ul.render() //生成真实的dom
 document.body.appendChild(ulDom)
 ```
 
-### 在vue中如何应用虚拟DOM的
+## 在vue中如何应用虚拟DOM的
 通过VNode，vue可以对这颗抽象树进行创建节点,删除节点以及修改节点的操作，经过diff算法得出一些需要修改的最小单位,再更新视图，减少了dom操作，提高了性能。
 ```
 vue中虚拟 DOM 最大的优势是 diff 算法，减少 JavaScript 操作真实 DOM 的带来的性能消耗。虽然这一个虚拟 DOM带来的一个优势，但并不是全部。
 其它框架中也有虚拟 DOM概念， 最大的优势在于抽象了原本的渲染过程，实现了跨平台的能力，而不仅仅局限于浏览器的 DOM，可以是安卓和 IOS 的原生组件，可以是近期很火热的小程序，也可以是各种GUI。
 ```
 
-### 如何实现虚拟DOM
+## 如何实现虚拟DOM
 
-###### 首先可以看看vue中VNode的结构
+### 首先可以看看vue中VNode的结构
 这里对VNode进行稍微的说明：
 ```
 + 所有对象的 context 选项都指向了Vue实例
@@ -1078,7 +1078,7 @@ export default class VNode {
 }
 ```
 
-### 源码create-element.js
+## 源码create-element.js
 ```js
 export function createElement (
   context: Component,
@@ -1302,7 +1302,7 @@ export function createComponent (
   return vnode
 }
 ```
-### 总结：
+## 总结：
 ```
 构造子类构造函数Ctor
 installComponentHooks安装组件钩子函数

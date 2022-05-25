@@ -1,4 +1,4 @@
-#### effect模拟生命周期
+## effect模拟生命周期
 ```javaScript
 useEffect(()=>{
     console.log('componentDidMount')
@@ -20,7 +20,7 @@ useEffect(() => console.log('mounted or updated'));
 ```
 
 
-#### effect 的执行时机
+## effect 的执行时机
 请记得 React 会等待浏览器完成画面渲染之后才会延迟调用 `useEffect`，因此会使得额外操作很方便
 
 与 `componentDidMount` 或 `componentDidUpdate` 不同，使用 `useEffect` 调度的 effect 不会阻塞浏览器更新屏幕，这让你的应用看起来响应更快。大多数情况下，effect 不需要同步地执行。在个别情况下（例如测量布局），有单独的 [`useLayoutEffect`](https://zh-hans.reactjs.org/docs/hooks-reference.html#uselayouteffect) Hook 供你使用，其 API 与 `useEffect` 相同。

@@ -32,7 +32,7 @@ module.exports = {
   }
 };
 ```
-### 解析loader---2.1.在执行构建之前，要先安装 npm i -D style-loader css-loader,构建后虎仔bundle.js注入main.css
+## 解析loader---2.1.在执行构建之前，要先安装 npm i -D style-loader css-loader,构建后虎仔bundle.js注入main.css
 ```
 loaders告诉webpack 在遇到哪些文件时使用 哪些Loader去加载和转换。如上：
 在遇到.css 的结尾的文件时，先使用 css-load 读取css文件，再由style-loader将css的内容注入JavaScript。

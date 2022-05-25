@@ -22,7 +22,7 @@ const uniqueArr = (array, key) => {
 }
 
 /*
-* #### reduce
+* ## reduce
 参数：
 reduce(上一个并归值，当前项，当前项的索引，数组本身）
 *

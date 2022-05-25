@@ -1,11 +1,11 @@
-#### 任意一个后代元素都可以直接取到上下文的内容 不需要层层传递
+## 任意一个后代元素都可以直接取到上下文的内容 不需要层层传递
 很多优秀的React组件都通过Context来完成自己的功能，
 
 比如react-redux的`<Provider />`，就是通过`Context`提供一个全局态的`store`，拖拽组件react-dnd，通过`Context`在组件中分发DOM的Drag和Drop事件。
 
 路由组件react-router通过`Context`管理路由状态等等。在React组件开发中，如果用好`Context`，可以让你的组件变得强大，而且灵活。
 
-#### redux 和 context
+## redux 和 context
 ```
 通过react-redux做连接，使用Provider：从最外部封装了整个应用，并向connect模块传递store。
 Connect： 
@@ -28,10 +28,10 @@ connect是真正的重点，它是一个科里化函数，意思是先接受两�
 
 
 
-#### 用Context作为共享数据的媒介
+## 用Context作为共享数据的媒介
 官方所提到`Context`可以用来进行跨组件的数据通信。而我，把它理解为，好比一座桥，作为一种作为媒介进行**数据共享**。数据共享可以分两类：**App级**与**组件级**。
 
-#### **1.App级的数据共享**重点 redux和context
+## **1.App级的数据共享**重点 redux和context
 
 App根节点组件提供的`Context`对象可以看成是App级的全局作用域，所以，我们利用App根节点组件提供的`Context`对象创建一些App级的全局数据。现成的例子可以参考react-redux，以下是`<Provider />`组件源码的核心实现：
 

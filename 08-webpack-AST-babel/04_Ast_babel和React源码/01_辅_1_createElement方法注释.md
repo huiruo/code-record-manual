@@ -1,4 +1,4 @@
-### createElement()
+## createElement()
 将参数读取转换为ast树的一些所需参数字段,最终返回ast树的结构
 ```javaScript
 function createElement(type, config, children) {

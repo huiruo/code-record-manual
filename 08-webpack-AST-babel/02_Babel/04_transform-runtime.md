@@ -1,6 +1,6 @@
 
 
-### @babel/plugin-transform-runtime的主要有三个用处
+## @babel/plugin-transform-runtime的主要有三个用处
 ```
 1.自动引入@babel/runtime/regenerator，当你使用了generator/async
 函数(通过regenerator选项打开，默认为true)

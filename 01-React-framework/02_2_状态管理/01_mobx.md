@@ -5,8 +5,8 @@ React 提供了优化UI渲染,机制就是通过使用虚拟DOM来减少昂贵�
 ```
 MobX 提供了优化应用状态与 React 组件同步的机制，这种机制就是使用响应式虚拟依赖状态图表，它只有在真正需要的时候才更新并且永远保持是最新的。
 ```
-### 核心概念
-###### Observable state(可观察的状态)
+## 核心概念
+### Observable state(可观察的状态)
 MobX 为现有的数据结构(如对象，数组和类实例)添加了可观察的功能。 通过使用 @observable 装饰器(ES.Next)来给你的类属性添加注解就可以简单地完成这一切。
 ```js
 import { observable } from "mobx";
@@ -32,7 +32,7 @@ decorate(Todo, {
     finished: observable
 })
 ```
-###### Computed values(计算值)
+### Computed values(计算值)
 使用 MobX， 你可以定义在相关数据发生变化时自动更新的值。 通过@computed 装饰器或者利用 (extend)Observable 时调用 的getter / setter 函数来进行使用。(当然，这里也可以再次使用 decorate 来替代 @ 语法)。
 ```js
 class TodoList {
@@ -42,7 +42,7 @@ class TodoList {
     }
 }
 ```
-###### Reactions(反应)
+### Reactions(反应)
 ```
 Reactions 和计算值很像，但它不是产生一个新的值，而是会产生一些副作用，比如打印到控制台、网络请求、递增地更新 React 组件树以修补DOM、等等。 简而言之，reactions 在 响应式编程和命令式编程之间建立沟通的桥梁
 ```

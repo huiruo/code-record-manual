@@ -1,6 +1,6 @@
 
 # 常用配置
-### @babel/preset-typescript
+## @babel/preset-typescript
 ts预设插件
 ```javaScript
 // 配置
@@ -10,7 +10,7 @@ ts预设插件
   ]
 }
 ```
-### @babel/preset-react
+## @babel/preset-react
 react预设插件，包括对jsx预发解析等
 ```javaScript
 // 配置
@@ -29,7 +29,7 @@ react预设插件，包括对jsx预发解析等
 }
 ```
 
-### @babel/preset-env
+## @babel/preset-env
 js预设插件，可以使用高版本js语法而不需要单独转换，根据babel和corejs polyfill语法映射进行转换
 ```javaScript
 // 配置
@@ -57,10 +57,10 @@ js预设插件，可以使用高版本js语法而不需要单独转换，根据b
 ```
 
 # 常用插件
-### @babel/register
+## @babel/register
 // 通过@babel/register使用node运行时进行即时编译
 
-### @babel/runtime、@babel/plugin-transform-runtime
+## @babel/runtime、@babel/plugin-transform-runtime
 // 可以对promise等特性进行转换，不支持实例化的方法如 Array.includes(x) **前提是安装@babel/runtime插件
 ```javaScript
 // 在.babelrc配置中
@@ -69,7 +69,7 @@ js预设插件，可以使用高版本js语法而不需要单独转换，根据b
 }
 ```
 
-### @babel/plugin-transform-modules-commonjs
+## @babel/plugin-transform-modules-commonjs
 将es6语法转换为commonjs
 ```
 {
@@ -77,7 +77,7 @@ js预设插件，可以使用高版本js语法而不需要单独转换，根据b
 }
 ```
 
-### @babel/plugin-proposal-class-properties
+## @babel/plugin-proposal-class-properties
 编译类属性和静态属性（@babel/preset-env的ES2022中已包含）
 ```javaScript
 {
@@ -85,7 +85,7 @@ js预设插件，可以使用高版本js语法而不需要单独转换，根据b
 }
 ```
 
-### @babel/plugin-proposal-decorators
+## @babel/plugin-proposal-decorators
 编译class装饰器
 ```javaScript
 {
@@ -101,7 +101,7 @@ function isTestable(value) {
   };
 }
 ```
-### @babel/plugin-syntax-dynamic-import
+## @babel/plugin-syntax-dynamic-import
 import语法动态导入
 ```javaScript
 {
@@ -112,7 +112,7 @@ import('./a.js').then(()=>{
   console.log('a.js is loaded dynamically');
 });
 ```
-### @babel/plugin-proposal-export-namespace-from
+## @babel/plugin-proposal-export-namespace-from
 编译export {} from 'xxx’语法
 ```javaScript
 {
@@ -122,7 +122,7 @@ import('./a.js').then(()=>{
 export * as ns from "mod";
 ```
 
-### @babel/plugin-proposal-export-default-from
+## @babel/plugin-proposal-export-default-from
 编译export default from 语法
 ```javaScript
 {

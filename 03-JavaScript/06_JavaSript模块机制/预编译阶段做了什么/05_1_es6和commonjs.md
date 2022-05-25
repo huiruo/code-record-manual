@@ -1,5 +1,5 @@
 
-### 前言
+## 前言
 在 ES6 之前，社区制定了一些模块加载方案，最主要的有 CommonJS 和 AMD 两种。前者用于服务器，后者用于浏览器。
 由于 CommonJS 并不是 ECMAScript 标准的一部分，所以 类似 module 和 require 并不是 JS 的关键字，仅仅是对象或者函数而已，意识到这一点很重要。
 
@@ -30,7 +30,7 @@ clock.start();
 ES6 模块的设计思想是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。
 CommonJS 和 AMD 模块，都只能在运行时确定这些东西。
 
-#### 其他规范 AMD CMD
+## 其他规范 AMD CMD
 AMD (Asynchronous Module Definition) 就是异步加载模块，多用于浏览器（ requireJs应用了这一规范），写法为：
 ```javaScript
 require([module],callback);
@@ -56,7 +56,7 @@ define(function(require,exports,module){
 })
 ```
 
-#### es6
+## es6
 ES6的模块化设计思想是尽量静态化，使得编译时就能确定模块的依赖关系。
 对比CommonJS和ES6模块：
 ```javaScript
@@ -76,7 +76,7 @@ import { start, exists, readFile } from 'fs'
 
 2. export命令规定要处于模块顶层，一旦出现在块级作用域内，就会报错，import同理。
 
-### es6 的动态加载
+## es6 的动态加载
 import()函数接收与import相同的参数，返回一个Promise对象，加载获取到的值作为then方法的回调参数。
 ```javaScript
 const main = document.querySelector('main')
@@ -111,7 +111,7 @@ main();
 
 
 
-#### 什么是运行时加载呢？
+## 什么是运行时加载呢？
 例子：整体加载fs模块（即加载fs的所有方法），生成一个对象（_fs），然后再从这个对象上面读取 3 个方法。
 这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
 ```javascript
@@ -124,15 +124,15 @@ let stat = _fs.stat;
 let exists = _fs.exists;
 let readfile = _fs.readfile;
 ```
-#### 什么是编译时加载或静态加载呢？
+## 什么是编译时加载或静态加载呢？
 上面代码的实质是从fs模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比CommonJS 模块的加载方式高。当然，这也导致了没法引用 ES6 模块本身，因为它不是对象。
 ```javascript
 // ES6模块
 import { stat, exists, readFile } from 'fs';
 ```
 
-### ES6 模块与 CommonJS 模块差异
-#### 区别1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+## ES6 模块与 CommonJS 模块差异
+## 区别1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
 注意：CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值
 ```javaScript
 // lib.js 
@@ -188,8 +188,8 @@ changeNum();
 console.log(num); // 4
 ```
 
-#### 区别2. ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。
-#### 区别3. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
+## 区别2. ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。
+## 区别3. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
 <br/>
 原因：CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
 CommonJS 模块的require()是同步加载模块，ES6 模块的import命令是异步加载，有一个独立的模块依赖的解析阶段。
@@ -245,7 +245,7 @@ console.log(counter); // 4
 ```
 
 
-#### CommonJS的循环加载
+## CommonJS的循环加载
 加载原理
 CommonJS一个模块对应一个脚本文件，require 命令每次加载一个模块就会执行整个脚本，然后生成一个对象。
 
@@ -275,7 +275,7 @@ console.log('在main.js中，a.done=%j，b.done=%j',a.done,b.done); // 7.'在mai
 总结一下：1. 由于 CommonJS 模块遇到循环加载返回的是当前已经执行的部分的值，而不是代码全部执行后的值（上面的第2步注释）2. CommonJS 输入的是被输出值的缓存（复制），而非动态引用。
 
 
-#### 对比：ES6模块是动态引用，变量不会被缓存
+## 对比：ES6模块是动态引用，变量不会被缓存
 ```javaScript
 // a.js
 import {bar} from './b.js';

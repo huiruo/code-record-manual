@@ -1,4 +1,4 @@
-#### 来看看vue中data属性和computed相关的源代码。
+## 来看看vue中data属性和computed相关的源代码。
 ```js
 // src/core/instance/state.js
 // 初始化组件的state
@@ -21,7 +21,7 @@ export function initState (vm: Component) {
 }
 ```
 initState方法当组件实例化时会自动触发，该方法主要完成了初始化data,methods,props,computed,watch这些我们常用的属性，我们来看看我们需要关注的initData和initComputed（为了节省时间，去除了不太相关的代码）
-##### 先看看initData这条线:
+### 先看看initData这条线:
 ```js
 // src/core/instance/state.js
 function initData (vm: Component) {
@@ -49,7 +49,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   return ob
 }
 ```
-##### 在初始化的时候observe方法本质上是实例化了一个Observer对象，这个对象的类是这样的
+### 在初始化的时候observe方法本质上是实例化了一个Observer对象，这个对象的类是这样的
 ```js
 // src/core/observer/index.js
 export class Observer {
@@ -76,7 +76,7 @@ export class Observer {
   }
 }
 ```
-##### 在对象的构造函数中，最后调用了walk方法，该方法即遍历data中的所有属性，并调用defineReactive方法
+### 在对象的构造函数中，最后调用了walk方法，该方法即遍历data中的所有属性，并调用defineReactive方法
 ```
 defineReactive方法是vue实现 MDV(Model-Driven-View)的基础，本质上就是代理了数据的set,get方法，当数据修改或获取的时候，能够感知（当然vue还要考虑数组，Object中嵌套Object等各种情况，本文不在分析）。我们具体看看defineReactive的源代码
 ```

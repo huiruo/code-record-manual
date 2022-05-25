@@ -1,4 +1,4 @@
-##### shouldComponentUpdate
+### shouldComponentUpdate
 shouldComponentUpdate函数是重渲染时render()函数调用前被调用的函数，它接受两个参数：nextProps和nextState，分别表示下一个props和下一个state的值。并且，当函数返回false时候，阻止接下来的render()函数的调用，阻止组件重渲染，而返回true时，组件照常重渲染。
 
 ```javascript

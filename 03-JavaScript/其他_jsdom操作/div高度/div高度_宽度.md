@@ -1,4 +1,4 @@
-#### 基础
+## 基础
 ```js
 const el = document.getElementById("mContentId");
 // 获取距离顶部的距离:网页被卷去的高
@@ -82,7 +82,7 @@ alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的�
 ```
 
 
-### 判断div是否在视窗
+## 判断div是否在视窗
 公式：
 元素距离顶部高度（elOffsetTop） >= dom滚动高度（docScrollTop）
 并且元素距离顶部高度（elOffsetTop） < （dom滚动高度 + 视窗高度）

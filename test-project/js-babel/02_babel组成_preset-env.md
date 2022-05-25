@@ -1,4 +1,4 @@
-### （1）@babel/preset-env
+## （1）@babel/preset-env
 presets 主要是配置用来编译的预置，plugins 主要是配置完成编译的插件
 
 基本用法1
@@ -72,7 +72,7 @@ module.exports = { presets, plugins }
 ```
 
 
-#### @babel/preset-env 中还有一个非常重要的参数 targets
+## @babel/preset-env 中还有一个非常重要的参数 targets
 babel提供了丰富的插件来对不同时期的代码进行转换。例如我们在es6最常使用的箭头函数，当需要转化为es5版本时，就用到了arrow-functions这个插件。
 
 presets的中文翻译为预设，即为一组插件列表的集合，我们可以不必再当独地一个一个地去添加我们需要的插件。比如我们希望使用es6的所有特性，我们可以使用babel提供的ES2015这个预设。

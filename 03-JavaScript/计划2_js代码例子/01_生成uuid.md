@@ -1,4 +1,4 @@
-#### 第一种：
+## 第一种：
 ```javaScripx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0,
             v = c == 'x' t
@@ -10,7 +10,7 @@
 guid()
 ```
 
-#### 第二种
+## 第二种
 ```javaScript
 function uuid() {
     var s = [];
@@ -27,7 +27,7 @@ function uuid() {
 }
 uuid()
 ```
-#### 第三种
+## 第三种
 ```javaScript
 function uuid2(len, radix) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');

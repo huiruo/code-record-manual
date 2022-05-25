@@ -1,4 +1,4 @@
-#### 限制两种类型
+## 限制两种类型
 ```javaScript
   props: {
     classId: [Number, String],
@@ -8,7 +8,7 @@
   },
 ```
 
-#### 实战限制Object类型
+## 实战限制Object类型
 ```javaScript
   props: {
     countHistory: {
@@ -24,7 +24,7 @@
   },
 ```
 
-#### 实战，限制数组类型
+## 实战，限制数组类型
 ```javaScript
 row: {
     type: Array,
@@ -34,7 +34,7 @@ row: {
 }
 ```
 
-#### 一种类型
+## 一种类型
 ```javaScript
   props: {
     visible: {
@@ -51,7 +51,7 @@ row: {
 
 ```
 
-#### 其他参考
+## 其他参考
 ```javaScript
 props:{
       //数组

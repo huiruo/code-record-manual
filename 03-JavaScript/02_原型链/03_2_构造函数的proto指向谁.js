@@ -1,5 +1,5 @@
 /*
- * ### 2021.7.15 面试重点
+ * ## 2021.7.15 面试重点
  * 构造函数的 proto 指向什么?
  * 答：指向构造A的构造函数Function的原型对象，也就是指向Function.prototype
  *
@@ -16,7 +16,7 @@
  *  当我们访问一个对象的属性时，如果对象内部找不到该属性，就会去实例化对象的属性__proto__指向的对象里面去找这个属性，
  * __proto__里面有它自己的__proto__ 属性，然后一直找下去，直到找到为止。如果直到最顶层的Object.prototype还是找不到，则返回undefined.
  * */
-function A() {}
+function A() { }
 A.prototype.aPrototype = "test";
 
 var myA = new A();

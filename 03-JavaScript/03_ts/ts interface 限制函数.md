@@ -1,4 +1,4 @@
-#### ts
+## ts
 ```javaScript
 父组件：
 const modalSwitch = (visible: boolean) => {

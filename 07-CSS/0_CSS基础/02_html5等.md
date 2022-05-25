@@ -1,5 +1,5 @@
 
-#### HTML5 新增特性有哪些
+## HTML5 新增特性有哪些
 + Canvas、SVG -- 用于绘画的元素，canvas绘制的图片会失真而SVG绘制的不会失真。
 + video、audio -- 用于播放视频和音频的媒体。
 + Drag 、Drop -- 用于拖放的 。
@@ -11,7 +11,7 @@
 + 新的特殊内容元素 -- 如：article、footer、header、nav、section。
 + 新的表单控件 -- 如：date、time、email、url、search。
 
-#### 2.SVG与Canvas区别
+## 2.SVG与Canvas区别
 + SVG适用于描述XML中的2D图形的语言
 
 + Canvas随时随地绘制2D图形（使用javaScript）
@@ -34,7 +34,7 @@
 
    SVG可在图像质量不下降的情况下被放大
 ```
-#### 3.WebSocket
+## 3.WebSocket
 WebSocket协议为web应用程序客户端和服务端之间提供了一种全双工通信机制。
 + 握手阶段采用HTTP协议，默认端口是80和443
 

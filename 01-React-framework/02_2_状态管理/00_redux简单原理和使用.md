@@ -1,4 +1,4 @@
-#### 1.实现原理：参考上面的context和redux的联系
+## 1.实现原理：参考上面的context和redux的联系
 ```
 1.createStore接受一个reducer作为参数，以后每当store.dispatch一个新的action，就会自动调用reducer,返回新的state
 2.通过react-redux做连接，使用Provider：从最外部封装了整个应用，并向connect模块传递store。
@@ -13,14 +13,14 @@ Connect：
 1.顶层分发状态，让React组件被动地渲染。
 2.监听事件，事件有权利回到所有状态顶层影响状态。
 
-#### 2.Api
+## 2.Api
 Redux有3大核心概念：
 + Action : 动作
 + Reducer : 见辅助文件:辅_关于reducer.md
 + Store : 储存
   createStore接受一个reducer作为参数，以后每当store.dispatch一个新的action，就会自动调用reducer,返回新的state
 
-##### 2-1.Action
+### 2-1.Action
 Action表示应用中的各类动作或操作，不同的操作会改变应用相应的state状态，说白了就是一个带type属性的对象
 ```javascript
 import { Dispatch } from 'redux';
@@ -36,7 +36,7 @@ export const loginAction = (data:string) => (dispatch: Dispatch) => {
 };
 ```
 
-#### 2-2.Store
+## 2-2.Store
 ```javascript
 /* 通过redux当中的createStore方法来创建一个store，它提供3个主要的方法，
 在这里我们可以模拟一下createStore的源码
@@ -67,7 +67,7 @@ const createStore = (reducer) => {
 };
 ```
 
-#### 1. Redux 的核心是一个 store。
+## 1. Redux 的核心是一个 store。
 store:首先要创建一个对象store，这个对象有各种方法，用来让外界获取Redux的数据（store.getState），或者让外界来修改Redux中的数据（store.dispatch）
 >在 reducer 纯函数中不允许直接修改 state 对象，每次都应返回一个新的 state。原生 JavaScript 中我们要时刻记得使用 ES6 的扩展符 ... 或 
 > Object.assign() 函数创建一个新 state，但是仍然是一个浅 copy，遇到复杂的数据结构我们还需要做深拷贝返回一个新的状态，总之你要保证每次都返回一个新
@@ -139,7 +139,7 @@ const userStore = (state: IUserState = initUserState, action: IAction) => {
 export default userStore;
 ```
 
-#### 容器组件和展示组件
+## 容器组件和展示组件
 ```
 react-redux 提供的 connect 函数，可以把 React 组件和 Redux 的 store 链接起来生成一个新的容器组件(这里有个经典的设计模式 “高阶组件”)，
 数据如何获取就是容器组件需要负责的事情，在获取到数据后通过 props 属性传递到展示组件，当展示组件需要变更状态时调用容器组件提供的方法同步这些

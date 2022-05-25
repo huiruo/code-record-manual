@@ -1,4 +1,4 @@
-#### 1.hooks下怎么模拟生命周期函数，模拟的生命周期和class中的生命周期有什么区别吗？
+## 1.hooks下怎么模拟生命周期函数，模拟的生命周期和class中的生命周期有什么区别吗？
 ```javaScript
 // componentDidMount 和 componentWillUnmount
 // 通过使用 Hook，你可以把组件内相关的副作用组织在一起（例如创建订阅及取消订阅），而不要把它们拆分到不同的生命周期函数里
@@ -35,7 +35,7 @@ function Child(props) {
 }
 ```
 
-#### 2.扩展,旧版react周期
+## 2.扩展,旧版react周期
 ```
 React 16之后有三个生命周期被废弃(但并未删除)
 
@@ -79,7 +79,7 @@ componentDidUpdate:componentDidUpdate(prevProps, prevState, snapshot),该方法�
 componentWillUnmount: 会在组件卸载及销毁之前直接调用。在此方法中执行必要的清理操作，例如，清除定时器，取消网络请求或清除在componentDidMount()中创建的订阅，清理无效的DOM元素等垃圾清理工作。
 ```
 
-#### 3.扩展:react16之前的生命周期
+## 3.扩展:react16之前的生命周期
 ```
 - 初始化阶段
 

@@ -1,7 +1,7 @@
 
 
 
-### 总结
+## 总结
 ```
 Vue/React 项目能 require 图片是因为用了 webpack 的 image loader
 
@@ -17,7 +17,7 @@ vue 里面 require 图片返回的是图片最后打包发布的 url，那你在
 你可以打印一下 require.extensions 查看 node 支持的模块后缀名。任何语法的存在必须有其存在的意义，那你说 node require 图片有什么意义? 返回图片二进制 buffer? 那为啥不用 fs 模块读取?
 ```
 
-### vue项目，本质上其实是webpack项目
+## vue项目，本质上其实是webpack项目
 利用webpack的各类加载器(loader)，可以把任意资源作为模块引入
 ```
 两个require不是一个意思，一个被webpack处理成图片引入了。

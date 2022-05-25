@@ -1,8 +1,8 @@
-#### HTTP协议是无状态的和Connection: keep-alive的区别：
+## HTTP协议是无状态的和Connection: keep-alive的区别：
 从HTTP/1.1起，默认都开启了Keep-Alive，保持连接特性，简单地说，当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，如果客户端再次访问这个服务器上的网页，会继续使用这一条已经建立的连接。
 Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间。
 
-#### cookie 和 Session解决http无状态
+## cookie 和 Session解决http无状态
 ```
 cookie是web浏览器存储的少量数据，最早设计为服务器端使用，作为HTTP协议的扩展实现。cookie数据会自动在浏览器和服务器之间传输。
 通过读写cookie检测是否支持
@@ -20,7 +20,7 @@ document.cookie = 'name=aaa; path=/; domain=domain; secure';
 //不同键值对之间用'; '分隔。通过解析获得需要的值
 ```
 
-#####  Session机制:服务器端使用的一种记录客户端状态的机制
+###  Session机制:服务器端使用的一种记录客户端状态的机制
 传到前端的是SessionId 用cookie 或是Url重写存起来,下次再请求 如果session没过期 根据id可以获取到session里存储信息。
 ```
 Session对浏览器的要求:
@@ -29,7 +29,7 @@ Session对浏览器的要求:
 注意：
 新开的浏览器窗口会生成新的Session，但子窗口除外。子窗口会共用父窗口的Session。例如，在链接上右击，在弹出的快捷菜单中选择“在新窗口中打开”时，子窗口便可以访问父窗口的Session。
 ```
-#### Session 和cookie 区别:
+## Session 和cookie 区别:
 1、cookie数据存放在客户的浏览器上，session数据放在服务器上.
 ```
 登录一个网站的时候，如果web服务器端使用的是session,那么所有的数据都保存在服务器上面，客户端每次请求服务器的时候会发送 当前会话的session_id，服务器根据当前session_id判断相应的用户数据标志，以确定用户是否登录，或具有某种权限。

@@ -1,8 +1,4 @@
-
-
-# 1.createLegacyRoot 通过实例化 ReactDOMBlockingRoot 类创建 LegacyRoot
 ## 1.createLegacyRoot 通过实例化 ReactDOMBlockingRoot 类创建 LegacyRoot
-### 1.createLegacyRoot 通过实例化 ReactDOMBlockingRoot 类创建 LegacyRoot
 在 legacyCreateRootFromDOMContainer 方法中-----> ReactDOMBlockingRoot
 
 详细方法
@@ -31,7 +27,7 @@ export const BlockingRoot = 1;
 export const ConcurrentRoot = 2;
 ```
 
-### 2.createLegacyRoot 方法内调用 New ReactDOMBlockingRoot()
+## 2.createLegacyRoot 方法内调用 New ReactDOMBlockingRoot()
 createLegacyRoot方法通过 ReactDOMBlockingRoot 构造函数重新实例化：
 ```javaScript
 /*
@@ -47,7 +43,7 @@ function ReactDOMBlockingRoot(container, tag, options) {
 }
 ```
 
-### 3.ReactDOMBlockingRoot 方法内 调用 createRootImpl
+## 3.ReactDOMBlockingRoot 方法内 调用 createRootImpl
 ```javaScript
 /*
 * 该方法最终返回了处理完成后的root

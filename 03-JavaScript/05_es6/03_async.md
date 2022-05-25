@@ -36,8 +36,8 @@ sayHello().then(res => {
 ```
 
 
-#### 对异常的处理
-#### promise 对异常的处理
+## 对异常的处理
+## promise 对异常的处理
 ```javaScript
 // 1.使用reject
 let promise = new Promise((reslove, reject) => {
@@ -79,7 +79,7 @@ promise.then(res => {
 })
 ```
 
-#### async对异常的处理也可以直接用.catch()捕捉到
+## async对异常的处理也可以直接用.catch()捕捉到
 ```javaScript
 // async抛出异常
 let sayHi = async sayHi => {
@@ -93,7 +93,7 @@ sayHi().then(res => {
 })
 ```
 
-#### 与Generator的关系
+## 与Generator的关系
 ```javaScript
 /*
 虽然Generator将异步操作表示得很简洁，但是流程管理却不方便（即何时执行第一阶段、何时执行第二阶段）。

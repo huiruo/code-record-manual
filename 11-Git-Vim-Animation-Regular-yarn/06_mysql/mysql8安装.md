@@ -25,7 +25,7 @@ basedir = D:\\Program Files\\mysql\\
 basedir = D:\\Program Files\\mysql8.0.27
 datadir = D:\\Program Files\\mysql8.0.27\\data
 
-### 设置环境变量
+## 设置环境变量
 MYSQL_HOME
 D:\Program Files\mysql8.0.27
 D:\zipApp\mysql-8.0.28-winx64
@@ -34,7 +34,7 @@ path：
 %MYSQL_HOME%\bin
 
 
-### 3
+## 3
 ```
 以管理员身份运行cmd，执行以下操作：
 

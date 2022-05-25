@@ -1,9 +1,9 @@
 
-### AST语法树 结构
+## AST语法树 结构
 每个js引擎都有自己的AST语法解析器，比如chrome是v8引擎，node也是v8引擎
 AST语法树每一层都拥有相同的结构，这样的每一层结构也被叫做 节点（Node）。
 
-#### JS Parser解析器。
+## JS Parser解析器。
 能够将JavaScript源码转化为抽象语法树(AST)的工具叫做JS Parser解析器。
 JS Parser的解析过程包括两部分:
 - 1.词法分析(Lexical Analysis)：将整个代码字符串分割成最小语法单元数组
@@ -12,7 +12,7 @@ JS Parser的解析过程包括两部分:
 ```
 - 2.语法分析(Syntax Analysis)：在分词基础上建立分析语法单元之间的关系
 
-#### 词法分析(Lexical Analysis)
+## 词法分析(Lexical Analysis)
 Javascript 代码中的语法单元主要包括以下这么几种：
 - 关键字：例如 var、let、const等
 
@@ -30,7 +30,7 @@ Javascript 代码中的语法单元主要包括以下这么几种：
 
 - 其他：大括号、小括号、分号、冒号等
 
-#### 语法分析(Syntax Analysis)
+## 语法分析(Syntax Analysis)
 组合分词的结果，确定词语之间的关系，确定词语最终的表达含义，生成抽象语法树。
 以赋值语句为例，使用esprima来解析：
 ```
@@ -102,7 +102,7 @@ var a = 1;
 //节点类型种类参见：https://blog.csdn.net/weixin_30576827/article/details/94938016
 ```
 
-#### 常见的AST parser
+## 常见的AST parser
 - Espree，基于esprima，用于eslint
 - Acorn，号称是相对于esprima性能更优，体积更小
 - Babylon，出自acorn，用于babel

@@ -1,6 +1,6 @@
 但是随着项目涉及到的页面越来越多，功能和业务代码也会越来越多，相应的 webpack 的构建时间也会越来越久。
 
-###### 方式 1.js 压缩
+### 方式 1.js 压缩
 
 ```
 实际上 webpack4.0 默认是使用 terser-webpack-plugin 这个压缩插件，在此之前是使用 uglifyjs-webpack-plugin，
@@ -26,7 +26,7 @@ const commonConfig = {
 };
 ```
 
-###### 方式 2：压缩 CSS
+### 方式 2：压缩 CSS
 
 我们可以借助 optimize-css-assets-webpack-plugin 插件来压缩 css，其默认使用的压缩引擎是 cssnano。 具体使用如下：
 
@@ -51,7 +51,7 @@ const prodConfig = {
 };
 ```
 
-###### 方式 3：图片压缩
+### 方式 3：图片压缩
 
 借助 image-webpack-loader 帮助我们来实现。它是基于 imagemin 这个 Node 库来实现图片压缩的。
 只要在 file-loader 之后加入 image-webpack-loader 即可:

@@ -46,7 +46,7 @@ new ReactDOMBlockingRoot()
 创建fiberRoot()
 ```
 
-### 例
+## 例
 ```js
 import React, { version } from 'react';
 function App(props) {
@@ -79,7 +79,7 @@ react-test\node_modules\react\cjs\react.development.js
 */
 ```
 
-### 再来看下开始index.js源码
+## 再来看下开始index.js源码
 ```js
 ReactDOM.render(
   <React.StrictMode>
@@ -98,7 +98,7 @@ StrictMode 是一个用来检查项目中潜在问题的工具。与 Fragment �
 4、检测意外的副作用
 5、检测过时的 context AP
 ```
-###### 1.render
+### 1.render
 node_modules\react-dom\cjs\react-dom.development.js
 如果是源码：
 请切换到,17.0.2分支:
@@ -182,7 +182,7 @@ return legacyRenderSubtreeIntoContainer(
   callback,
 );
 ```
-###### 2.legacyRenderSubtreeIntoContainer()
+### 2.legacyRenderSubtreeIntoContainer()
 作用：初始化Container
 ```ts
 //packages\react-dom\src\client\ReactDOMLegacy.js
@@ -247,7 +247,7 @@ function legacyRenderSubtreeIntoContainer(
   return getPublicRootInstance(fiberRoot);
 }
 ```
-#### 我们可以看到，在这个函数中进行了几步处理
+## 我们可以看到，在这个函数中进行了几步处理
 ```
 1.判断组件类型，处理不同逻辑
 2.将虚拟dom处理成真实dom
@@ -264,7 +264,7 @@ function legacyRenderSubtreeIntoContainer(
 （4）updateContainer()的作用是更新container，稍后讲解
 ```
 
-###### 3.legacyCreateRootFromDOMContainer()
+### 3.legacyCreateRootFromDOMContainer()
 作用： 创建一个 ReactRooter
 清除container下面所有元素，最终调用createLegacyRoot函数
 ```ts
@@ -319,7 +319,7 @@ function legacyCreateRootFromDOMContainer(container: Container, forceHydrate: bo
 }
 ```
 
-###### 4.createLegacyRoot
+### 4.createLegacyRoot
 ```ts
 //packages\react-dom\src\client\ReactDOMRoot.js
 //参数：dom节点，配置参数：主要区分render和hydrate
@@ -421,7 +421,7 @@ ReactDOMRoot.prototype.render = ReactDOMBlockingRoot.prototype.render = function
 }
 ```
 
-###### 5.createContainer 主要调用了FiberRootNode
+### 5.createContainer 主要调用了FiberRootNode
 packages\react-reconciler\src\ReactFiberReconciler.js
 ```ts
 import {
@@ -527,7 +527,7 @@ function legacyRenderSubtreeIntoContainer(
   }
 }
 ```
-###### updateContainer
+### updateContainer
 ```ts
 //packages\react-reconciler\src\ReactFiberReconciler.js
 import {

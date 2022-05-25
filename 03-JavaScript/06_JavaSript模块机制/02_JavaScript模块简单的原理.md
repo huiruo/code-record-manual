@@ -21,7 +21,7 @@ var s = 'Michael';
 
 greet(s); // Hello, Michael!
 ```
-### CommonJS规范 与实现
+## CommonJS规范 与实现
 这种模块加载机制被称为CommonJS规范。在这个规范下，每个.js文件都是一个模块，它们内部各自使用的变量名和函数名都互不冲突
 
 要实现“模块”这个功能，并不需要语法层面的支持。Node.js也并不会增加任何JavaScript语法。实现“模块”功能的奥妙就在于JavaScript
@@ -51,7 +51,7 @@ Node.js加载了hello.js后，它可以把代码包装一下。
 })();
 ```
 
-#### 模块的输出module.exports怎么实现？
+## 模块的输出module.exports怎么实现？
 Node可以先准备一个对象module：
 hello.js
 ```javascript

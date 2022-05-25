@@ -106,7 +106,7 @@ function legacyRenderSubtreeIntoContainer(
 }
 ```
 
-### 关于 forceHydrate 参数
+## 关于 forceHydrate 参数
 legacyRenderSubtreeIntoContainer方法需要参数判断是否是服务器端渲染的原因是：
 
 如果是服务器端渲染，就要复用 container 内部的 DOM 元素，如果不是，则直接删除 container 内部的内容。
@@ -114,5 +114,5 @@ legacyRenderSubtreeIntoContainer方法需要参数判断是否是服务器端渲
 root = container._reactRootContainer = legacyCreateRootFromDOMContainer(container, forceHydrate);
 ```
 
-### 方法2： legacyCreateRootFromDOMContainer 初始化 fiberRoot
+## 方法2： legacyCreateRootFromDOMContainer 初始化 fiberRoot
 > 04_初始化fiberRoot-legacyCreateRootFromDOMContainer.md

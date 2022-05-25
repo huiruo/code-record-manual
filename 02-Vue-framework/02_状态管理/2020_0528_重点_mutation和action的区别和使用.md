@@ -1,10 +1,10 @@
-### 01.mutations 类似于事件，用于提交 Vuex 中的状态 state
+## 01.mutations 类似于事件，用于提交 Vuex 中的状态 state
 ```
 Mutation：专注于修改State，理论上是修改State的唯一途径。
 Action：业务代码、异步请求。
 ```
 
-### 02.action 和 mutations 也很类似，主要的区别在于mutations 只能是同步操作,action 可以包含异步操作，而且可以通过 action 来提交 mutations
+## 02.action 和 mutations 也很类似，主要的区别在于mutations 只能是同步操作,action 可以包含异步操作，而且可以通过 action 来提交 mutations
 ```text
 mutations 有一个固有参数 state，接收的是 Vuex 中的 state 对象
 
@@ -20,7 +20,7 @@ this.$store.dispatch('action中的函数名'，发送到action中的数据)
 this.$store.commit(“mutation函数名”，发送到mutation中的数据)
 ```
 
-### 使用：01.在action中提交mutation ：
+## 使用：01.在action中提交mutation ：
 ```javaScript
 const store = new Vuex.Store({
   state: {
@@ -56,7 +56,7 @@ const store = new Vuex.Store({
 　　}
 ```
 
-#### 异步active
+## 异步active
 ```javaScript
 async login3({ commit }, value) {
   const result = await getInfo()

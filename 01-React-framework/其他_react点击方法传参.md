@@ -1,4 +1,4 @@
-#### 方案一：之前的bind绑定this,基本废弃
+## 方案一：之前的bind绑定this,基本废弃
 ```javaScript
 import React, { Component } from "react";
  
@@ -27,7 +27,7 @@ class App extends Component {
 export default App;
 ```
 
-#### 方案二：ES6箭头函数绑定this
+## 方案二：ES6箭头函数绑定this
 ```javaScript
 import React, { Component } from "react";
  

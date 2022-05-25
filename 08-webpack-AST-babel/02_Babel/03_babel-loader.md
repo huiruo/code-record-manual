@@ -1,5 +1,5 @@
 
-### 使用webpack babel-loader来进行转换
+## 使用webpack babel-loader来进行转换
 npm install webpack-cli --save-dev
 创建webpack.config.js，编写如下配置
 // usage

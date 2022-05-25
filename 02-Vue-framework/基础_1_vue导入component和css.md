@@ -1,6 +1,6 @@
 
 
-#### 01.导入组件
+## 01.导入组件
 
 ```js
 <script>
@@ -21,7 +21,7 @@ export default {
 
 
 
-#### 02.导入css
+## 02.导入css
 
 ```js
 <style scoped>

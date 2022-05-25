@@ -1,4 +1,4 @@
-#### vue生命周期
+## vue生命周期
 ```
 1.beforeCreate(){}在执行的时候，data还有methods都没有被初始化
 
@@ -21,7 +21,7 @@
 
 8.Destoryed(){} 表示组件已经完全被销毁了 组件中所有的实例方法都是不能用了
 ```
-#### vue3
+## vue3
 ```javaScript
 // 一个组件 正常来说，会触发的几个hock函数，就是onBeforeMount、onMounted
 onBeforeMount(() => {
@@ -46,7 +46,7 @@ onUnmounted(() => {
 })
 ```
 
-##### 第一次页面加载会触发哪几个钩子?
+### 第一次页面加载会触发哪几个钩子?
 答：beforeCreate， created， beforeMount， mounted
 
 1.beforeCreate：
@@ -61,8 +61,8 @@ onUnmounted(() => {
 (如果你要操作 DOM , 那肯定 mounted 时候才能操作.)
 
 
-### keep-alive
-#### keep-alive平时在哪里使用?原理是什么?
+## keep-alive
+## keep-alive平时在哪里使用?原理是什么?
 使用keep-alive包裹动态组件时，会对组件进行缓存，避免组件重新创建
 
 使用有两个场景，一个是动态组件，一个是router-view
@@ -80,7 +80,7 @@ onUnmounted(() => {
 - exclude 使该标签不作用于所有name属性的值跟此标签 exclude的属性值一致的vue页面
 
 
-#### 注意：
+## 注意：
 - activated,deactivated这两个生命周期函数一定是要在使用了keep-alive组件后才会有的，否则则不存在。
 - exclude不是用 route的name；而是组件的name;
 
@@ -105,7 +105,7 @@ export default {
     <router-view/>
 </keep-alive>
 ```
-#### 实例：
+## 实例：
 ```
 <keep-alive include="test-keep-alive">
   <!-- 将缓存name为test-keep-alive的组件 -->
@@ -133,7 +133,7 @@ export default {
 </keep-alive>
 ```
 
-#### vue-router有几种钩子函数?执行流程如何?
+## vue-router有几种钩子函数?执行流程如何?
 钩子函数有三种：
 
 全局守卫
@@ -142,15 +142,15 @@ export default {
 
 组件守卫
 
-### Vue.use是干什么的?
+## Vue.use是干什么的?
 Vue.use是用来使用插件的。我们可以在插件中扩展全局组件、指令、原型方法等。 会调用install方法将Vue的构建函数默认传入，在插件中可以使用vue，无需依赖vue库
 
-### 组件写name有啥好处?
+## 组件写name有啥好处?
 增加name属性，会在components属性中增加组件本身，实现组件的递归调用。
 
 可以表示组件的具体名称，方便调试和查找对应的组件。
 
-### vue的修饰符有哪些?
+## vue的修饰符有哪些?
 ```
 .stop
 
@@ -172,7 +172,7 @@ Vue.use是用来使用插件的。我们可以在插件中扩展全局组件、�
 
 .alt
 ```
-### 如何理解自定义指令?
+## 如何理解自定义指令?
 在生成ast语法树时，遇到指令会给当前元素添加directives属性
 
 通过genDirectives生成指令代码

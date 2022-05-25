@@ -1,4 +1,4 @@
-#### 前言
+## 前言
 ref必须指向dom元素而不是React组件
 ```javaScript
 // 下面就是应用到React组件的错误示例：
@@ -13,7 +13,7 @@ const  A=React.forwardRef((props,ref)=>(
 ))
 ```
 
-#### 扩展
+## 扩展
 ```
 useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。
 
@@ -30,7 +30,7 @@ ref 的 current 属性上，如果为空数组，则不会重新输出。
 useImperativeHandle(ref, createHandle, [deps])
 ```
 
-#### forwardRef获取子组件的Dom
+## forwardRef获取子组件的Dom
 ```javaScript
 // 父组件：
 export function TemplateModal(props: TemplateModalProps) {
@@ -83,7 +83,7 @@ const WrappedAddForm = forwardRef(AddForm)
 export default WrappedAddForm
 ```
 
-#### 例子2：
+## 例子2：
 ```javaScript
 function App() {
     const el = useRef(null)

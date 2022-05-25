@@ -1,10 +1,10 @@
 参考自：
 https://github.com/closertb/closertb.github.io/issues/57
 
-#### 问题1： setState()函数在任何情况下都会导致组件重渲染吗？如果setState中的state没有发生改变呢？
+## 问题1： setState()函数在任何情况下都会导致组件重渲染吗？如果setState中的state没有发生改变呢？
 没有导致state的值发生变化的this.setState()是否会导致重渲染----->会
 
-#### 问题2： 如果state和从父组件传过来的props都没变化，那他就一定不会发生重渲染吗？
+## 问题2： 如果state和从父组件传过来的props都没变化，那他就一定不会发生重渲染吗？
 当React重新渲染时ParentComponent，它将自动重新渲染ChildComponent。要解决的唯一途径是实现shouldComponentUpdate
 ```javaScript
 shouldComponentUpdate(nextProps,nextState){
@@ -14,8 +14,8 @@ shouldComponentUpdate(nextProps,nextState){
 }
 ```
 
-#### 问题1 说说你对 React的理解
-#### 问题2 react hooks用过么，知道其原理么；
+## 问题1 说说你对 React的理解
+## 问题2 react hooks用过么，知道其原理么；
 第一个问题：
 
 如果你提到了Fiber reconciler，fiber，链表，新的什么周期，可能在面试官眼里这仅仅是一个及格的回答。以下是我整理的，自我感觉还良好的回答：
@@ -51,13 +51,13 @@ componentWillMount、componentWillReceiveProps 和 componetWillUpdate，但react
 
 以上就是我上半年面试自己不断总结迭代出的答案，希望能对你有所启发。
 
-#### 2.第二个问题:hooks本质是什么？
+## 2.第二个问题:hooks本质是什么？
 数据驱动视图，简单来讲就是下面这个公式：
 ```
 view = fn(state)
 ```
 我们开发的整个应用，都是很多组件组合而成，这些组件是纯粹，不具备扩展的。因为React不能像普通类一样直接继承，从而达到功能扩展的目的
-##### 2-1.hooks出现前的逻辑复用
+### 2-1.hooks出现前的逻辑复用
 在用react实现业务时，我们复用一些组件逻辑去扩展另一个组件，最常见比如Connect，Form.create, Modal。这类组件通常是一个容器，容器内部封装了一些通用的功能（非视觉的占多数），容器里面的内容由被包装的组件自己定制，从而达到一定程度的逻辑复用。
 
 在hooks 出现之前，解决这类需求最常用的就两种模式：HOC高阶组件和 Render Props。
@@ -80,7 +80,7 @@ class Home extends React.Component {
 <Route path = "/home" render= {(props) => <Home {...props} } />
 ```
 
-##### 2-3.已存方案的问题 
+### 2-3.已存方案的问题 
 - 嵌套地狱
 上面提到的高阶组件和RenderProps, 看似解决了逻辑复用的问题，但面对复杂需求时，即一个组件需要使用多个复用逻辑包裹时，
 两种方案都会让我们的代码陷入常见的嵌套地狱, 比如：
@@ -104,7 +104,7 @@ Hooks 出现前的函数式组件只是以模板函数存在，而前面两种�
 所以React团队回归view = fn(state)的初心，希望函数式组件也能拥有状态管理的能力，让逻辑复用变得更简单，更纯粹。
 ```
 
-##### 2-4.hooks
+### 2-4.hooks
 为什么在React 16前，函数式组件不能拥有状态管理？其本质是因为16以前只有类组件在更新时存在实例，而16以后Fiber 架构的出现，
 让每一个节点都拥有对应的实例，也就拥有了保存状态的能力
 

@@ -16,7 +16,7 @@ React中workingProgress Fiber树存在的意义是什么
 3. current Firber 树有一个 alternate 属性指向 workInProgress Firber 树，workInProgress Firber 树内也 有一个alternate 属性指向current Firber 树
 ```
 
-### Fiber Tree 和 WorkInProgress Tree
+## Fiber Tree 和 WorkInProgress Tree
 ```
 React 在 render 第一次渲染时，会通过 React.createElement 创建一颗 Element 树，可以称之为 Virtual DOM Tree，由于要记录上下文信息，加入了 Fiber，每一个 Element 会对应一个 Fiber Node，将 Fiber Node 链接起来的结构成为 Fiber Tree。它反映了用于渲染 UI 的应用程序的状态。这棵树通常被称为 current 树（当前树，记录当前页面的状态）。
 
@@ -38,7 +38,7 @@ Fiber Tree 一个重要的特点是链表结构，将递归遍历编程循环遍
 ```
 
 
-###### https://www.kancloud.cn/freya001/interview/1480740
+### https://www.kancloud.cn/freya001/interview/1480740
 fiber的作用
 ```
 进程是操作系统分配资源的最小单元，线程是操作系统调度的最小单元，在计算机科学中还有一个概念叫做Fiber，英文含义就是“纤维”，意指比Thread更细的线，也就是比线程(Thread)控制得更精密的并发处理机制。

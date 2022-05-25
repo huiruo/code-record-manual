@@ -1,4 +1,4 @@
-#### 实战：不使用flex-wrap，永远只有4个
+## 实战：不使用flex-wrap，永远只有4个
 
 ```html
       <div class="sendType">
@@ -140,7 +140,7 @@
 >
 > 
 
-#### 四、代码：
+## 四、代码：
 
 - `index.html`:
 

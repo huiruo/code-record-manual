@@ -1,4 +1,4 @@
-### **01.解决问题**
+## **01.解决问题**
 
 - Vue中引入了计算属性来处理模板中放入太多的逻辑会让模板过重且难以维护的问题，这样不但解决了上面的问题，而且也同时让模板和业务逻辑更好的分离。
 - 简单来说，假如data里面有属性a=1，然后你需要一个变量跟着a变化，例如b=a+1，那么就需要用到计算属性，Vue实例的computed属性中，设置b为其属性，其表现为一个函数，返回值是b的值。
@@ -50,9 +50,9 @@ console.log(vm.reversedMessage) // => 'eybdooG'
 
 
 
-### 02.
+## 02.
 
-### [计算属性缓存 vs 方法](https://cn.vuejs.org/v2/guide/computed.html#计算属性缓存-vs-方法)
+## [计算属性缓存 vs 方法](https://cn.vuejs.org/v2/guide/computed.html#计算属性缓存-vs-方法)
 
 你可能已经注意到我们可以通过在表达式中调用方法来达到同样的效果：
 
@@ -82,9 +82,9 @@ computed: {
 
 我们为什么需要缓存？假设我们有一个性能开销比较大的计算属性 **A**，它需要遍历一个巨大的数组并做大量的计算。然后我们可能有其他的计算属性依赖于 **A** 。如果没有缓存，我们将不可避免的多次执行 **A** 的 getter！如果你不希望有缓存，请用方法来替代。
 
-### 03.
+## 03.
 
-### [计算属性 vs 侦听属性](https://cn.vuejs.org/v2/guide/computed.html#计算属性-vs-侦听属性)
+## [计算属性 vs 侦听属性](https://cn.vuejs.org/v2/guide/computed.html#计算属性-vs-侦听属性)
 
 Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：**侦听属性**。当你有一些数据需要随着其它数据变动而变动时，你很容易滥用 `watch`——特别是如果你之前使用过 AngularJS。然而，通常更好的做法是使用计算属性而不是命令式的 `watch` 回调。细想一下这个例子：
 
@@ -127,7 +127,7 @@ var vm = new Vue({
 
 
 
-### [计算属性的 setter](https://cn.vuejs.org/v2/guide/computed.html#计算属性的-setter)
+## [计算属性的 setter](https://cn.vuejs.org/v2/guide/computed.html#计算属性的-setter)
 
 计算属性默认只有 getter ，不过在需要时你也可以提供一个 setter ：
 
@@ -154,7 +154,7 @@ computed: {
 
 
 
-### 04.示例
+## 04.示例
 
 ```js
 var vm = new Vue({

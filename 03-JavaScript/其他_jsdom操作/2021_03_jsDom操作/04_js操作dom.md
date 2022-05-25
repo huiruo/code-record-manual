@@ -7,7 +7,7 @@
 2.getElementsByTagName   标签名  返回所有符合条件的元素的集合
 3.getElementsByName       name 返回所有符合条件的元素的集合
 4.getElementsByClassName  class  返回所有符合条件的元素的集合
-##### 例子：
+### 例子：
 ```html
 <body>
     <p id='Jan' class='test'>1</p>
@@ -20,7 +20,7 @@
 </script>
 ```
 
-####  child属性
+##  child属性
 每个dom元素都是一个对象，在dom元素对象中有四个专门用于获取子元素的属性：
 属性名 作用  其他
 childNodes  获取所有子节点     不推荐使用，如果有空格，会作为文本节点获取到
@@ -29,7 +29,7 @@ firstChild  获取首个子节点     推荐使用
 lastChild   获取最后一个子节点  推荐使用
 
 
-#### querySelector方法，强烈推荐！
+## querySelector方法，强烈推荐！
 querySelector的参数是css选择器，任何选择器都可以作为它的参数，这样就使得它非常方便灵活：
 
 比如获取class=‘test’的标签下的第一个子元素，可以这样写querySelector('.test  > * ')，也可以指定子元素的类型querySelector('.test  > span ')，或者是：classquerySelector('.test  > #f_div')

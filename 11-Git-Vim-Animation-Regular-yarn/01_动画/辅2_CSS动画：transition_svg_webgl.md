@@ -1,4 +1,4 @@
-### 一.1.transition(过渡)基本介绍
+## 一.1.transition(过渡)基本介绍
 ```text
 CSS中最简单的动画叫做 transition(转变)。通常，当一个元素的样式属性值发生变化时，
 我们会立即看到页面元素发生变化，也就是页面元素从旧的属性值立即变成新的属性值的效果。Transition(转变)
@@ -78,7 +78,7 @@ div:hover
 </body>
 </html>
 ```
-### 一.2.transform(转化)
+## 一.2.transform(转化)
 定义和用法：transform 属性向元素应用 2D 或 3D 转换。该属性允许我们对元素进行旋转、缩放、移动或倾斜
 文档：https://www.w3school.com.cn/css3/css3_2dtransform.asp
 ```html
@@ -143,7 +143,7 @@ div
 * matrix() 方法把所有 2D 转换方法组合在一起。
 matrix() 方法需要六个参数，包含数学函数，允许您：旋转、缩放、移动以及倾斜元素。
 
-### 一. 3.animation(动画)
+## 一. 3.animation(动画)
 为页面设置动画时，往往会用到transition还有animation以及transfrom属性或者用到js。
 其实通常情况下，对于使用js我们更加倾向于使用css来设置动画。
 >极端条件下，animation占用的资源相应的比transition多，所以如果能用transition实现，就尽量用transition来实现，如果追求复杂更自由的动画，就可以用animation。
@@ -187,19 +187,19 @@ div
 * 3、transition关注的是样式属性的变化，属性值和时间的关系是一个三次贝塞尔曲线；而animation作用于元素本身而不是样式属性，可以使用关键帧的概念，可以实现更自由的动画效果；
 * 4、在性能方面：浏览器有一个主线程和排版线程；主线程一般是对 js 运行的、页面布局、生成位图等等，然后把生成好的位图传递给排版线程，而排版线程会通过 GPU 将位图绘制到页面上，也会向主线程请求位图等等；我们在用使用 aniamtion 的时候这样就可以改变很多属性，像我们改变了 width、height、postion 等等这些改变文档流的属性的时候就会引起，页面的回流和重绘，对性能影响就比较大，但是我们用 transition 的时候一般会结合 tansfrom 来进行旋转和缩放等不会生成新的位图，当然也就不会引起页面的重排了。
 
-### 二.svg
+## 二.svg
 ```
 1.一种使用XML描述的2D图形的语言
 2.SVG基于XML意味着，SVG DOM中的每个元素都是可用的，可以为某个元素附加Javascript事件处理器。
 3.在 SVG 中，每个被绘制的图形均被视为对象。如果 SVG 对象的属性发生变化，那么浏览器能够自动重现图形。
 ```
-### 三.Canvas
+## 三.Canvas
 ```
 1.通过Javascript来绘制2D图形。
 2.是逐像素进行渲染的。
 3.其位置发生改变，会重新进行绘制。
 ```
-##### <font color=darkblue size=4>svg和Canvas的区别</font>
+### <font color=darkblue size=4>svg和Canvas的区别</font>
 ```
 Canvas
 1.依赖分辨率
@@ -217,18 +217,18 @@ svg
 5.不适合游戏应用
 ```
 
-### 四.webGL
+## 四.webGL
 ```
 WebGL是一种3D绘图标准，这种绘图技术标准允许把JavaScript和OpenGL ES 2.0结合在一起，通过增加OpenGL ES 2.0的一个JavaScript绑定，WebGL可以为HTML5 Canvas提供硬件3D加速渲染，这样Web开发人员就可以借助系统显卡来在浏览器里更流畅地展示3D场景和模型了，还能创建复杂的导航和数据视觉化。显然，WebGL技术标准免去了开发网页专用渲染插件的麻烦，可被用于创建具有复杂3D结构的网站页面，甚至可以用来设计3D网页游戏等等。
 ```
-##### <font color=darkblue size=4>WebGL和three.js</font>
+### <font color=darkblue size=4>WebGL和three.js</font>
 ```text
 通过webgl可以直接使用显卡的计算资源，创建高性能的二维和三维计算机图形，然后在JavaScript里直接使用webGL编程，创建三维场景并生成动画，这个过程非常复杂，而且容易出错。three.js库可以简化这个过程。
 three.js是以webgl为基础的库，封装了一些3D渲染需求中重要的工具方法与渲染循环。
 ```
 
 
-### window.requestAnimationFrame()
+## window.requestAnimationFrame()
 >告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行
 
 HTML5/CSS3时代，我们要在web里做动画选择其实已经很多了:

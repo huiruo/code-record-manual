@@ -1,6 +1,6 @@
-### 手动操作DOM带来的性能忧患
+## 手动操作DOM带来的性能忧患
 在使用原生的js api或者jquery等一些方法直接去操作dom的时候，可能会引起页面的reflow，而页面的回流所带来的代价是非常昂贵的。频繁的去操作dom，会引起页面的卡顿，影响用户的体验。
-###### 虚拟dom
+### 虚拟dom
 虚拟DOM就是为了解决频繁操作DOM的性能问题创造出来的。
 例如：
 如果使用原生api去操作一个会导致回流的DOM操作10次，那么浏览器会每次都会重新走一次上面的全流程，包括一些没变化的位置计算。
@@ -32,7 +32,7 @@ let virtualDomTree = CreateElement('div', { id: 'container' }, [
 let root = virtualDomTree.render();   //转换为一个真正的dom结构或者dom fragment
 document.getElementById('virtualDom').appendChild(root);
 ```
-###### diff算法
+### diff算法
 只考虑相同等级diff，可以分为下面4中情况：
 
 1.第一种。如果节点类型变了，比如下面的p标签变成了h3标签，则直接卸载旧节点装载新节点，这个过程称为REPLACE。
@@ -57,15 +57,15 @@ renderB: <ul class: 'marginLeft10'>
 
 
 
-### DOM对象的一些常用方法
+## DOM对象的一些常用方法
 
-###### document对象属性
+### document对象属性
 document.doctype;//可以知道文档声明，如果没有return null;这里是<!DOCTYPE html>
 document.doctype.name//知道文档声明的名字.
 document.head//很明显选取head节点.就是<head></head>这段
 document.body//选取body节点.
 
-###### location
+### location
 ```js
 document.location.href //获取当前地址
 document.location.assign(http://www.baidu.com)//分配一个地址
@@ -75,7 +75,7 @@ document.location="http://www.baidu.com"
 或者
 document.location.href="http://www.baidu.com"
 ```
-###### innerText innerHTML
+### innerText innerHTML
 innerHTML
 获取元素的内容：element.innerHTML;
 
@@ -105,7 +105,7 @@ innerTEXT
 获取元素的内容：element.innerText;
 给元素设置内容：element.innerText = string;
 
-###### Element的几个必要重要的属性
+### Element的几个必要重要的属性
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -167,7 +167,7 @@ Element的创建和添加元素
 ```
 
 
-### appendChild()和append() 和innerHTML
+## appendChild()和append() 和innerHTML
 + append()
 可以同时传入多个节点或字符串，没有返回值；
 据说 append 还是试用期的方法，有兼容问题，（但我用了暂时火狐，谷歌，iE都能使用）。
@@ -185,4 +185,4 @@ Element的创建和添加元素
 + 但执行速度的比较上，使用 appendChild 比 innerHTML 要快，特别是内容包括 html 标记时，appendChild 明显要快于  innerHTML，这可能是因为 innerHTML 在铺到页面之前还要对内容进行解析才能铺到页面上，当包含 html 标记过多时， innerHTML速度会明显变慢。
 ```
 
-### 创建元素的方式
+## 创建元素的方式

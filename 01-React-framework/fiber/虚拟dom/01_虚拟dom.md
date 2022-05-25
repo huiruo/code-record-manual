@@ -1,4 +1,4 @@
-#### 前言
+## 前言
 如果你对上面几个问题还存在疑问，说明你对React的虚拟DOM以及Diff算法实现原理还有所欠缺
 ```
 1.为何必须引用React
@@ -12,12 +12,12 @@
 5.如何写出高性能的React组件
 ```
 
-##### React 中 key 的重要性是什么？
+### React 中 key 的重要性是什么？
 key 用于识别唯一的 Virtual DOM 元素及其驱动 UI 的相应数据。它们通过回收 DOM 中当前所有的元素来帮助 React 优化渲染。这些 key 必须是唯一的数字或字符串，React 只是重新排序元素而不是重新渲染它们。这可以提高应用程序的性能。
 
 
-#### 虚拟DOM原理、特性总结
-###### React组件的渲染流程
+## 虚拟DOM原理、特性总结
+### React组件的渲染流程
 ```
 + 使用React.createElement或JSX编写React组件，实际上所有的JSX代码最后都会转换成React.createElement(...)，Babel帮助我们完成了这个转换的过程。
 
@@ -25,7 +25,7 @@ key 用于识别唯一的 Virtual DOM 元素及其驱动 UI 的相应数据。�
 
 + ReactDOM.render将生成好的虚拟DOM渲染到指定容器上，其中采用了批处理、事务等机制并且对特定浏览器进行了性能优化，最终转换为真实DOM。
 ```
-###### 虚拟DOM的组成 即ReactElementelement对象，我们的组件最终会被渲染成下面的结构：
+### 虚拟DOM的组成 即ReactElementelement对象，我们的组件最终会被渲染成下面的结构：
 ```
 + type：元素的类型，可以是原生html类型（字符串），或者自定义组件（函数或class）
 + key：组件的唯一标识，用于Diff算法，下面会详细介绍
@@ -36,13 +36,13 @@ key 用于识别唯一的 Virtual DOM 元素及其驱动 UI 的相应数据。�
 + _source：（非生产环境）指定调试代码来自的文件(fileName)和代码行数(lineNumber)
 ```
 
-###### 防止XSS
+### 防止XSS
 ```
 ReactElement对象还有一个?typeof属性，它是一个Symbol类型的变量Symbol.for('react.element')，当环境不支持Symbol时，?typeof被赋值为0xeac7。
 
 这个变量可以防止XSS。如果你的服务器有一个漏洞，允许用户存储任意JSON对象， 而客户端代码需要一个字符串，这可能为你的应用程序带来风险。JSON中不能存储Symbol类型的变量，而React渲染时会把没有?typeof标识的组件过滤掉
 ```
-###### 针对性的性能优化
+### 针对性的性能优化
 ```
 在IE（8-11）和Edge浏览器中，一个一个插入无子孙的节点，效率要远高于插入一整个序列化完整的节点树。
 
@@ -51,14 +51,14 @@ React通过lazyTree，在IE（8-11）和Edge中进行单个节点依次渲染节
 并且，在单独渲染节点时，React还考虑了fragment等特殊节点，这些节点则不会一个一个插入渲染。
 ```
 
-##### 2.为何使用虚拟DOM
+### 2.为何使用虚拟DOM
 + 1.提高开发效率
 + 2.跨浏览器兼容
 React基于VitrualDom自己实现了一套自己的事件机制，自己模拟了事件冒泡和捕获的过程，采用了事件代理，批量更新等方法，抹平了各个浏览器的事件兼容性问题。
 + 3.跨平台兼容:VitrualDom为React带来了跨平台渲染的能力
 只需要告诉React你想让视图处于什么状态，React则通过VitrualDom确保DOM与该状态相匹配。你不必自己去完成属性操作、事件处理、DOM更新，React会替你完成这一切。
 
-##### 2-1.为何使用虚拟原因4-重点：开发效率，更新效率
+### 2-1.为何使用虚拟原因4-重点：开发效率，更新效率
 原因4：关于提升性能:如果是首次渲染，VitrualDom不具有任何优势，甚至它要进行更多的计算，消耗更多的内存。
 ```
 直接操作DOM是非常耗费性能的，这一点毋庸置疑。但是React使用VitrualDom也是无法避免操作DOM的。
@@ -71,7 +71,7 @@ VitrualDom的优势在于React的Diff算法和批处理策略，React在页面�
 所以，我更倾向于说，VitrualDom帮助我们提高了开发效率，在重复渲染时它帮助我们计算如何更高效的更新，而不是它比DOM操作更快。
 ```
 
-#### 3.react 中的虚拟dom
+## 3.react 中的虚拟dom
 ```
 原生的JavaScript程序中，我们直接对DOM进行创建和更改，而DOM元素通过我们监听的事件和我们的应用程序进行通讯
 
@@ -85,7 +85,7 @@ React中，渲染机制就是React会调用render()函数构建一棵Dom树，
 真实的DOM上，由于这样做就减少了对Dom的频繁操作，从而提升的性能。 
 ```
 
-#### 4.JSX和createElement
+## 4.JSX和createElement
 所有的JSX代码最后都会转换成React.createElement(...)，Babel帮助我们完成了这个转换的过程。
 ```javaScript
 // 第一种是使用JSX:JSX只是为 React.createElement(component, props, ...children)方法提供的语法糖。
@@ -144,7 +144,7 @@ ReactElement.createElement=function (type,config,children) {
 ```
 createElement函数内部做的操作很简单，将props和子元素进行处理后返回一个ReactElement对象，下面我们来逐一分析：
 
-##### 分析1:(1).处理props
+### 分析1:(1).处理props
 ```javaScript
 /*
 1.将特殊属性ref、key从config中取出并赋值
@@ -170,7 +170,7 @@ if(config!=null){
 ```
 
 
-##### 分析2：(2)获取子元素
+### 分析2：(2)获取子元素
 ```javaScript
 /*
 1.获取子元素的个数 —— 第二个参数后面的所有参数
@@ -188,7 +188,7 @@ if(childrenLength===1){
 	props.children = childArr
 }
 ```
-##### 分析(3)处理默认props
+### 分析(3)处理默认props
 将组件的静态属性defaultProps定义的默认props进行赋值
 ```javaScript
 if (type&&type.defaultProps) {
@@ -201,7 +201,7 @@ if (type&&type.defaultProps) {
 }
 ```
 
-##### 返回：ReactElement: ReactElement将传入的几个属性进行组合，并返回。
+### 返回：ReactElement: ReactElement将传入的几个属性进行组合，并返回。
 ```
 type：元素的类型，可以是原生html类型（字符串），或者自定义组件（函数或class）
 key：组件的唯一标识，用于Diff算法，下面会详细介绍
@@ -230,14 +230,14 @@ _source指定调试代码来自的文件(fileName)和代码行数(lineNumber)。
 ```
 
 
-#### 5.虚拟DOM转换为真实DOM
+## 5.虚拟DOM转换为真实DOM
 整个流程可分为4部分:
 过程1：初始参数处理
 过程2：批处理、事务调用
 过程3：生成html
 过程4：渲染html
 
-###### 1.初始参数处理
+### 1.初始参数处理
 在编写好我们的React组件后，我们需要调用ReactDOM.render(element, container[, callback])将组件进行渲染。
 render函数内部实际调用了_renderSubtreeIntoContainer，我们来看看它的具体实现：
 ```js
@@ -264,7 +264,7 @@ render函数内部实际调用了_renderSubtreeIntoContainer，我们来看看�
 具体是如何渲染我们在过程3中进行分析。	
 
 
-#### 2.批处理、事务调用
+## 2.批处理、事务调用
 在_renderNewRootComponent中使用ReactUpdates.batchedUpdates调用batchedMountComponentIntoNode进行批处理。
 ```javaScript
 ReactUpdates.batchedUpdates(batchedMountComponentIntoNode, componentInstance, container, shouldReuseMarkup, context);
@@ -275,7 +275,7 @@ transaction.perform(mountComponentIntoNode, null, componentInstance, container, 
 ```
 关于批处理事务，在我前面的分析setState执行机制中有更多介绍。https://juejin.im/post/6844903781813993486
 
-###### 3.生成html:在mountComponentIntoNode函数中调用ReactReconciler.mountComponent生成原生DOM节点。
+### 3.生成html:在mountComponentIntoNode函数中调用ReactReconciler.mountComponent生成原生DOM节点。
 mountComponent内部实际上是调用了过程1生成的四种对象的mountComponent方法。首先来看一下ReactDOMComponent:
 ```
 1.对特殊DOM标签、props进行处理。
@@ -310,7 +310,7 @@ var enableLazy = typeof document !== 'undefined' &&
 总结：
 在performInitialMount函数中，首先调用了componentWillMount生命周期，由于自定义的React组件并不是一个真实的DOM，所以在函数中又调用了孩子节点的mountComponent。这也是一个递归的过程，当所有孩子节点渲染完成后，返回markup并调用componentDidMount。
 
-###### 4.渲染html
+### 4.渲染html
 ```
 在mountComponentIntoNode函数中调用将上一步生成的markup插入container容器。
 在首次渲染时，_mountImageIntoNode会清空container的子节点后调用DOMLazyTree.insertTreeBefore：
@@ -362,7 +362,7 @@ function insertTreeChildren(tree){
 + 渲染文本节点
 */
 ```
-###### 原生DOM事件代理
+### 原生DOM事件代理
 有关虚拟DOM的事件机制，我曾专门写过一篇文章，有兴趣可以👇【React深入】React事件机制: https://juejin.im/post/6844903790198571021
 
 `React`的所有事件都通过 `document`进行统一分发。当真实 `Dom`触发事件后冒泡到 `document`后才会对 `React`事件进行处理。

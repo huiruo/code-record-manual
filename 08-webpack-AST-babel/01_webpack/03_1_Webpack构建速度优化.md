@@ -1,6 +1,6 @@
 参考：https://cloud.tencent.com/developer/article/1405259?from=15425
 
-#### webpack 构建速度优化
+## webpack 构建速度优化
 
 1. webpack 在启动时会从配置的 Entry 出发，解析出文件中的导入语句，再递归解析。
 2. 对于导入语句 Webpack 会做出以下操作：  
@@ -14,7 +14,7 @@
 4. Happypack 多线程打包，通过多线程并行处理，加快编译速度。
 5. Webpack 5 , 多级“缓存”提高运行效率。
 
-#### 方式 1 优化 Loader 配置
+## 方式 1 优化 Loader 配置
 
 方式 1-1.减少查找过程
 对 webpack 的 resolve 参数进行合理配置，使用 resolve 字段告诉 webpack 怎么去搜索文件。
@@ -74,7 +74,7 @@ module:{
   },
 ```
 
-#### 方式 2 优化 resolve.modules 配置
+## 方式 2 优化 resolve.modules 配置
 
 Resolve：Webpack 在启动后会从配置的入口模块出发找出所有依赖的模块,这个属性告诉 webpack 解析模块时应该搜索的目录，绝对路径和相对路径都能使用。使用绝对路径之后，将只在给定目录中搜索，从而减少模块的搜索层级
 
@@ -119,7 +119,7 @@ const commonConfig = {
 // ...
 ```
 
-#### 方式 3 优化 resolve.extensions 配置:合理使用 resolve.extensions
+## 方式 3 优化 resolve.extensions 配置:合理使用 resolve.extensions
 
 在导入没带文件后缀的路径时，webpack 会自动带上后缀去尝试询问文件是否存在，而 resolve.extensions 用于配置尝试后缀列表；
 默认为 extensions:['js','json'];
@@ -134,7 +134,7 @@ const commonConfig = {
 
 因为项目中用的 jsx 较多，所以配置 extensions: [".jsx",".js"],
 
-#### 方式 4 使用 DllPlugin 优化
+## 方式 4 使用 DllPlugin 优化
 
 - 在使用 webpack 进行打包时候，对于依赖的第三方库，如 react，react-dom 等这些不会修改的依赖，可以让它和业务代码分开打包；
 
@@ -215,7 +215,7 @@ plugins: [
 html中引入dll.js文件
 ```
 
-#### 方式 5.HappyPack 并行构建优化
+## 方式 5.HappyPack 并行构建优化
 
 核心原理：将 webpack 中最耗时的 loader 文件转换操作任务，分解到多个进程中并行处理，从而减少构建时间。
 
@@ -270,7 +270,7 @@ module: {
 }
 ```
 
-#### 方式 6 代码压缩用 ParallelUglifyPlugin 代替自带的 UglifyJsPlugin 插件
+## 方式 6 代码压缩用 ParallelUglifyPlugin 代替自带的 UglifyJsPlugin 插件
 
 自带的 JS 压缩插件是单线程执行的，而 webpack-parallel-uglify-plugin 可以并行的执行
 配置参数：

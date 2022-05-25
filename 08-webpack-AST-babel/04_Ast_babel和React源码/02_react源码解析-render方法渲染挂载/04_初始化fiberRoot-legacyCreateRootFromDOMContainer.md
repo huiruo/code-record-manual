@@ -1,5 +1,5 @@
 
-### 方法2： legacyCreateRootFromDOMContainer 初始化 fiberRoot
+## 方法2： legacyCreateRootFromDOMContainer 初始化 fiberRoot
 调用：
 ```javaScript
 root = container._reactRootContainer = legacyCreateRootFromDOMContainer(container, forceHydrate);
@@ -56,5 +56,5 @@ function legacyCreateRootFromDOMContainer(
 }
 ```
 
-### 调用 createLegacyRoot(container,shouleHydrate)
+## 调用 createLegacyRoot(container,shouleHydrate)
 > 05_创建LegacyRoot节点-createLegacyRoot方法.md

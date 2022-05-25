@@ -11,13 +11,13 @@ const str1 = 'table football, foosball';
 let array1;
 
 while ((array1 = regex1.exec(str1)) !== null) {
-    console.log(`Found ${array1[0]}. Next starts at ${regex1.lastIndex}.`);
-    // expected output: "Found foo. Next starts at 9."
-    // expected output: "Found foo. Next starts at 19."
+  console.log(`Found ${array1[0]}. Next starts at ${regex1.lastIndex}.`);
+  // expected output: "Found foo. Next starts at 9."
+  // expected output: "Found foo. Next starts at 19."
 }
 
 
-/* #### test() 方法和 exec() 方法比较
+/* ## test() 方法和 exec() 方法比较
 * 两个方法都用于查看查看某个模式（正则表达式）是否存在于一个字符串中，test() 方法执行速度
 比 exec() 方法更快， 但exec() 方法返回信息更多；
 

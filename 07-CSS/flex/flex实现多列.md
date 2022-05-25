@@ -1,5 +1,5 @@
 
-##### flex-flow 属性:flex-flow 属性是 flex-direction 和 flex-wrap 属性的复合属性。
+### flex-flow 属性:flex-flow 属性是 flex-direction 和 flex-wrap 属性的复合属性。
 ```
 flex-direction 属性规定灵活项目的方向。
 flex-wrap 属性规定灵活项目是否拆行或拆列。
@@ -30,7 +30,7 @@ inherit
 规定灵活项目是否拆行或拆列。
 ```
 
-##### flex-wrap:
+### flex-wrap:
 CSS 语法:
 flex-wrap: nowrap|wrap|wrap-reverse|initial|inherit;
 值 描述

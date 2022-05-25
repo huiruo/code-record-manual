@@ -1,4 +1,4 @@
-##### 常用配置
+### 常用配置
 
 webpack 是一个打包模块化 javaScript 的工具，它会从 main.js 出发，识别出源码中的模块化导入语句，递归地
 找出出入口文件的所有依赖，将入口和其所有依赖打包到一个单独的文件中。
@@ -13,7 +13,7 @@ webpack 是一个打包模块化 javaScript 的工具，它会从 main.js 出发
 
 ```
 
-#### 2.loaders 告诉 webpack 在遇到哪些文件时使用 哪些 Loader 去加载和转换。
+## 2.loaders 告诉 webpack 在遇到哪些文件时使用 哪些 Loader 去加载和转换。
 
 模块里面肯定有不同的 rules(规则) 它里面有 2 个必选属性:
 
@@ -66,7 +66,7 @@ module.exports = {
 };
 ```
 
-#### 3.Entry
+## 3.Entry
 
 类型:
 
@@ -84,7 +84,7 @@ entry: {
 },
 ```
 
-#### 4.output
+## 4.output
 
 ```javaScript
 output: {

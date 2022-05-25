@@ -1,5 +1,5 @@
 
-#### 父组件
+## 父组件
 ```javaScript
 import React, { useEffect, useRef } from 'react'
 import Zoom from './zoom'
@@ -36,7 +36,7 @@ const App = ((props) => {
 export default App;
 ```
 
-#### 子组件
+## 子组件
 ```javaScript
 import React, { useRef, useImperativeHandle,forwardRef } from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";

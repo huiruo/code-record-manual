@@ -1,5 +1,5 @@
 /*
-#### JS中filter()方法的使用
+## JS中filter()方法的使用
 Array.filter(function(currentValue, indedx, arr), thisValue)
 callback:
 用来测试数组的每个元素的函数。返回 true 表示该元素通过测试，保留该元素，false 则不保留。它接受以下三个参数：

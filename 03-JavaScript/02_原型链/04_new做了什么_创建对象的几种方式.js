@@ -1,4 +1,4 @@
-function Test() {}
+function Test() { }
 const objTest = new Test();
 /*
 1.创建一个空对象，然后设置新对象的constructor属性为构造函数的名称，设置新对象的**proto**属性指向构造函数的prototype对象。
@@ -22,14 +22,14 @@ Test.call(objTest)
 * */
 
 /*
- * #### 1.创建对象方式2：字面量,效率比较高
+ * ## 1.创建对象方式2：字面量,效率比较高
  * {}是字面量，可以立即求值，而new Object()本质上是方法（只不过这个方法是内置的）调用，既然是方法调用，就涉及到在
  * proto链中遍历该方法，当找到该方法后，又会生产方法调用必须的堆栈信息，方法调用结束后，还要释放该堆栈
  * */
 
 console.log("分割线======》");
 /*
-* #### 2.Object.create()
+* ## 2.Object.create()
 Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的proto
 
 具体三个步骤就是：

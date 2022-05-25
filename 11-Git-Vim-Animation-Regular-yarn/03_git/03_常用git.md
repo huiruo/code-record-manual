@@ -1,4 +1,4 @@
-#### 手动merge
+## 手动merge
 1、当master代码改动了，需要更新开发分支（dev）上的代码
 ```git
 git checkout master 
@@ -17,12 +17,12 @@ git merge dev
 git push -u origin master
 ```
 
-#### 切换到某一个commit,常调试用
+## 切换到某一个commit,常调试用
 ```
 git checkout c5d383d74bbe42af7
 ```
 
-#### 基于某个分支new 分支等操作
+## 基于某个分支new 分支等操作
 ```
 git checkout -b feat-xx
 
@@ -35,7 +35,7 @@ git push --delete origin feat-xx
 git branch -D feat-xx
 ```
 
-#### log
+## log
 ```
 1.简洁显示日志记录,按向下键来查看更多，按 Q 键退出查看日志
 
@@ -59,7 +59,7 @@ HEAD^的意思是上一个版本，也可以写成HEAD~1
 git log
 ```
 
-#### git reset 参数
+## git reset 参数
 ```
 --mixed
 意思是：不删除工作空间改动代码，撤销commit，并且撤销git add . 操作
@@ -71,7 +71,7 @@ git log
 注意完成这个操作后，就恢复到了上一次的commit状态。
 ```
 
-#### 撤销push 文件
+## 撤销push 文件
 ```
 第一步:
 git log --pretty=oneline

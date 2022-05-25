@@ -1,5 +1,5 @@
-### vue3与vue2响应式的区别
-##### 1.vue2响应式
+## vue3与vue2响应式的区别
+### 1.vue2响应式
 ```text
 1.数据在data中注册，编译时直接将data中的所有数据绑定监听
 2.利用Object.defineProperty()监听数据的get和set
@@ -17,7 +17,7 @@
 ```
 Proxy 和 Reflect是ES6新增的两个类，Proxy相比Object.defineProperty更加好用，解决了后者不能监听数组改变的缺点，并且还支持劫持整个对象,并返回一个新对象,不管是操作便利程度还是底层功能上都远强于Object.defineProperty，Reflect的作用是可以拿到Object内部的方法，并且在操作对象出错时返回false不会报错。
 
-### 路由方面
+## 路由方面
 1.需要安装 router4
 2.
 ```js
@@ -76,7 +76,7 @@ export default router
 ```
 
 
-### 
+## 
 ```js
 
 createApp(App).use(router).mount('#app')
@@ -105,7 +105,7 @@ new Vue({
 ```
 
 
-### template 不同
+## template 不同
 不同在于数据获取Vue3中的反应数据（Reactive Data）是包含在一个反应状态（Reactive State）变量中。— 所以我们需要访问这个反应状态来获取数据值。
 ```js
 <template>
@@ -133,7 +133,7 @@ new Vue({
 </template>
 ```
 
-### 建立数据 data
+## 建立数据 data
 使用以下三步来建立反应性数据:
 
 1.从vue引入reactive
@@ -157,7 +157,7 @@ export default {
 }
 这里构造的反应性数据就可以被template使用，可以通过state.username和state.password获得数据的值。
 ```
-### Vue2 对比 Vue3的 methods 编写
+## Vue2 对比 Vue3的 methods 编写
 Vue3 的合成型API里面的setup()方法也是可以用来操控methods的。创建声名方法其实和声名数据状态是一样的。— 我们需要先声名一个方法然后在setup()方法中返回(return)， 这样我们的组件内就可以调用这个方法了。
 ```js
 export default {
@@ -181,7 +181,7 @@ export default {
 }
 ```
 
-### 生命周期钩子 — Lifecyle Hooks
+## 生命周期钩子 — Lifecyle Hooks
 在 Vue2，我们可以直接在组件属性中调用Vue的生命周期的钩子。
 ```js
 export default {
@@ -225,7 +225,7 @@ export default {
 }
 ```
 
-### 计算属性 - Computed
+## 计算属性 - Computed
 在 Vue2 中实现，我们只需要在组件内的选项属性中添加即可
 ```js
 export default {
@@ -257,7 +257,7 @@ export default {
 }
 ```
 
-### 接收 Props
+## 接收 Props
 接收组件props参数传递这一块为我们带来了Vue2和Vue3之间最大的区别。—this在vue3中与vue2代表着完全不一样的东西。
 
 在 Vue2，this代表的是当前组件，不是某一个特定的属性。所以我们可以直接使用this访问prop属性值。就比如下面的例子在挂载完成后打印处当前传入组件的参数title。
@@ -282,7 +282,7 @@ setup (props) {
 }
 ```
 
-### 事件 - Emitting Events
+## 事件 - Emitting Events
 在 Vue2 中自定义事件是非常直接的，但是在 Vue3 的话，我们会有更多的控制的自由度。
 举例，现在我们想在点击提交按钮时触发一个login的事件。
 在 Vue2 中我们会调用到this.$emit然后传入事件名和参数对象。
@@ -311,7 +311,7 @@ setup (props, { emit }) {
 }
 ```
 
-### 总结
+## 总结
 只是有一些属性获取方式和声名和定义方式稍微变了
 全新的合成式API（Composition API）可以提升代码的解耦程度 —— 特别是大型的前端应用，效果会更加明显。还有就是按需引用的有了更细微的可控性，让项目的性能和打包大小有更好的控制。
 vue2 代码

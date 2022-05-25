@@ -47,7 +47,7 @@ React.createElement(
   "Right Reserve."
 );
 ```
-### createElement 函数的作用是生成 ReactElement，一个 ReactElement 是一个对象，它主要包含：
+## createElement 函数的作用是生成 ReactElement，一个 ReactElement 是一个对象，它主要包含：
 ```js
 // $$typeof 属性可以唯一标识一个ReactElement元素
 const ReactElement = function (type, key, ref, self, source, owner, props) {

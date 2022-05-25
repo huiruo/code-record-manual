@@ -15,7 +15,7 @@ const memoizedCallback = useCallback(
 
 //把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新。当你把回调函数传递给经过优化的并使用引用相等性去避免非必要渲染（例如 shouldComponentUpdate）的子组件时，它将非常有用。
 ```
-#### useCallback 源码
+## useCallback 源码
 ReactFiberHooks.new.js
 ```js
 // 装载阶段
@@ -56,7 +56,7 @@ function updateCallback<T>(callback: T, deps: Array<mixed> | void | null): T {
 大家都知道，普通 function 可以变量提升，从而可以互相调用而不用在意编写顺序。如果换成 useCallback 实现呢，在 eslint 禁用 var 的时代，先声明的 useCallback 是无法直接调用后声明的函数，更别说递归调用了。
 ```
 
-#### useCallback的使用场景：
+## useCallback的使用场景：
 有一个父组件，其中包含子组件，子组件接收一个函数作为 props ；通常而言，如果父组件更新了，子组件也会执行更新；但是大多数场景下，更新是没有必要的，我们可以借助 useCallback 来返回函数，然后把这个函数作为 props 传递给子组件；这样，子组件就能避免不必要的更新。
 ```js
 //使用useCallback之后，仅当 count 发生变化时Child组件才会重新渲染，而val变化时，Child 组件是不会重新渲染的
@@ -82,7 +82,7 @@ const Child = React.memo(function ({ getNum }: any) {
 })
 ```
 
-#### useCallback的使用场景2：
+## useCallback的使用场景2：
 从性能优化的角度看看 useCallback
 
 当 DemoComponent 组件自身或跟随父组件触发 render 时，handleClick 函数会被重新创建。 每次 render 时 ChildComponent 参数中会接受一个新的 onClick 参数，这会直接击穿 React.memo，导致性能优化失效，并联动一起 render。
@@ -147,7 +147,7 @@ function DemoComponent() {
 }
 ```
 
-#### 死循环例子
+## 死循环例子
 ```js
 先来分析下这段代码的用意，Child组件是一个纯展示型组件，其业务逻辑都是通过外部传进来的，这种场景在实际开发中很常见。
 
@@ -186,7 +186,7 @@ function Child({val, getData}) {
 ```
 
 
-#### useCallback 需要配合memo 使用
+## useCallback 需要配合memo 使用
 如果不用useCallback, 任何一个输入框的变化都会导致另一个输入框重新渲染。
 ```javaScript
 import React, { useState, useCallback } from "react";

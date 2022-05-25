@@ -1,4 +1,4 @@
-#### 注意 如果子div 用 position: relative 实现不了效果
+## 注意 如果子div 用 position: relative 实现不了效果
 ```css
 .templaet-type{
 	position: absolute;

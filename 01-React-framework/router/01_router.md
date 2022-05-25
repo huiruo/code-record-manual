@@ -1,4 +1,4 @@
-#### BrowserRouter 和 HashRouter
+## BrowserRouter 和 HashRouter
 BrowserRouter：h5路由(history API)
 HashRouter：哈希路由的区别：早期实现页面哈希，使用的是锚点技术
 
@@ -8,7 +8,7 @@ BrowserRouter 和 HashRouter 都可以实现前端路由的功能，区别是前
 　　后者：http://127.0.0.1:3000/#/article/num1（不一定是这样，但#是少不了的）
 ```
 
-### 2.router和context组件级的数据共享
+## 2.router和context组件级的数据共享
 ```
 如果组件的功能不能单靠组件自身来完成，还需要依赖额外的子组件，那么可以利用`Context`构建一个由多个子组件组合的组件。例如，react-router。
 

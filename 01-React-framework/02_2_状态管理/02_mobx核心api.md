@@ -2,7 +2,7 @@
 # 核心API
 理解了observable、 computed、 reactions 和 actions的话，说明对于 Mobx 已经足够精通了
 
-### observable(value)
+## observable(value)
 用法:
 + observable(value)
 + @observable classProperty = valu

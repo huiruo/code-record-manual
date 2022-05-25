@@ -1,5 +1,5 @@
 
-### promise简介
+## promise简介
 ```
 Promise的构造函数接收一个参数，是函数，并且传入两个参数：resolve，reject，分别表示异步操作执行成功后的回调函数和
 异步操作执行失败后的回调函数。其实这里用“成功”和“失败”来描述并不准确，按照标准来讲，resolve是将Promise的状态置为
@@ -12,7 +12,7 @@ var promise = new Promise(function(resolve, reject) {
 ```
 
 
-### 01.回调实现
+## 01.回调实现
 在JavaScript的世界中，所有代码都是单线程执行的。
 由于这个“缺陷”，导致JavaScript的所有网络操作，浏览器事件，都必须是异步执行。异步执行可以用回调函数实现：
 ```
@@ -24,7 +24,7 @@ setTimeout(callback, 1000); // 1秒钟后调用callback函数
 console.log('after setTimeout()');
 ```
 
-### 02.ajax
+## 02.ajax
 AJAX就是典型的异步操作。以上一节的代码为例：
 ```
 request.onreadystatechange = function () {
@@ -44,7 +44,7 @@ ajax.ifSuccess(success)
 ```
 
 
-### 03.我们先看一个最简单的Promise例子：生成一个0-2之间的随机数，如果小于1，则等待一段时间后返回成功，否则返回失败：
+## 03.我们先看一个最简单的Promise例子：生成一个0-2之间的随机数，如果小于1，则等待一段时间后返回成功，否则返回失败：
 ```
 function test(resolve, reject) {
     var timeOut = Math.random() * 2;
@@ -68,7 +68,7 @@ function test(resolve, reject) {
 */
 ```
 
-### 04.promise 使用：
+## 04.promise 使用：
 ```
 有了执行函数，我们就可以用一个Promise对象来执行它，并在将来某个时刻获得成功或失败的结果：
 var p1 = new Promise(test);
@@ -90,7 +90,7 @@ p2.catch(function (reason) {
 })
 ```
 
-##### 04-1.简化
+### 04-1.简化
 Promise对象可以串联起来，所以上述代码可以简化为：
 ```
 new Promise(test).then(function (result) {

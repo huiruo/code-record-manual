@@ -1,6 +1,6 @@
-#### 箭头函数表达式的语法比函数表达式更简洁，并且没有自己的 this，arguments，super 或 new.target 等，也不能用作构造函数。
+## 箭头函数表达式的语法比函数表达式更简洁，并且没有自己的 this，arguments，super 或 new.target 等，也不能用作构造函数。
 
-#### 1.普通函数中的 this：this 对象是在运行时基于函数的执行环境绑定的
+## 1.普通函数中的 this：this 对象是在运行时基于函数的执行环境绑定的
 
 - 浏览器环境下 this 的值指向 window 对象
 - 在事件中，this 指向触发这个事件的对象
@@ -31,7 +31,7 @@ function Normal() {
 var normal = new Normal();
 ```
 
-#### 2.箭头函数中的 this
+## 2.箭头函数中的 this
 
 没有自己的 this，内部 this 值以为与外部非箭头函数的 this。
 
@@ -57,6 +57,6 @@ setTimeout(construct.normalLog, 1000); // 1s后 => 'undefined'
 setTimeout(construct.normalLog.bind(construct), 1000); // 1s后 => 'arrow'
 ```
 
-#### 3.为什么箭头函数不能用作构造函数？
+## 3.为什么箭头函数不能用作构造函数？
 
 箭头函数本身是存在原型链的，它也有自己的构造函数，但原型链到箭头函数这一环就断了，因为它没有 prototype 属性，没办法连接它的实例的原型链，所以箭头函数就无法作为构造函数。

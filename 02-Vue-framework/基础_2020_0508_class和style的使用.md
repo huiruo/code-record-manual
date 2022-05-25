@@ -1,4 +1,4 @@
-### 直观
+## 直观
 ```js
         <div class="pic-container" :class="{ noMoments :profilePic.length===0}">
         </div>
@@ -37,7 +37,7 @@ data() {
 ```
 
 
-### :style的使用
+## :style的使用
 ```js
 <p :style="{fontFamily:arr.conFontFamily,color:arr.conFontColor,backgroundColor:arr.conBgColor}">{{con.title}}</p>
 ```

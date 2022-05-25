@@ -1,4 +1,4 @@
-#### 前言
+## 前言
 ```
 对于维护过多个package的同学来说，都会遇到一个选择：
 
@@ -11,14 +11,14 @@ issue难以统一追踪，管理，因为其分散在独立的repo里；
 每一个package都包含独立的node_modules，而且大部分都包含babel,webpack等开发时依赖，安装耗时冗余并且占用过多空间。
 ```
 
-#### Monorepo vs Multirepo
+## Monorepo vs Multirepo
 ```
 Monorepo 的全称是 monolithic repository，即单体式仓库
 
 Multirepo (multiple repository)，这里的“单”和“多”是指每个仓库中所管理的模块数量。
 ```
 
-#### a.
+## a.
 ```
 Multirepo 是比较传统的做法，即每一个模块都单独用一个仓库来进行管理，典型案例有 webpack，优缺点总结如下
 
@@ -33,7 +33,7 @@ changlog 无法关联，无法很好的自动关联各个 module 与 core repo �
 测试复杂，对多个相关联 module 测试繁琐
 ```
 
-#### b.
+## b.
 ```
 Monorep 是把所有相关的 module 都放在一个仓库里进行管理，每个 module 独立发布，典型案例有 babel，优缺点总结如下：
 

@@ -3,13 +3,13 @@ Node的异步语法⽐浏览器复杂，因为它可以跟内核对话，不得�
 
 这个库负责各种回调函数的执⾏时间，毕竟异步任务最后还是要回到主线程，⼀个个排队执⾏，这就是事件循环。
 
-#### 定时器
+## 定时器
 ```
 为了协调异步任务，Node 提供了四个定时器，让任务可以在指定的时间运⾏：setTimeout、setInterval、setImmediate、process.nextTick。前两个是语⾔的标准，后两个是 Node 独有的。它们的写法差不多，作⽤也差不多，不太容易区别。
 ```
 
 见实例文件test1
-#### 本轮循环和次轮循环
+## 本轮循环和次轮循环
 异步任务可以分成两种：
 追加在本轮循环的异步任务、
 追加在次轮循环的异步任务。
@@ -20,11 +20,11 @@ Node 规定，process.nextTick 和 Promise 的回调函数，追加在本轮循�
 
 ⽽ setTimeout、setInterval、setImmediate 的回调函数，追加在次轮循环。这就是说，上段代码的第三⾏ 和第四⾏，⼀定 ⽐第⼀⾏和第⼆⾏更早执⾏
 
-#### process.nextTick()
+## process.nextTick()
 process.nextTick 这个名字有点误导，它是在本轮循环执⾏的，⽽且是所有异步任务⾥⾯最快执⾏的。Node 执⾏完所有同步任务，接下 来就会执⾏ process.nextTick 的任务队列。
 所以，下⾯这⾏代码是第⼆个输出结果。基本上，如果你希望异步任务尽可能快地执⾏，那就使⽤ process.nextTick。
 
-#### 、微任务
+## 、微任务
 根据语⾔规定，Promise 对象的回调函数，会进⼊异步任务⾥⾯的”微任务”（microtask）队列。微任务队列追加在 process.nextTick 队列的后⾯，也属于本轮循环。所以，下⾯的代码总是先输出 3，再输出 4。
 
 ⾄此，本轮循环的执⾏顺序就讲完了：同步任务 => process.nextTick() => 微任务
@@ -47,7 +47,7 @@ Promise.resolve().then(() => console.log(4));
 */
 ```
 
-#### 事件循环执⾏顺序
+## 事件循环执⾏顺序
 Node 只有⼀个主线程，事件循环是在主线程上完成的。开始执⾏脚本时，会先进⾏事件循环的初始化，但是这时事件循环还没有开始，会先完成下⾯的事情： 
 
 同步任务、发出异步请求、规划定时器⽣效的时间、执⾏process.nextTick()等等。最后，上⾯这些事情都⼲完了，事件循环就正式开始了。事件循环会⽆限次地执⾏，⼀轮⼜⼀轮。
@@ -72,7 +72,7 @@ Node 只有⼀个主线程，事件循环是在主线程上完成的。开始执
 （6）close callbacks：该阶段执⾏关闭请求的回调函数，⽐如 socket.on('close', …)。
 ```
 
-#### 事件循环⽰例
+## 事件循环⽰例
 ```javaScript
 const fs = require('fs');
 const timeoutScheduled = Date.now();
@@ -102,7 +102,7 @@ while (Date.now() - startCallback < 200) {
 */
 ```
 
-#### setTimeout 和 setImmediate
+## setTimeout 和 setImmediate
 由于 setTimeout 在 timers 阶段执⾏，⽽ setImmediate 在 check 阶段执⾏。所以，setTimeout 会早于 setImmediate 完成。
 ```javaScript
 setTimeout(() => console.log(1));

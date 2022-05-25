@@ -31,7 +31,7 @@ https://1304091558.vod2.myqcloud.com/8f14ee4evodtranscq1304091558/eedcd4c8528589
 12.手写迷你react
 https://1304091558.vod2.myqcloud.com/8f14ee4evodtranscq1304091558/c66ecb225285890817013716042/video_10_2.m3u8?sign=0c478dc023d9743b77691c24d59b43d1&t=7fffffff
 ```
-### react架构
+## react架构
 https://xiaochen1024.com/article_item/600ac6afecf02e002e6db56b
 ```js
 //生成新的状态，

@@ -1,13 +1,13 @@
 
 
-### 介绍
+## 介绍
 ```
 useContext就是上下文
  
 全局变量就是全局的上下文，全局都可以访问到它； 
 ```
  
-#### 1.useContext使用的方法
+## 1.useContext使用的方法
  
 1.要先创建createContex
  
@@ -31,7 +31,7 @@ const C = createContext(null);
 const {n,setN} = useContext(C)；
 ```
 
-#### 2.案例：在孙子组件中使用爷爷组件中定义的变量n,并且进行+1操作
+## 2.案例：在孙子组件中使用爷爷组件中定义的变量n,并且进行+1操作
 ```js
 import React, { createContext, useContext, useReducer, useState } from 'react'
 import ReactDOM from 'react-dom'

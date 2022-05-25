@@ -17,7 +17,7 @@ const vm = new Mvue({
 </script>
 ```
 
-### 数据绑定
+## 数据绑定
 在正式开始之前我们先来说说数据绑定的事情，数据绑定我的理解就是让数据M（model）展示到 视图V（view）上。我们常见的架构模式有 MVC、MVP、MVVM模式，
 目前前端框架基本上都是采用 MVVM 模式实现双向绑定，Vue 自然也不例外。但是各个框架实现双向绑定的方法略有所不同，目前大概有三种实现方式。
 
@@ -27,7 +27,7 @@ const vm = new Mvue({
 
 而 Vue 则采用的是数据劫持与发布订阅相结合的方式实现双向绑定，数据劫持主要通过
 Object.defineProperty来实现。
-### 分析
+## 分析
 我们知道 MVVM 模式在于数据与视图的保持同步，意思是说数据改变时会自动更新视图，视图发生变化时会更新数据。
 
 所以我们需要做的就是如何检测到数据的变化然后通知我们去更新视图，如何检测到视图的变化然后去更新数据。检测视图这个比较简单，无非就是我们利用事件的监听即可。
@@ -37,7 +37,7 @@ Object.defineProperty来实现。
 ![](https://blog-1257601889.cos.ap-shanghai.myqcloud.com/vue/vue-mvvm-jianting.png)
 
 
-### 实现
+## 实现
 数据流：
 this.state = Vue 的底层使用了依赖追踪，页面更新渲染已经是最优的了，但是 React 还是需要用户手动去优化这方面的问题。
 
@@ -85,7 +85,7 @@ getter/setter，在数据变动时发布消息给订阅者，触发相应监听�
 
 
 
-### 监听器 Observer
+## 监听器 Observer
 
 监听器的作用就是去监听数据的每一个属性，我们上面也说了使用 ```Object.defineProperty``` 方法，当我们监听到属性发生变化之后我们需要通知 Watcher 订阅者执行更新函数去更新视图，在这个过程中我们可能会有很多个订阅者 Watcher 所以我们要创建一个容器 Dep 去做一个统一的管理。
 
@@ -144,7 +144,7 @@ modeng.age = 20;
 ```
 我们可以看到浏览器控制台打印出 “属性变化通知 Watcher 执行更新视图函数” 说明我们实现的监听器没毛病，既然监听器有了，我们就可以通知属性变化了，那肯定是需要 Watcher 的时候了。
 
-### 订阅者 Watcher
+## 订阅者 Watcher
 
 Watcher 主要是接受属性变化的通知，然后去执行更新函数去更新视图，所以我们做的主要是有两步：
 1. 把 Watcher 添加到 Dep 容器中，这里我们用到了 监听器的 get 函数
@@ -209,7 +209,7 @@ const vm = new Mvue({
 
 到这一步我们我们基本上已经实现了一个简单的双向绑定，但是不难发现我们这里的属性都是写死的，也没有指令模板的解析，所以下一步我们来实现一个模板解析器。
 
-### Compile 解析器
+## Compile 解析器
 
 Compile 的主要作用一个是用来解析指令初始化模板，一个是用来添加添加订阅者，绑定更新函数。
 
@@ -282,7 +282,7 @@ Compile.prototype = {
 
 现在我们实现了 Observer、Watcher、Compile，接下来就是把三者给组织起来，成为一个完整的 MVVM。
 
-### 创建 Mvue
+## 创建 Mvue
 
 这里我们创建一个 Mvue 的类（构造函数）用来承载 Observer、Watcher、Compile 三者。
 
@@ -323,7 +323,7 @@ Mvue.prototype.init = function () {
 
 ![](https://blog-1257601889.cos.ap-shanghai.myqcloud.com/vue/vue-mvvm-shili-set.gif)
 
-### 数据代理
+## 数据代理
 
 我们来改造下 Mvue 添加数据代理功能，我们也是利用 ```Object.defineProperty``` 方法进行一步中间的转换操作，间接的去访问。
 

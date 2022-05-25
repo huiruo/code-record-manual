@@ -1,4 +1,4 @@
-### Vue中transition过渡动画的原理:
+## Vue中transition过渡动画的原理:
 
 文档：https://cn.vuejs.org/v2/guide/transitions.html
 
@@ -71,7 +71,7 @@
 (II) 执行完第一帧，fade-enter被移除，opacity也就改变，恢复为原始的1. 而监控 opacity 的 fade-enter-active 监听到这个变化，即会在 2s 内完成 opacity 从0到 1 的渐进变化，从而实现过渡动画的效果。
 至于leave，同理。
 
-### 过渡的类名
+## 过渡的类名
 在进入/离开的过渡中，会有 6 个 class 切换。
 
 * v-enter：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
@@ -89,7 +89,7 @@
 1. <font color="darkblue" size="4"> CSS 过渡-transition</font> </br>
 2. <font color="darkblue" size="4">css 动画-animation：CSS 动画用法同 CSS 过渡，区别是在动画中 v-enter 类名在节点插入 DOM 后不会立即删除，而是在 animationend 事件触发时删除。</font> 
 
-### JavaScript 钩子:可以在 attribute 中声明 JavaScript 钩子
+## JavaScript 钩子:可以在 attribute 中声明 JavaScript 钩子
 这些钩子函数可以结合 CSS transitions/animations 使用，也可以单独使用。
 ```html
 <transition

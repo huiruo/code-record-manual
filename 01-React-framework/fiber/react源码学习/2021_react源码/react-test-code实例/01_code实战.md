@@ -1,5 +1,5 @@
 
-### 入口
+## 入口
 第一步：
 ```js
 //node_modules\react-dom\cjs\react-dom.development.js

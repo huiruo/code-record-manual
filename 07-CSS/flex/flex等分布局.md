@@ -43,7 +43,7 @@ flex: 8;  // === flex: 8 1 0%;
 ## 1.flex-basis
 basis英文意思是<主要成分>，所以他和width放在一起时,肯定把width干掉，basis遇到width时就会说我才是最主要的成分，你是次要成分，所以见到我的时候你要靠边站
 
-#### 1-1.flex-basis 和width 如果同时设置， 以flex-basis为准
+## 1-1.flex-basis 和width 如果同时设置， 以flex-basis为准
 ```css
 item {
 	width: 30px;

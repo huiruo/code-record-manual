@@ -1,4 +1,4 @@
-#### 1.componentWillReceiveProps
+## 1.componentWillReceiveProps
 componentWillReceiveProps 这个一般是根据 props 决定要不要做什么事情，
 比如可以在这里面调用 setState 触发渲染
 
@@ -14,7 +14,7 @@ componentWillReceiveProps(nextProps) {
 }
 ```
 
-#### 1.实战:刷礼物
+## 1.实战:刷礼物
 ```javaScript
 componentWillReceiveProps(nextProps) {
   const { msgForGift, gbCacheStore } = nextProps;
@@ -31,7 +31,7 @@ componentWillReceiveProps(nextProps) {
 
 
 
-#### componentWillReceiveProps(nextProps)与shouldComponentUpdate(nextProps, nextState)
+## componentWillReceiveProps(nextProps)与shouldComponentUpdate(nextProps, nextState)
 
 - 在同一个更新周期内两个nextProps是同一个东西，内容完全一样，都是当次更新周期内父组件传过来的props；那么，shouldComponentUpdate(nextProps, nextState)比componentWillReceiveProps(nextProps)多出来的nextState哪里来的呢？
 

@@ -1,6 +1,6 @@
 /*
-#### ES6新增
-#### findIndex() 方法为数组中的每个元素都调用一次函数执行：
+## ES6新增
+## findIndex() 方法为数组中的每个元素都调用一次函数执行：
 ```
 当数组中的元素在测试条件时返回 true 时,
 findIndex() 返回符合条件的元素的索引位置，之后的值不会再调用执行函数。
@@ -10,7 +10,7 @@ findIndex() 返回符合条件的元素的索引位置，之后的值不会再�
 * */
 
 /*
-#### findIndex 和 indexOf 对比
+## findIndex 和 indexOf 对比
 1、findIndex()和indexOf方法实现都是通过循环遍历查找。
 
 2、findIndex()的应用场景要比indexOf广泛一些，可以查找大于等于小于，表达式可以随便写，

@@ -1,6 +1,6 @@
 
 /*
-* #### 为了遍历一个对象的所有属性时忽略掉继承属性，使用 hasOwnProperty()来过滤该对象上的继承属性。
+* ## 为了遍历一个对象的所有属性时忽略掉继承属性，使用 hasOwnProperty()来过滤该对象上的继承属性。
 * for...in的本意是用来遍历对象的属性，这就会导致遍历时上升到原型链的层次，不仅会遍历自身的属性，还会遍历继承获得的属性，然而有时这是不需要的。
 * 总结2.Object.defineProperty把 数据属性之一的enumerable修改成true 才被for in 遍历
 *
@@ -10,17 +10,17 @@
 const object1 = {
     property1: 42,
 };
-Object.defineProperty(object1, "age", {value:"18", enumerable:false});// 增加不可枚举的属性age
-Object.defineProperty(object1, "age2", {value:"18", enumerable:true});// 增加不可枚举的属性age2
-Object.defineProperty(Object, "prototype2", {value:"18", enumerable:false});// 增加不可枚举的属性age
-Object.defineProperty(Object, "prototype3", {value:"18", enumerable:true});// 增加不可枚举的属性age
+Object.defineProperty(object1, "age", { value: "18", enumerable: false });// 增加不可枚举的属性age
+Object.defineProperty(object1, "age2", { value: "18", enumerable: true });// 增加不可枚举的属性age2
+Object.defineProperty(Object, "prototype2", { value: "18", enumerable: false });// 增加不可枚举的属性age
+Object.defineProperty(Object, "prototype3", { value: "18", enumerable: true });// 增加不可枚举的属性age
 Object.prototype.protoPer_4 = 2;
 
 
 for (let i in object1) {
     if (object1.hasOwnProperty(i)) {
         console.log("OwnProperty:", i);
-    }else {
+    } else {
         console.log("in:", i);
     }
 }
@@ -35,7 +35,7 @@ console.log("in-分割线======>");
 console.log("in-分割线======>");
 
 /*
- * #### 1-3.扩展：
+ * ## 1-3.扩展：
  * Object.keys()：返回一个数组，数组值为对象自有的属性，不会包括继承原型的属性,
  * 不包括继承自原型的属性和不可枚举的属性
  * for in :遍历对象可枚举属性，包括自身属性，以及继承自原型的属性

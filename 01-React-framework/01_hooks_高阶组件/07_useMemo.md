@@ -1,4 +1,4 @@
-#### useMemo
+## useMemo
 返回对象：
 使用 useMemo 对对象属性包一层。
 ```
@@ -19,7 +19,7 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 //把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。
 ```
 
-#### useMemo 实例：
+## useMemo 实例：
 ```js
 //使用 useMemo 后，并将 count 作为依赖值传递进去，此时仅当 count 变化时才会重新执行 getNum 。
 function Example() {

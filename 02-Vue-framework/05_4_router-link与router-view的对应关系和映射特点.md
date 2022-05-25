@@ -7,7 +7,7 @@ router-link对应的router-view规律为：
 
 二者区别：
 
-#### 1 router-link
+## 1 router-link
 ```
 <router-link :to="{ path: '/hello', component: HelloWorld }">hello</router-link>
 <router-link :to="{ path: '/user/useradd' }">user</router-link>
@@ -24,7 +24,7 @@ router-link对应的router-view规律为：
   ]
 }
 ```
-#### 2.router-view
+## 2.router-view
 <router-view> 是用来渲染通过路由映射过来的组件，当路径更改时，<router-view> 中的内容也会发生更改
 ```html
 <router-link :to="{ path: '/hello', component: HelloWorld }">hello</router-link>

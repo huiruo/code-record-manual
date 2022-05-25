@@ -68,7 +68,7 @@ yarn add react-router-dom
 yarn add @types/react-router-dom
 ```
 
-#### 2).生产环境
+## 2).生产环境
 ```
 yarn add 包名          // 局部安装
 这将安装您的dependencies中的一个或多个包。
@@ -81,13 +81,13 @@ npm install webpack --save-dev # npm
 
 ```
 
-#### yarn 清除缓存
+## yarn 清除缓存
 ```
 yarn cache clean
 ```
 
 
-#### 遇到依赖问题
+## 遇到依赖问题
 Command: node-pre-gyp install --fallback-to-build
 ```
 npm install -g node-gyp

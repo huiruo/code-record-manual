@@ -1,24 +1,24 @@
 
-#### 开始
+## 开始
 ```
 终端进入：
 wsl -u root
 ```
 
-#### 在 wsl 中打开
+## 在 wsl 中打开
 ```
 在vs 打开项目：
 code .
 ```
 
-#### 创建
+## 创建
 ```
 cd /home/ruo
 
 mkdir user_ws
 ```
 
-#### git 
+## git 
 ```
 git config --global user.name "huiruo"
 git config --global user.email 2196411859@qq.com
@@ -33,7 +33,7 @@ test:
 ssh -T git@github.com
 ```
 
-#### node
+## node
 ```
 参考：https://developer.aliyun.com/article/760687
 
@@ -47,7 +47,7 @@ sudo apt-get remove nodejs
 sudo apt autoremove
 ```
 
-#### yarn
+## yarn
 ```
 npm install -g yarn --force
 ```

@@ -23,7 +23,7 @@ for (something) {
 }
 ```
 
-#### fiber
+## fiber
 每一个组件都会有一个fiber对象，在fiber中我们主要关注memoizedState这个对象，它就是调用完useState后对应的存储state的对象
 调用useState后设置在memoizedState上的对象长这样：（又叫Hook对象）
 ```

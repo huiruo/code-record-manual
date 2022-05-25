@@ -1,4 +1,4 @@
-#### 数组的 reduce 和 map 区别
+## 数组的 reduce 和 map 区别
 reducer，可以将其翻译为缩减器或者折叠器,这个名词其实是函数式编程当中的一个术语，在更多的情况下，reduce操作被称为Fold折叠
 ```
 map的本意是映射，是转换，reduce是状态的累计
@@ -11,7 +11,7 @@ reduce属于一种高阶函数，它将其中的回调函数reducer递归应用�
 纯函数规则是没有副作用。改变一个对象是一个副作用,所以reducer不能改变参数的值。
 ```
 
-#### 2.为什么 称为 reducer？
+## 2.为什么 称为 reducer？
 ```
 之所以将这样的函数称之为reducer，是因为这种函数与被传入 Array.prototype.reduce(reducer, ?initialValue)
 的回调函数属于相同的类型。

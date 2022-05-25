@@ -29,7 +29,7 @@ require：输出是值的拷贝，模块就是对象，输入时必须查找对�
 import：输出是值的引用，ES6 模块不是对象，而是通过 export 命令显式指定输出的代码，再通过 import 命令输入（这也导致了没法引用 ES6 模块本身，因为它不是对象）
 ```
 
-### Node.js模块里exports与module.exports的区别?
+## Node.js模块里exports与module.exports的区别?
 require能看到的只有module.exports这个对象，它是看不到exports对象的
 而我们在编写模块时用到的exports对象实际上只是对module.exports的引用
 
@@ -68,7 +68,7 @@ module.exports = function(x){
 }
 ```
 
-### require/exports 和 import/export 的不同
+## require/exports 和 import/export 的不同
 ```
 require/exports 和 import/export 形式不一样require/exports 的用法只有以下三种简单的写法：
 ```js

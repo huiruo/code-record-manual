@@ -1,4 +1,4 @@
-#### 相同点和区别
+## 相同点和区别
 useMemo和useCallback都会在组件第一次渲染的时候执行，之后会在其依赖的变量发生改变时再次执行；
 
 并且这两个hooks都返回缓存的值，useMemo返回缓存的变量，useCallback返回缓存的函数。
@@ -12,7 +12,7 @@ useMemo和useCallback都会在组件第一次渲染的时候执行，之后会�
 	React.useMemo 将调用 fn 函数并返回其结果，而 React.useCallback 将返回 fn 函数而不调用它。
 ```
 
-#### 新版react中，usecallback和usememo是不是值得大量使用？
+## 新版react中，usecallback和usememo是不是值得大量使用？
 我的意见是看 rerender 次数，是不是高频渲染简单组件，是的话一定加上，对于其他场景：
 
 高频复杂组件：说明你设计的有问题，应该解耦一些逻辑，变成简单组件

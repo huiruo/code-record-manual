@@ -144,7 +144,7 @@ getNumber()
 
 
 
-#### 06.catch的用法
+## 06.catch的用法
 
 > 我们知道Promise对象除了then方法，还有一个catch方法，它是做什么用的呢？其实它和then的第二个参数一样，用来指定reject的回调，用法是这样：
 >

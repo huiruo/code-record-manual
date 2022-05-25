@@ -1,4 +1,4 @@
-### 1.实现Promise基本的方法
+## 1.实现Promise基本的方法
 
 - Promise是一个类，需要传递一个executor函数，函数里有两个参数resolve和reject，调用resolve代表成功，调用reject代表失败
 - Promise有三种状态：默认状态是等待状态pending，成功resolved，失败rejected
@@ -62,7 +62,7 @@ Promise.prototype.then = function(onFufilled,onRejected){
 module.exports = Promise
 ```
 
-### 2.异步Promise
+## 2.异步Promise
 
 在new Promise时内部可以写异步代码，并且产生的实例可以then多次
 
@@ -132,7 +132,7 @@ Promise.prototype.then = function(onFufilled,onRejected){
  }
 ```
 
-### 3.Promise链式调用
+## 3.Promise链式调用
 
 - 如果当前promise已经进入成功的回调，回调中发生了异常返回this的话，那么当前的promise的状态无法更改到失败台！所以promise实现链式调用,返回的并不是this而是一个新的promise。
 - 执行回调中
@@ -247,7 +247,7 @@ function resolvePromise(promise2, x, resolve, reject) {
 }
 ```
 
-### 4.值的穿透
+## 4.值的穿透
 
 - 在规范中定义then函数可以不传参,不传参默认会将成功的结果和失败的结果继续向下传递
 

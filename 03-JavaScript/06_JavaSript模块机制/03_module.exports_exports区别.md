@@ -1,5 +1,5 @@
 
-#### 在Node环境中，有两种方法可以在一个模块中输出变量：
+## 在Node环境中，有两种方法可以在一个模块中输出变量：
 方法一：对module.exports赋值：
 ```javascript
 // hello.js
@@ -46,7 +46,7 @@ exports = {
 };
 ```
 
-### 我们来分析Node的加载机制：
+## 我们来分析Node的加载机制：
 首先，Node会把整个待加载的hello.js文件放入一个包装函数load中执行。在执行这个load()函数前，Node准备好了module变量：
 ```javascript
 var module = {
@@ -83,7 +83,7 @@ module.exports = function () { return 'foo'; };
 ```
 给exports赋值是无效的，因为赋值后，module.exports仍然是空对象{}。
 
-#### 结论
+## 结论
 可以把exports看成是对module.exports的引用, 可以用exports.foo往里面增加新的属性, 但是如果直接对exports赋值, 
 exports就不再是module.exports的引用了, 所以module.exports仍然为空对象{}
 

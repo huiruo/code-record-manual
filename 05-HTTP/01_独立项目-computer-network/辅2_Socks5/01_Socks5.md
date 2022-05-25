@@ -14,7 +14,7 @@ Socks5客户端在与Socks5服务器交互的整个过程是有可能暴露在�
 Socks5客户端 <---socks5---> sslocal <–密文–> ss-server <—正常请求—> 目标主机
 Shadowsocks的处理方式是将Socks5客户端与Socks5服务器的连接提前，Socks5协议的交互完全是在本地进行的，在网络中传输的完全是利用加密算法加密后的密文，这就很好的进行了去特征化，使得传输的数据不是很容易的被特征识别。
 
-#### 差异部分：
+## 差异部分：
 * 本地的sslocal：sslocal对于Socks5客户端便是Socks5服务器,对于Socks5客户端是透明的，sslocal完成与Socks5客户端所有的交互。
 * 远程的ssserver：ssserver对于目标主机同样也是Socks5服务器，对于目标主机是透明的，完成Socks5服务器与目标主机的所有操作。
 * sslocal-ssserver:sslocal接收到Socks5客户端发送的数据，会将数据加密，并将配置信息发送到ssserver，ssserver接收到配置信息进行权限验证，然后将数据进行解密，然后将明文发往目标主机；当目标主机响应ssserver，ssserver将接收到的数据进行解包，并将数据加密，发送到sslocal，sslocal接收到加密后的数据进行解密，再发送给Socks 5客户端，这就完成了一次交互。

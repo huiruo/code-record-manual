@@ -1,6 +1,6 @@
 
 
-#### React.memo()是一个高阶函数，它与 React.PureComponent类似，但是一个函数组件而非一个类
+## React.memo()是一个高阶函数，它与 React.PureComponent类似，但是一个函数组件而非一个类
 
 ```
 React.memo()可接受2个参数，第一个参数为纯函数的组件，第二个参数用于对比props控制是否刷新，与shouldComponentUpdate()功能类似
@@ -27,7 +27,7 @@ function areEqual(prevProps, nextProps) {
 export default React.memo(Child,areEqual)
 ```
 
-#### momo 一般配合useCallback() 或则：useMemo()起到了缓存的作用，即便父组件渲染了，useCallback() 包裹的函数也不会重新生成，会返回上一次的函数引用。
+## momo 一般配合useCallback() 或则：useMemo()起到了缓存的作用，即便父组件渲染了，useCallback() 包裹的函数也不会重新生成，会返回上一次的函数引用。
 ```javaScript
 
 // 父组件

@@ -1,6 +1,6 @@
 
 
-#### 获取值
+## 获取值
 ```javaScript
 方式1：
 submitForm: () => {

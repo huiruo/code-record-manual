@@ -1,18 +1,18 @@
 
-#### 第二个链表：state
+## 第二个链表：state
 其实state 链表不是hooks独有的，类操作的setState也存在，正是由于这个链表存在，所以有一个经(sa)典(bi)React 面试题：
 ```
 setState为什么默认是异步，什么时候是同步？
 
 ```
-#### 1.异步:
+## 1.异步:
 + setState 和 useState中的set函数是异步执行的（不会立即更新state的结果）
 + 多次执行setState 和 useState的set函数，组件只会重新渲染一次
 
 + 不同的是，setState会更新当前作用域下的状态，但是set函数不会更新，只能在新渲染的组件作用域中访问到
 + 同时setState会进行state的合并，但是useState中的set函数做的操作相当于是直接替换，只不过内部有个防抖的优化才导致组件不会立即被重新渲染
 
-##### 2.同步：在setTimeout，Promise.then等异步事件或者原生事件中
+### 2.同步：在setTimeout，Promise.then等异步事件或者原生事件中
 + setState和useState的set函数是同步执行的（立即重新渲染组件）
 + 多次执行setState和useState的set函数，每一次的执行都会调用一次render
 
