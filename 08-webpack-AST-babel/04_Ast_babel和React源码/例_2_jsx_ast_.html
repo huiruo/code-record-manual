@@ -12,9 +12,13 @@
 
     <!-- <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script> -->
+    <!-- 18 -->
+    <!-- <script src="./react.development18.js"></script>
+    <script src="./react-dom.development18.js"></script> -->
 
-    <script src="./react.development18.js"></script>
-    <script src="./react-dom.development18.js"></script>
+    <!-- 17 -->
+    <script src="./react.development17.js"></script>
+    <script src="./react-dom.development17.js"></script>
 
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <div id="root"></div>
@@ -27,7 +31,8 @@
 
             render() {
                 if (this.state.liked) {
-                    return 'You liked this.';
+                    return (
+                        <div onClick={() => this.setState({ liked: !this.state.liked })}>click me again</div>);
                 }
 
                 // /* 不使用Jsx
@@ -40,7 +45,7 @@
                 // /* 使用babel
                 return (
                     <div>
-                        <button onClick={() => this.setState({ liked: true })}>
+                        <button onClick={() => this.setState({ liked: !this.state.liked })}>
                             Like1
                         </button>
                     </div>
@@ -61,23 +66,23 @@
 
         const container = document.getElementById('root');
         // test 1
-        // const astTree = React.createElement(LikeButton)
+        const astTree = React.createElement(LikeButton)
         // test 2
         // const astTree = React.createElement(MyApp)
 
         // test 3
-        const astTree = element
+        // const astTree = element
 
-        console.log('createElement 转化后ast树的结构:', astTree)
+        // console.log('createElement 转化后ast树的结构:', astTree)
 
         // 这样17渲染报错？
         // /*
-        const root = ReactDOM.createRoot(container);
-        root.render(astTree);
+        // const root = ReactDOM.createRoot(container);
+        // root.render(astTree);
         // */
 
         // 或则这样渲染,ReactDOM.render 在17可以用，18会弃用
-        // ReactDOM.render(astTree, container);
+        ReactDOM.render(astTree, container);
     </script>
 </body>
 

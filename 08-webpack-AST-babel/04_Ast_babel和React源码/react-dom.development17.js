@@ -8983,7 +8983,8 @@
   }
 
   function createElement(type, props, rootContainerElement, parentNamespace) {
-    console.log('react-dom.development17_createElement:', type, props)
+    console.log('分割线dom-createElement=======>start')
+    console.log('dom17_createElement:', type, props)
     var isCustomComponentTag; // We create tags in the namespace of their parent container, except HTML
     // tags get no namespace.
 
@@ -9061,6 +9062,7 @@
       }
     }
 
+    console.log('分割线dom-createElement=======>end')
     return domElement;
   }
   function createTextNode(text, rootContainerElement) {
@@ -25863,7 +25865,15 @@
     this._internalRoot = createRootImpl(container, ConcurrentRoot, options);
   }
 
+  /*
+  * 
+  * 通过它可以创建 LegacyRoot 的 Fiber 数据结构
+  * 只是向对象中添加了一个 _internalRoot 属性
+  */
   function ReactDOMBlockingRoot(container, tag, options) {
+    // tag => 0 => legacyRoot
+    // container => <div id="root"></div>
+    // container._reactRootContainer = {_internalRoot: {}}
     this._internalRoot = createRootImpl(container, tag, options);
   }
 
@@ -25904,13 +25914,23 @@
       unmarkContainerAsRoot(container);
     });
   };
-
+  /*
+  * 该方法最终返回了处理完成后的root
+  */
   function createRootImpl(container, tag, options) {
+    // container => <div id="root"></div>
+    // tag => 0
+    // options => undefined
+
     // Tag is either LegacyRoot or Concurrent Root
+    // 检测是否为服务器端渲染 false
     var hydrate = options != null && options.hydrate === true;
     var hydrationCallbacks = options != null && options.hydrationOptions || null;
     var mutableSources = options != null && options.hydrationOptions != null && options.hydrationOptions.mutableSources || null;
+
     var root = createContainer(container, tag, hydrate);
+
+    // 将 root.current 存储到 container
     markContainerAsRoot(root.current, container);
     var containerNodeType = container.nodeType;
 
@@ -25925,10 +25945,18 @@
         registerMutableSourceForHydration(root, mutableSource);
       }
     }
-
+    console.log('分割线createRootImpl=======>start')
+    console.log('dom-ReactDOMBlockingRoot 方法内 调用 createRootImpl 返回值：该方法最终返回了处理完成后的root:', root)
+    console.log('分割线createRootImpl=======>end')
     return root;
   }
+  /*
+  * 通过实例化 ReactDOMBlockingRoot 类创建 LegacyRoot
+  */
   function createLegacyRoot(container, options) {
+    // container => <div id="root"></div>
+    // LegacyRoot 常量, 值为 0,
+    // 通过 render 方法创建的 container 就是 LegacyRoot
     return new ReactDOMBlockingRoot(container, LegacyRoot, options);
   }
   function isValidContainer(node) {
@@ -25982,13 +26010,25 @@
     return !!(rootElement && rootElement.nodeType === ELEMENT_NODE && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
   }
 
+  /**
+  * 作用：清空 container,创建 root
+  * 1.根据 forceHydrate 和 container 上是否已经被标记是一个 ReactContainer 来判断是否需要清空 container
+  * （SSR 不需要清空，但是 web 端初始化情况）
+  * 2.创建一个 root 结点
+  */
   function legacyCreateRootFromDOMContainer(container, forceHydrate) {
+    console.log('分割线legacyCreateRootFromDOMContainer=======>start')
+    console.log('dom-legacyCreateRootFromDOMContainer-container', container)
+    // container => <div id="root"></div>
+    // 检测是否为服务器端渲染
     var shouldHydrate = forceHydrate || shouldHydrateDueToLegacyHeuristic(container); // First clear any existing content.
 
+    // 如果不是服务器端渲染
     if (!shouldHydrate) {
       var warned = false;
       var rootSibling;
 
+      // 开启循环 删除 container 容器中的节点
       while (rootSibling = container.lastChild) {
         {
           if (!warned && rootSibling.nodeType === ELEMENT_NODE && rootSibling.hasAttribute(ROOT_ATTRIBUTE_NAME)) {
@@ -25998,6 +26038,7 @@
           }
         }
 
+        // 删除 container 容器中的节点
         container.removeChild(rootSibling);
       }
     }
@@ -26009,10 +26050,17 @@
         warn('render(): Calling ReactDOM.render() to hydrate server-rendered markup ' + 'will stop working in React v18. Replace the ReactDOM.render() call ' + 'with ReactDOM.hydrate() if you want React to attach to the server HTML.');
       }
     }
-
-    return createLegacyRoot(container, shouldHydrate ? {
+    const legacyRoot = createLegacyRoot(container, shouldHydrate ? {
       hydrate: true
     } : undefined);
+
+    console.log('dom-legacyCreateRootFromDOMContainer-返回值:legacyRoot', legacyRoot)
+
+    console.log('分割线legacyCreateRootFromDOMContainer=======>end')
+    return legacyRoot
+    // return createLegacyRoot(container, shouldHydrate ? {
+    //   hydrate: true
+    // } : undefined);
   }
 
   function warnOnInvalidCallback$1(callback, callerName) {
@@ -26023,6 +26071,15 @@
     }
   }
 
+
+  /**
+   * 将子树渲染到容器中 (初始化 Fiber 数据结构: 创建 fiberRoot 及 rootFiber)
+   * parentComponent: 父组件, 初始渲染传入了 null
+   * children: render 方法中的第一个参数, 要渲染的 ReactElement
+   * container: 渲染容器
+   * forceHydrate: true 为服务端渲染, false 为客户端渲染
+   * callback: 组件渲染完成后需要执行的回调函数
+   **/
   function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
     {
       topLevelUpdateWarnings(container);
@@ -26031,28 +26088,59 @@
     // member of intersection type." Whyyyyyy.
 
 
+    // 获取 container 容器对象下是否有 _reactRootContainer 属性
     var root = container._reactRootContainer;
     var fiberRoot;
 
     if (!root) {
       // Initial mount
+      // 初始渲染
+      // 初始化根 Fiber 数据结构
+      // 为 container 容器添加 _reactRootContainer 属性
+      // 在 _reactRootContainer 对象中有一个属性叫做 _internalRoot
+      // _internalRoot 属性值即为 FiberRoot 表示根节点 Fiber 数据结构
+      // legacyCreateRootFromDOMContainer 就是用来创建 fiberRoot和rootFiber,内部依次调用了其它方法：
+      // 		createLegacyRoot
+      // 		new ReactDOMBlockingRoot -> this._internalRoot
+      // 		createRootImpl
+      // 即将存储根 Fiber 对象
       root = container._reactRootContainer = legacyCreateRootFromDOMContainer(container, forceHydrate);
+      // 获取 Fiber Root 对象
       fiberRoot = root._internalRoot;
 
+      /**
+       * 改变 callback 函数中的 this 指向
+       * 使其指向 render 方法第一个参数的真实 DOM 对象
+       */
+      // 如果 callback 参数是函数类型
       if (typeof callback === 'function') {
+        // 使用 originalCallback 存储 callback 函数
         var originalCallback = callback;
 
+        // 为 callback 参数重新赋值
         callback = function () {
+          // 获取 render 方法第一个参数的真实 DOM 对象
+          // 实际上就是 id="root" 的 div 的子元素
+          // rootFiber.child.stateNode
+          // rootFiber 就是 id="root" 的 div
           var instance = getPublicRootInstance(fiberRoot);
+          // 调用原始 callback 函数并改变函数内部 this 指向
           originalCallback.call(instance);
         };
       } // Initial mount should not be batched.
 
 
+      // 更新流程:挂载关注这个函数从这个函数去，会有ast转换为dom树的逻辑和如何插入到dom元素的逻辑
+      // 初始化渲染不执行批量更新
+      // 因为批量更新是异步的是可以被打断的, 但是初始化渲染应该尽快完成不能被打断
+      // 所以不执行批量更新
+      console.log('legacyRenderSubtreeIntoContainer-初始化渲染不执行批量更新',)
       unbatchedUpdates(function () {
         updateContainer(children, fiberRoot, parentComponent, callback);
       });
     } else {
+      // 非初始化渲染 即更新
+      console.log('legacyRenderSubtreeIntoContainer-非初始化渲染 即更新',)
       fiberRoot = root._internalRoot;
 
       if (typeof callback === 'function') {
@@ -26065,11 +26153,16 @@
         };
       } // Update
 
-
+      // 更新流程
       updateContainer(children, fiberRoot, parentComponent, callback);
     }
 
-    return getPublicRootInstance(fiberRoot);
+    // 返回 render 方法第一个参数的真实 DOM 对象作为 render 方法的返回值
+    // 就是说渲染谁 返回谁的真实 DOM 对象
+    var publicRootInstance = getPublicRootInstance(fiberRoot)
+    console.log('legacyRenderSubtreeIntoContainer17-返回值:', publicRootInstance)
+    // return getPublicRootInstance(fiberRoot);
+    return publicRootInstance;
   }
 
   function findDOMNode(componentOrElement) {
@@ -26118,7 +26211,8 @@
     return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
   }
   function render(element, container, callback) {
-    console.log('react-dom.development17.js-render',element, container, callback)
+    console.log('分割线render=======>start')
+    console.log('dom-render', element, container, callback)
     if (!isValidContainer(container)) {
       {
         throw Error("Target container is not a DOM element.");
@@ -26132,7 +26226,7 @@
         error('You are calling ReactDOM.render() on a container that was previously ' + 'passed to ReactDOM.createRoot(). This is not supported. ' + 'Did you mean to call root.render(element)?');
       }
     }
-
+    console.log('分割线render=======>end')
     return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
   }
   function unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {
