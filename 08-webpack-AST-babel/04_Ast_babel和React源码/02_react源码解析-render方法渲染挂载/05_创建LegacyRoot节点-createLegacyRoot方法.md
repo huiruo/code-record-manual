@@ -82,3 +82,5 @@ function createRootImpl(container, tag, options) {
   return root;
 }
 ```
+
+## 最后在 createRootImpl方法中 调用 createContainer

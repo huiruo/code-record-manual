@@ -25332,6 +25332,9 @@
     }
   }
 
+  /*
+  * 这个方法中最终创建了 fiberRoot 和 rootFiber：
+  */
   function createFiberRoot(containerInfo, tag, hydrate, hydrationCallbacks) {
     var root = new FiberRootNode(containerInfo, tag, hydrate);
     // stateNode is any.
@@ -25457,6 +25460,9 @@
     }
   }
 
+  /*
+  * 仅仅返回了 createFiberRoot 的调用结果
+  */
   function createContainer(containerInfo, tag, hydrate, hydrationCallbacks) {
     return createFiberRoot(containerInfo, tag, hydrate);
   }
