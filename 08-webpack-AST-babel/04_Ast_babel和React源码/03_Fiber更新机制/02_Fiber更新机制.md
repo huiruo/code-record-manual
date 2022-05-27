@@ -10,11 +10,6 @@ ReactDOM.render(<Index/>, document.getElementById('app'));
 
 #### rootFiber: 通过 ReactDOM.render 渲染出来的。
 比如一个组件会渲染一个rootFiber。 rootFiber可以有多个，但fiberRoot只能有一个。
-```mermaid
-%% 流程图：fiberRoot-rootFiber关系
-graph TD
-1[fiberRoot]==current==>2[RootFiber]
-```
 
 ### 第二步：创建workInProgress树
 - workInProgress fiber tree：内存中构建的树。
@@ -52,14 +47,15 @@ workInProgress fiber tree:
 
 ```mermaid
 %% graph TD
-graph LR
+flowchart  LR
+%% graph LR
 1[fiberRoot]==current==>2[RootFiber]
 
-2 -->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index] --child--> div((div)) --> |child|hello((hello,world))
+2 <-->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index] --child--> div((div)) --> |child|hello((hello,world))
 
 p((p)) -->|sibling| button((button))-->|return|点赞((点赞))
 
-RootFiber -->|alternate| 2
+%% RootFiber -->|alternate| 2
 4index -->|return| RootFiber
 div -->|return| 4index
 hello -->|return| div

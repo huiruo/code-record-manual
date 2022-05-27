@@ -48,12 +48,14 @@ graph LR
 a[一次更新]-->|更新element|b[create element]-->|更新|c[调度器React Fiber]-->d[真实dom]
 ```
 
-### fiber结构
+## fiber结构
 每一个 element 都会对应一个 fiber ，每一个 fiber 是通过 return ， child ，sibling 三个属性建立起联系的。
 
 - return： 指向父级 Fiber 节点。
 - child：指向子 Fiber 节点。
 - sibling：指向兄弟 fiber 节点。
+
+1.简略属性:
 ```javaScript
 function FiberNode(){
 
@@ -74,6 +76,7 @@ function FiberNode(){
 }
 ```
 
+2.详细属性：
 ```javaScript
 function FiberNode(
   tag: WorkTag,
@@ -120,27 +123,6 @@ function FiberNode(
 }
 ```
 
-## 1.mount
-在mount时：会创建fiberRoot和rootFiber，然后根据jsx对象创建Fiber节点，节点连接成current Fiber树。
-
-- fiberRoot：指整个应用的根节点，只存在一个
-
-- rootFiber：ReactDOM.render或者ReactDOM.unstable_createRoot创建出来的应用的节点，可以存在多个。
-
-在mount的时候，也就是首次渲染的时候，render阶段会根据jsx对象生成新的Fiber节点。
-
-然后这些Fiber节点会被标记成带有‘Placement’的副作用，说明它们是新增的节点，需要被插入到真实节点中了。
-
-在commit阶段就会操作真实节点，将它们插入到dom树中。
-
-## 2.update
-在update时：会根据新的状态形成的jsx（ClassComponent的render或者FuncComponent的返回值）和current Fiber对比形（diff算法）成一颗叫workInProgress的Fiber树。
-
-然后将fiberRoot的current指向workInProgress树，此时workInProgress就变成了current Fiber。
-
-在update的时候，render阶段会根据最新的jsx和老的Fiber进行对比，生成新的Fiber。
-这些Fiber会带有各种副作用，比如‘Deletion’、‘Update’、‘Placement’等，这一个对比的过程就是diff算法 ，在commit阶段会操作真实节点，执行相应的副作用。
-
 结构例子：
 ```javaScript
 export default class Index extends React.Component{
@@ -163,14 +145,16 @@ export default class Index extends React.Component{
 fiber对应的关系如下：
 ```mermaid
 %% graph TD
-graph LR
+%% graph LR
+%% flowchart  LR
+flowchart  TD
 1[fiberRoot]==current==>2[RootFiber]
 
-2 -->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index tag1] --child--> div((div tag5)) --> |child|hello((hello,world tag=6))
+2 <-->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index tag1] --child--> div((div tag5)) --> |child|hello((hello,world tag=6))
 
 p((p tag=5)) -->|sibling| button((button tag=5))-->|return|点赞((点赞 tag=6))
 
-RootFiber -->|alternate| 2
+%% RootFiber -->|alternate| 2
 4index -->|return| RootFiber
 div -->|return| 4index
 hello -->|return| div
@@ -183,3 +167,148 @@ p -->|return| div
 %% div -->|child| button
 %% div -->|child| p
 ```
+
+## fiber Fiber是怎样工作的?
+真实dom对应在内存中的Fiber节点形成Fiber树，这颗Fiber树在react中叫current Fibe，
+
+而正在构建Fiber树叫workInProgress Fiber，这两颗树的节点通过alternate相连.
+
+构建workInProgress Fiber发生在createWorkInProgress中，它能创建或者复用Fiber
+```javaScript
+export function createWorkInProgress(current: Fiber, pendingProps: any): Fiber {
+  let workInProgress = current.alternate;
+  // 区分是在mount时还是在update时
+  if (workInProgress === null) {
+    workInProgress = createFiber(
+      current.tag,
+      pendingProps,
+      current.key,
+      current.mode,
+    );
+    workInProgress.elementType = current.elementType;
+    workInProgress.type = current.type;
+    workInProgress.stateNode = current.stateNode;
+   
+    workInProgress.alternate = current;
+    current.alternate = workInProgress;
+  } else {
+    // 复用属性
+    workInProgress.pendingProps = pendingProps;
+    workInProgress.type = current.type;
+    workInProgress.flags = NoFlags;
+
+    workInProgress.nextEffect = null;
+    workInProgress.firstEffect = null;
+    workInProgress.lastEffect = null;
+	
+    //...
+  }
+
+  workInProgress.childLanes = current.childLanes;//复用属性
+  workInProgress.lanes = current.lanes;
+
+  workInProgress.child = current.child;
+  workInProgress.memoizedProps = current.memoizedProps;
+  workInProgress.memoizedState = current.memoizedState;
+  workInProgress.updateQueue = current.updateQueue;
+
+  const currentDependencies = current.dependencies;
+  workInProgress.dependencies =
+    currentDependencies === null
+      ? null
+      : {
+          lanes: currentDependencies.lanes,
+          firstContext: currentDependencies.firstContext,
+        };
+
+  workInProgress.sibling = current.sibling;
+  workInProgress.index = current.index;
+  workInProgress.ref = current.ref;
+
+
+  return workInProgress;
+}
+```
+
+例子：
+```javaScript
+function App() {
+  return (
+		<>
+      <h1>
+        <p>count</p> helloword
+      </h1>
+    </>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
+```
+
+## 1.在mount时：会创建fiberRoot和rootFiber，然后根据jsx对象创建Fiber节点，节点连接成current Fiber树
+```
+fiberRoot：指整个应用的根节点，只存在一个
+
+rootFiber：ReactDOM.render或者ReactDOM.unstable_createRoot创建出来的应用的节点，可以存在多个。
+```
+
+```mermaid
+%% 流程图:fiberRoot-rootFiber关系
+%% stateNode: 真实dom节点
+
+graph TD
+1[fiberRoot]==current==>2[RootFiber]
+
+2==stateNode==>1
+```
+
+```
+1.mount时：
+
+刚开始只创建了fiberRoot和rootFiber两个节点
+```
+
+在mount的时候，也就是首次渲染的时候，render阶段会根据jsx对象生成新的Fiber节点。
+
+然后这些Fiber节点会被标记成带有‘Placement’的副作用，说明它们是新增的节点，需要被插入到真实节点中了。
+
+在commit阶段就会操作真实节点，将它们插入到dom树中。
+
+## 2.update
+在update时： 会根据新的状态形成的jsx（ClassComponent的render或者FuncComponent的返回值）和current Fiber对比形（diff算法）构建**workInProgress的Fiber树**。
+
+然后将fiberRoot的current指向workInProgress树，此时workInProgress就变成了current Fiber。
+
+在update的时候，render阶段会根据最新的jsx和老的Fiber进行对比，生成新的Fiber。
+这些Fiber会带有各种副作用，比如‘Deletion’、‘Update’、‘Placement’等，这一个对比的过程就是diff算法 ，在commit阶段会操作真实节点，执行相应的副作用。
+
+## Fiber双缓存创建的过程:
+### 1.mount
+
+- 1.刚开始只创建了fiberRoot和rootFiber两个节点
+```mermaid
+%% 流程图:fiberRoot-rootFiber关系
+%% stateNode: 真实dom节点
+
+graph TD
+1[fiberRoot]==current==>2[RootFiber]
+
+2==stateNode==>1
+```
+- 2.然后根据jsx创建workInProgress Fiber：
+
+```mermaid
+flowchart  LR
+%% graph TD
+	A o--o B 
+	B <--> C 
+	C x--x D
+```
+
+- 3.把workInProgress Fiber切换成current Fiber
+
+
+
+
+
+
