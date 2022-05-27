@@ -10,10 +10,11 @@ ReactDOM.render(<Index/>, document.getElementById('app'));
 
 #### rootFiber: 通过 ReactDOM.render 渲染出来的。
 比如一个组件会渲染一个rootFiber。 rootFiber可以有多个，但fiberRoot只能有一个。
-![](./图2_fiberRoot-rootFiber关系.png)
-
-
-
+```mermaid
+%% 流程图：fiberRoot-rootFiber关系
+graph TD
+1[fiberRoot]==current==>2[RootFiber]
+```
 
 ### 第二步：创建workInProgress树
 - workInProgress fiber tree：内存中构建的树。
@@ -21,14 +22,58 @@ ReactDOM.render(<Index/>, document.getElementById('app'));
 
 渲染流程中，先复用current树（rootFiber）的alternate 作为 workInProgress。
 
-![](./图3_例子渲染流程-workInProgress树.png)
+```javaScript
+export default class Index extends React.Component{
+   state={ number:666 } 
+   handleClick=()=>{
+     this.setState({
+         number:this.state.number + 1
+     })
+   }
+   render(){
+     return <div>
+       hello，world
+       <p > 《React进阶实践指南》 { this.state.number }   </p>
+       <button onClick={ this.handleClick } >点赞</button>
+     </div>
+   }
+}
 ```
-current fiber tree:
-old fiber tree，对应当前屏幕显示的内容，通过根节点 fiberRootNode 的 currrent 指针可以访问。
+
+- current fiber tree:
+- old fiber tree，对应当前屏幕显示的内容，通过根节点 fiberRootNode 的 currrent 指针可以访问。
 
 workInProgress fiber tree:
 更新过程中构建的 new fiber tree
+
+- return： 指向父级 Fiber 节点。
+- child：指向子 Fiber 节点。
+- sibling：指向兄弟 fiber 节点。
+
+```mermaid
+%% graph TD
+graph LR
+1[fiberRoot]==current==>2[RootFiber]
+
+2 -->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index] --child--> div((div)) --> |child|hello((hello,world))
+
+p((p)) -->|sibling| button((button))-->|return|点赞((点赞))
+
+RootFiber -->|alternate| 2
+4index -->|return| RootFiber
+div -->|return| 4index
+hello -->|return| div
+hello -->|sibling| p
+
+点赞 -->|return| button
+button -->|return| div
+p -->|return| div
+
+%% div -->|child| button
+%% div -->|child| p```
 ```
+![](./图3_例子渲染流程-workInProgress树.png)
+
 
 #### fiber 双缓存
 ```
@@ -46,8 +91,6 @@ diff 比较，就是在构建 workInProgress fiber tree 的过程中，
 
 ### 第三步：深度调和子节点，渲染视图
 遍历fiber树，以workInProgress 作为最新的渲染树，即current Fiber 树。
-
-![](./图4_遍历fiber树.png)
 
 ### 更新
 更新重复上述第二和第三步。

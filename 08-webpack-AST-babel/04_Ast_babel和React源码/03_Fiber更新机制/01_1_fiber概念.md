@@ -42,9 +42,10 @@ fiber 根据优先级暂停、继续、排列优先级：Fiber节点上保存了
 - element 就是jsx语法，通过React.createElement创建成element对象.
 - DOM 就是浏览器的DOM
 - fiber：每一次的 element 变化都会通过 调和 fiber 来 触发真实 DOM 渲染。
-```
-                            更新 element                  更新
-一次更新----->create element------------>调度器React Fiber---------->真实dom
+
+```mermaid
+graph LR
+a[一次更新]-->|更新element|b[create element]-->|更新|c[调度器React Fiber]-->d[真实dom]
 ```
 
 ### fiber结构
@@ -158,5 +159,27 @@ export default class Index extends React.Component{
    }
 }
 ```
+
 fiber对应的关系如下：
-![](./图1_fiber对应实例.png)
+```mermaid
+%% graph TD
+graph LR
+1[fiberRoot]==current==>2[RootFiber]
+
+2 -->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index tag1] --child--> div((div tag5)) --> |child|hello((hello,world tag=6))
+
+p((p tag=5)) -->|sibling| button((button tag=5))-->|return|点赞((点赞 tag=6))
+
+RootFiber -->|alternate| 2
+4index -->|return| RootFiber
+div -->|return| 4index
+hello -->|return| div
+hello -->|sibling| p
+
+点赞 -->|return| button
+button -->|return| div
+p -->|return| div
+
+%% div -->|child| button
+%% div -->|child| p
+```
