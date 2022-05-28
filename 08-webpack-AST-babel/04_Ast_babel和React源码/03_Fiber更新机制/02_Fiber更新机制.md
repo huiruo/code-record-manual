@@ -48,13 +48,13 @@ workInProgress fiber tree:
 ```mermaid
 %% flowchart TB
 flowchart LR
-    fiberRoot--current-->RootFiber
+  fiberRoot--current-->RootFiber
 
-    subgraph RootFiber [RootFiber]
+  subgraph RootFiber [RootFiber]
     RootFiber1[RootFiber]
-    end
+  end
 
-    subgraph workInProgress [workInProgress]
+  subgraph workInProgress [workInProgress]
     _RootFiber<--alternate-->RootFiber1
     _RootFiber--child--> 4index[index] --child--> div((div)) --child--> hello((hello,world))
 
@@ -68,7 +68,7 @@ flowchart LR
     点赞 --return--> button
     button --return--> div
     p --return--> div
-    end
+  end
 ```
 ![](./图3_例子渲染流程-workInProgress树.png)
 

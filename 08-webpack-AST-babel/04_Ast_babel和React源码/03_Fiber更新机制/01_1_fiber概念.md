@@ -187,28 +187,29 @@ export default class Index extends React.Component{
 
 fiber对应的关系如下：
 ```mermaid
-%% graph TD
-%% graph LR
-%% flowchart  LR
-flowchart  TD
-1[fiberRoot]==current==>2[RootFiber]
+%% flowchart TB
+flowchart LR
+  fiberRoot--current-->RootFiber
+  RootFiber--stateNode-->fiberRoot
 
-2 <--alternate--> RootFiber[RootFiber:workInProgress] --child--> 4index[index tag1] --child--> div((div tag5)) --child--> hello((hello,world tag=6))
+  subgraph RootFiber [RootFiber]
+    RootFiber1[RootFiber]
+  end
 
-p((p tag=5)) ---sibling--> button((button tag=5))--return-->点赞((点赞 tag=6))
+  subgraph workInProgress[rootFiber workInProgress]
+    _RootFiber<--alternate-->RootFiber1
+    _RootFiber--child--> 4index[index tag1] --child--> div((div tag5)) --child--> hello((hello,world tag=6))
 
-%% RootFiber -->|alternate| 2
-4index --return--> RootFiber
-div --return--> 4index
-hello --return--> div
-hello --return--> p
+    p((p tag=5)) ---sibling--> button((button tag=5))--return-->点赞((点赞 tag=6))
+    4index --return--> _RootFiber
+    div --return--> 4index
+    hello --return--> div
+    hello --return--> p
 
-点赞 --return--> button
-button --return--> div
-p --return--> div
-
-%% div --child--> button
-%% div --child--> p
+    点赞 --return--> button
+    button --return--> div
+    p --return--> div
+  end
 ```
 
 ## fiber Fiber是怎样工作的?
@@ -344,59 +345,50 @@ fiberRoot==stateNode==>RootFiber
 - 2.然后根据jsx创建workInProgress Fiber：
 
 ```mermaid
-flowchart  LR
-fiberRoot==current==>rootFiber<--alternate-->workInProgress[rootFiber workInProgress]--child-->App--child-->h1--child-->p--child-->count
-
-App--return-->workInProgress
-hello--return-->h1
-p--sibling-->hello
-
-count--return-->p
-
-p--return-->h1
-h1--return-->App
-
-rootFiber==stateNode==>fiberRoot
-```
-
-```mermaid
 %% flowchart TB
 flowchart LR
-    fiberRoot--current-->RootFiber
+  fiberRoot--current-->RootFiber
+  RootFiber--stateNode-->fiberRoot
 
-    subgraph RootFiber [RootFiber]
+  subgraph RootFiber [RootFiber]
     RootFiber1[RootFiber]
-    end
+  end
 
-    subgraph workInProgress[rootFiber workInProgress]
+  subgraph workInProgress[rootFiber workInProgress]
     _RootFiber<--alternate-->RootFiber1
 
-    _RootFiber----child-->App--child-->h1--child-->p--child-->count
+    _RootFiber--child-->App--child-->h1--child-->p--child-->count
     App--return-->_RootFiber
     hello--return-->h1
     p--sibling-->hello
     count--return-->p
     p--return-->h1
     h1--return-->App
-    end
+  end
 ```
 
 - 3.把workInProgress Fiber切换成current Fiber
 ```mermaid
-flowchart  LR
+%% flowchart TB
+flowchart LR
+  fiberRoot--current-->_RootFiber
+    _RootFiber--stateNode-->fiberRoot
 
-fiberRoot==current==>workInProgress[rootFiber workInProgress]--child-->App--child-->h1--child-->p--child-->count
+  subgraph RootFiber [RootFiber]
+    RootFiber1[RootFiber]
+  end
 
-rootFiber<--alternate-->workInProgress
-App--return-->workInProgress
-hello--return-->h1
-p--sibling-->hello
+  subgraph workInProgress[rootFiber workInProgress]
+    _RootFiber<--alternate-->RootFiber1
 
-count--return-->p
-
-p--return-->h1
-h1--return-->App
-workInProgress==stateNode==>fiberRoot
+    _RootFiber--child-->App--child-->h1--child-->p--child-->count
+    App--return-->_RootFiber
+    hello--return-->h1
+    p--sibling-->hello
+    count--return-->p
+    p--return-->h1
+    h1--return-->App
+  end
 ```
 
 ## update时
