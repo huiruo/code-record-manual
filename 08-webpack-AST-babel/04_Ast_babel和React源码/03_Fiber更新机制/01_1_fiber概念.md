@@ -13,7 +13,36 @@ console.log(str)
 ```
 
 ### 为什么会出现Fiber
-react从15版本开始，到现在的17，以及快出来的18，内部经历了非常大的变化，这一切都是围绕着一个目标进行的，这个目标是异步可中断的更新，而这个目的的最终结果是为了构建快速响应的应用。
+react在进行组件渲染时，从setState开始到渲染完成整个过程是同步的（“一气呵成”）。如果需要渲染的组件比较庞大，js执行会占据主线程时间较长，会导致页面响应度变差，使得动画、手势交互等事件产生卡顿。
+
+React 提供pureComponent,shouldComponentUpdate，useMemo,useCallback让开发者来操心哪些subtree是需要重新渲染的，哪些是不需要重新渲染的。究其本质，是因为 React 采用 jsx 语法过于灵活，不理解开发者写出代码所代表的意义，没有办法做出优化。
+
+
+为什么JS长时间执行会影响交互响应、动画？因为JavaScript在浏览器的主线程上运行，恰好与样式计算、布局以及许多情况下的绘制一起运行。如果JavaScript运行时间过长，就会阻塞这些其他工作，可能导致掉帧。
+
+因此，为了解决以上的痛点问题，React希望能够彻底解决主线程长时间占用问题，于是引入了 Fiber 来改变这种不可控的现状，把渲染/更新过程拆分为一个个小块的任务，通过合理的调度机制来调控时间，指定任务执行的时机，从而降低页面卡顿的概率，提升页面交互体验。通过Fiber架构，让reconcilation过程变得可被中断。适时地让出CPU执行权，可以让浏览器及时地响应用户的交互。
+
+### react fiber的任务
+- 把渲染/更新过程拆分为更小的、可中断的工作单元
+- 在浏览器空闲时执行工作循环
+- 将所有执行结果汇总patch到真实DOM上
+
+react 把渲染/更新过程分为2个阶段（diff + patch）：
+1. diff ~ render/reconciliation
+2. patch ~ commit
+
+```
+diff的实际工作是对比prevInstance和nextInstance的状态，找出差异及其对应的DOM change。
+diff本质上是一些计算（遍历、比较），是可拆分的（算一半待会儿接着算） 
+```
+
+```
+patch阶段把本次更新中的所有DOM change应用到DOM树，是一连串的DOM操作。
+些DOM操作虽然看起来也可以拆分（按照change list一段一段做），但这样做一方面可能造成DOM实际状态与维护的内部状态不一致，另外还会影响体验。而且，一般场景下，DOM更新的耗时比起diff及生命周期函数耗时不算什么，拆分的意义不很大
+```
+所以，render/reconciliation阶段的工作（diff）可以拆分，commit阶段的工作（patch）不可拆分
+### 怎么拆？
+react的拆分单位是fiber（fiber tree上的一个节点）
 
 在更新的时候可能会更新大量的dom，所以react在应用层和dom层之间增加了一层Fiber，而Fiber是在内存中工作的，所以在更新的时候只需要在内存中进行dom更新的比较，最后再应用到需要更新真实节点上
 
@@ -21,7 +50,15 @@ react从15版本开始，到现在的17，以及快出来的18，内部经历了
 
 - react16之后出现了scheduler，以及react17的Lane模型，它们可以配合着工作，将比较耗时的任务按照Fiber节点划分成工作单元，并且遍历Fiber树计算或者更新节点上的状态可以被中断、继续，以及可以被高优先级的任务打断，比如用户触发的更新就是一个高优先级的任务，高优先级的任务优先执行，应用就不会太卡顿。
 
-### 1.fiber 概念
+
+### 为什么Fiber能提升效率?
+1. Fiber双缓存可以在构建好wip Fiber树之后切换成current Fiber，内存中直接一次性切换，提高了性能
+
+2. Fiber的存在使异步可中断的更新成为了可能，作为工作单元，可以在时间片内执行工作，没时间了交还执行权给浏览器，下次时间片继续执行之前暂停之后返回的Fiber
+
+3. Fiber可以在reconcile的时候进行相应的diff更新，让最后的更新应用在真实节点上
+
+## 1.fiber 概念和结构
 它是Fiber树结构的节点单位
 Fiber是一个链表数据结构（环状链表）
 ```
@@ -45,10 +82,10 @@ fiber 根据优先级暂停、继续、排列优先级：Fiber节点上保存了
 
 ```mermaid
 graph LR
-a[一次更新]-->|更新element|b[create element]-->|更新|c[调度器React Fiber]-->d[真实dom]
+一次更新--更新element-->create_element--更新-->调度器React_Fiber-->真实dom
 ```
 
-## fiber结构
+### fiber结构
 每一个 element 都会对应一个 fiber ，每一个 fiber 是通过 return ， child ，sibling 三个属性建立起联系的。
 
 - return： 指向父级 Fiber 节点。
@@ -89,6 +126,7 @@ function FiberNode(
   this.key = key;//key属性
   this.elementType = null;//元素类型
   this.type = null;//func或者class
+  // 管理 instance 自身的特性
   this.stateNode = null;//真实dom节点
 
   //作为fiber数架构 连接成fiber树
@@ -110,6 +148,10 @@ function FiberNode(
     
 	//effect相关
   this.effectTag = NoEffect;
+  /*
+ effectTag、nextEffect、firstEffect、lastEffect为effect相关信息，保存当前diff的成果。这些参数共同为后续的工作循环提供了可能，使react可以在执行完每个fiber时停下，根据浏览器的繁忙情况判断是否继续往下执行，因此我们也可以将fiber理解成一个工作单元。 
+  */
+  // 单链表结构，方便遍历 Fiber Tree 上有副作用的节点
   this.nextEffect = null;
   this.firstEffect = null;
   this.lastEffect = null;
@@ -118,7 +160,8 @@ function FiberNode(
   this.lanes = NoLanes;
   this.childLanes = NoLanes;
 
-  //current和workInProgress的指针
+  // 在fiber更新时克隆出的镜像fiber，对fiber的修改会标记在这个fiber上（实际上是两颗fiber数，用于更新缓存，提升运行效率）
+  // current和workInProgress的指针
   this.alternate = null;
 }
 ```
@@ -150,22 +193,22 @@ fiber对应的关系如下：
 flowchart  TD
 1[fiberRoot]==current==>2[RootFiber]
 
-2 <-->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index tag1] --child--> div((div tag5)) --> |child|hello((hello,world tag=6))
+2 <--alternate--> RootFiber[RootFiber:workInProgress] --child--> 4index[index tag1] --child--> div((div tag5)) --child--> hello((hello,world tag=6))
 
-p((p tag=5)) -->|sibling| button((button tag=5))-->|return|点赞((点赞 tag=6))
+p((p tag=5)) ---sibling--> button((button tag=5))--return-->点赞((点赞 tag=6))
 
 %% RootFiber -->|alternate| 2
-4index -->|return| RootFiber
-div -->|return| 4index
-hello -->|return| div
-hello -->|sibling| p
+4index --return--> RootFiber
+div --return--> 4index
+hello --return--> div
+hello --return--> p
 
-点赞 -->|return| button
-button -->|return| div
-p -->|return| div
+点赞 --return--> button
+button --return--> div
+p --return--> div
 
-%% div -->|child| button
-%% div -->|child| p
+%% div --child--> button
+%% div --child--> p
 ```
 
 ## fiber Fiber是怎样工作的?
@@ -230,20 +273,6 @@ export function createWorkInProgress(current: Fiber, pendingProps: any): Fiber {
 }
 ```
 
-例子：
-```javaScript
-function App() {
-  return (
-		<>
-      <h1>
-        <p>count</p> helloword
-      </h1>
-    </>
-  )
-}
-
-ReactDOM.render(<App />, document.getElementById("root"));
-```
 
 ## 1.在mount时：会创建fiberRoot和rootFiber，然后根据jsx对象创建Fiber节点，节点连接成current Fiber树
 ```
@@ -257,9 +286,9 @@ rootFiber：ReactDOM.render或者ReactDOM.unstable_createRoot创建出来的应�
 %% stateNode: 真实dom节点
 
 graph TD
-1[fiberRoot]==current==>2[RootFiber]
+fiberRoot==current==>RootFiber
 
-2==stateNode==>1
+fiberRoot==stateNode==>RootFiber
 ```
 
 ```
@@ -282,7 +311,24 @@ graph TD
 在update的时候，render阶段会根据最新的jsx和老的Fiber进行对比，生成新的Fiber。
 这些Fiber会带有各种副作用，比如‘Deletion’、‘Update’、‘Placement’等，这一个对比的过程就是diff算法 ，在commit阶段会操作真实节点，执行相应的副作用。
 
+
+参考：
+https://blog.csdn.net/bemystery/article/details/121848218
 ## Fiber双缓存创建的过程:
+例子：
+```javaScript
+function App() {
+  return (
+		<>
+      <h1>
+        <p>count</p> helloword
+      </h1>
+    </>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
+```
 ### 1.mount
 
 - 1.刚开始只创建了fiberRoot和rootFiber两个节点
@@ -291,24 +337,91 @@ graph TD
 %% stateNode: 真实dom节点
 
 graph TD
-1[fiberRoot]==current==>2[RootFiber]
+fiberRoot==current==>RootFiber
 
-2==stateNode==>1
+fiberRoot==stateNode==>RootFiber
 ```
 - 2.然后根据jsx创建workInProgress Fiber：
 
 ```mermaid
 flowchart  LR
-%% graph TD
-	A o--o B 
-	B <--> C 
-	C x--x D
+fiberRoot==current==>rootFiber<--alternate-->workInProgress[rootFiber workInProgress]--child-->App--child-->h1--child-->p--child-->count
+
+App--return-->workInProgress
+hello--return-->h1
+p--sibling-->hello
+
+count--return-->p
+
+p--return-->h1
+h1--return-->App
+
+rootFiber==stateNode==>fiberRoot
+```
+
+```mermaid
+%% flowchart TB
+flowchart LR
+    fiberRoot--current-->RootFiber
+
+    subgraph RootFiber [RootFiber]
+    RootFiber1[RootFiber]
+    end
+
+    subgraph workInProgress[rootFiber workInProgress]
+    _RootFiber<--alternate-->RootFiber1
+
+    _RootFiber----child-->App--child-->h1--child-->p--child-->count
+    App--return-->_RootFiber
+    hello--return-->h1
+    p--sibling-->hello
+    count--return-->p
+    p--return-->h1
+    h1--return-->App
+    end
 ```
 
 - 3.把workInProgress Fiber切换成current Fiber
+```mermaid
+flowchart  LR
 
+fiberRoot==current==>workInProgress[rootFiber workInProgress]--child-->App--child-->h1--child-->p--child-->count
 
+rootFiber<--alternate-->workInProgress
+App--return-->workInProgress
+hello--return-->h1
+p--sibling-->hello
 
+count--return-->p
 
+p--return-->h1
+h1--return-->App
+workInProgress==stateNode==>fiberRoot
+```
 
+## update时
+- 1.根据current Fiber创建workInProgress Fiber  ---->存疑，应该是生成的jsx 同 current Fiber diff
 
+本人理解
+```
+首次渲染时：
+render阶段会根据jsx对象生成新的Fiber节点，然后这些Fiber节点会被标记成带有‘Placement’的副作用，说明他们是新增节点，需要被插入到真实节点中，在commitWork阶段就会操作成真实节点，将它们插入到dom树中。
+
+页面触发更新时
+render阶段会根据最新的jsx生成的虚拟dom和current Fiber树进行对比，比较之后生成workinProgress Fiber(workinProgress Fiber树的alternate指向Current Fiber树的对应节点，这些Fiber会带有各种副作用，比如‘Deletion’、‘Update’、'Placement’等)这一对比过程就是diff算法
+
+当workinProgress Fiber树构建完成，workInprogress 则成为了curent Fiber渲染到页面上
+
+diff ⽐较的是什么？ ⽐较的是 current fiber 和 vdom，⽐较之后⽣成 workInprogress Fiber
+```
+- 2.把workInProgress Fiber切换成current Fiber
+
+## react-reconciler阶段
+1.beginWork阶段
+生成相应的fiber树
+
+2.completeWork阶段
+生成实例
+
+3.commitWork
+相应的节点进行提交，渲染到页面上

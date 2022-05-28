@@ -46,27 +46,29 @@ workInProgress fiber tree:
 - sibling：指向兄弟 fiber 节点。
 
 ```mermaid
-%% graph TD
-flowchart  LR
-%% graph LR
-1[fiberRoot]==current==>2[RootFiber]
+%% flowchart TB
+flowchart LR
+    fiberRoot--current-->RootFiber
 
-2 <-->|alternate| RootFiber[RootFiber:workInProgress] -->|child| 4index[index] --child--> div((div)) --> |child|hello((hello,world))
+    subgraph RootFiber [RootFiber]
+    RootFiber1[RootFiber]
+    end
 
-p((p)) -->|sibling| button((button))-->|return|点赞((点赞))
+    subgraph workInProgress [workInProgress]
+    _RootFiber<--alternate-->RootFiber1
+    _RootFiber--child--> 4index[index] --child--> div((div)) --child--> hello((hello,world))
 
-%% RootFiber -->|alternate| 2
-4index -->|return| RootFiber
-div -->|return| 4index
-hello -->|return| div
-hello -->|sibling| p
+    p((p)) --sibling--> button((button))--return-->点赞((点赞))
 
-点赞 -->|return| button
-button -->|return| div
-p -->|return| div
+    4index --return--> _RootFiber
+    div --return--> 4index
+    hello --return--> div
+    hello --sibling--> p
 
-%% div -->|child| button
-%% div -->|child| p```
+    点赞 --return--> button
+    button --return--> div
+    p --return--> div
+    end
 ```
 ![](./图3_例子渲染流程-workInProgress树.png)
 
