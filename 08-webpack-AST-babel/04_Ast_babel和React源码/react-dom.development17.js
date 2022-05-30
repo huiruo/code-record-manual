@@ -19486,6 +19486,7 @@
 
             var _wasHydrated = popHydrationState(workInProgress);
 
+            // 服务端渲染的逻辑
             if (_wasHydrated) {
               // TODO: Move this and createInstance step into the beginPhase
               // to consolidate.
@@ -19495,17 +19496,24 @@
                 markUpdate(workInProgress);
               }
             } else {
+              // 为当前fiber创建dom实例
               var instance = createInstance(type, newProps, rootContainerInstance, currentHostContext, workInProgress);
+
+              // 将子孙dom节点追加到当前创建的dom节点上
               appendAllChildren(instance, workInProgress, false, false);
+
+              // 将当前创建的挂载到stateNode属性上
               workInProgress.stateNode = instance; // Certain renderers require commit-time effects for initial mount.
               // (eg DOM renderer supports auto-focus for certain elements).
               // Make sure such renderers get scheduled for later work.
 
+              // 处理props（绑定回调，设置dom属性...）
               if (finalizeInitialChildren(instance, type, newProps, rootContainerInstance)) {
                 markUpdate(workInProgress);
               }
             }
 
+            // ref属性相关逻辑
             if (workInProgress.ref !== null) {
               // If there is a ref on a host node we need to schedule a callback
               markRef$1(workInProgress);
@@ -22843,6 +22851,7 @@
         var next = void 0;
 
         if ((completedWork.mode & ProfileMode) === NoMode) {
+          // 为传入的节点执行completeWork
           next = completeWork(current, completedWork, subtreeRenderLanes);
         } else {
           startProfilerTimer(completedWork);
@@ -22939,19 +22948,20 @@
 
       var siblingFiber = completedWork.sibling;
 
+      // 若存在兄弟节点 则进入其beginWork流程
       if (siblingFiber !== null) {
         // If there is more work to do in this returnFiber, do that next.
         workInProgress = siblingFiber;
         return;
       } // Otherwise, return to the parent
 
-
+      // 不存在兄弟节点 则进入父节点的completeWork流程
       completedWork = returnFiber; // Update the next thing we're working on in case something throws.
 
       workInProgress = completedWork;
     } while (completedWork !== null); // We've reached the root.
 
-
+    // 回溯到根节点时，设置根节点状态
     if (workInProgressRootExitStatus === RootIncomplete) {
       workInProgressRootExitStatus = RootCompleted;
     }
@@ -24763,6 +24773,7 @@
         Object.preventExtensions(this);
       }
     }
+    console.log('new FiberNode:', this)
   } // This is a constructor function, rather than a POJO constructor, still
   // please ensure we do the following:
   // 1) Nobody should add any instance methods on this. Instance methods can be
@@ -24780,7 +24791,12 @@
 
   var createFiber = function (tag, pendingProps, key, mode) {
     // $FlowFixMe: the shapes are exact here but Flow doesn't like constructors
-    return new FiberNode(tag, pendingProps, key, mode);
+    console.log('分割线createFiber=======>start', tag, 'pendingProps:', pendingProps, 'key:', key, 'mode:', mode)
+    var fiberNode = new FiberNode(tag, pendingProps, key, mode);
+    console.log('createFiber:', fiberNode)
+    console.log('分割线createFiber=======>end')
+    return fiberNode
+    // return new FiberNode(tag, pendingProps, key, mode);
   };
 
   function shouldConstruct$1(Component) {
@@ -25098,6 +25114,7 @@
 
     var fiber = createFiber(fiberTag, pendingProps, key, mode);
     fiber.elementType = type;
+    console.log('对fiber.type等赋值:', type, 'resolvedType:', resolvedType)
     fiber.type = resolvedType;
     fiber.lanes = lanes;
 
