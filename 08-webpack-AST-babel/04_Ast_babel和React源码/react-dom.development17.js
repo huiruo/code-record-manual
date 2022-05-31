@@ -22312,6 +22312,7 @@
     var lanes;
     var exitStatus;
 
+    // renderRootSync-->workLoopSync -->performUnitOfWork-->completeUnitOfWork
     if (root === workInProgressRoot && includesSomeLane(root.expiredLanes, workInProgressRootRenderLanes)) {
       // There's a partial tree, and at least one of its lanes has expired. Finish
       // rendering it before rendering the rest of the expired work.
@@ -22365,9 +22366,11 @@
     // will commit it even if something suspended.
 
 
+    // 赋值WIP
     var finishedWork = root.current.alternate;
     root.finishedWork = finishedWork;
     root.finishedLanes = lanes;
+    // commit阶段的入口函数
     commitRoot(root); // Before exiting, make sure there's a callback scheduled for the next
     // pending level.
 
@@ -22850,6 +22853,8 @@
         setCurrentFiber(completedWork);
         var next = void 0;
 
+        console.log('分割线completeUnitOfWork=======>start')
+        console.log('为传入的节点执行completeWork:', unitOfWork)
         if ((completedWork.mode & ProfileMode) === NoMode) {
           // 为传入的节点执行completeWork
           next = completeWork(current, completedWork, subtreeRenderLanes);
@@ -22859,7 +22864,7 @@
 
           stopProfilerTimerIfRunningAndRecordDelta(completedWork, false);
         }
-
+        console.log('分割线completeUnitOfWork=======>end')
         resetCurrentFiber();
 
         if (next !== null) {
@@ -23054,6 +23059,7 @@
       }
     }
 
+    // root.finishedWork即是WIP
     var finishedWork = root.finishedWork;
     var lanes = root.finishedLanes;
 
@@ -23062,6 +23068,7 @@
       return null;
     }
 
+    // 清空FiberRoot对象上的属性
     root.finishedWork = null;
     root.finishedLanes = NoLanes;
 
@@ -23087,6 +23094,7 @@
       }
     }
 
+    // 重置全局变量
     if (root === workInProgressRoot) {
       // We can reset these now that they are finished.
       workInProgressRoot = null;
@@ -23113,6 +23121,7 @@
       firstEffect = finishedWork.firstEffect;
     }
 
+    // 调度useEffect 
     if (firstEffect !== null) {
 
       var prevExecutionContext = executionContext;

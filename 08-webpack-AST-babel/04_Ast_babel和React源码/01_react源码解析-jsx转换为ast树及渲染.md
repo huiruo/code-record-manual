@@ -52,7 +52,7 @@ console.log('createElement 转化后ast树的结构:', element)
 }
 */
 
-// 渲染代码：详细见 例_1_jsx_ast.html
+// 渲染代码：详细见 例_1_jsx_ast_r17.html
 const container = document.getElementById('root');
 ReactDOM.render(
     element,

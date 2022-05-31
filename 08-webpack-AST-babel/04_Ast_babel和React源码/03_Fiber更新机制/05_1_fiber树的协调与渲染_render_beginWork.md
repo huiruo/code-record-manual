@@ -44,6 +44,43 @@ ensureRootIsScheduled --异步更新--> performSyncWorkOnRoot-->renderRootSync--
 ensureRootIsScheduled --同步更新--> performConcurrentWorkOnRoot-->renderRootConcurrent-->workLoopConcurrent-->performUnitOfWork
 ```
 
+详细一点
+beginWork 与 completeWork 二者是相互配合共同完成fiebr树的构建的。
+```mermaid
+flowchart TD
+%% flowchart LR
+
+subgraph render1[render]
+  A1(performSyncWorkOnRoot)-->A2(renderRootSync)-->A3(workLoopSync) -->A4(performUnitOfWork)-->A5(beginWork$1)
+  
+  A5--current=null初始化:tag进入不同case-->A6A(case:HostComponent为例)-->A6A1(updateHostComponent$1)-->A6A2(reconcileChildren)--current!=null-->A6A3(reconcileChildFibers)
+
+  A5-.current!=null更新流程.->A51(attemptEarlyBailoutIfNoScheduledUpdate)-->A52(bailoutOnAlreadyFinishedWork)-->A53(cloneChildFibers)
+
+  A4-->A6B(completeUnitOfWork)
+  A6B-->A6B1[为传入的节点执行completeWork]--case:HostComponent-->A6B2(updateHostComponent)-->A6A1A(prepareUpdate:对比props)-->A6A1B(diffProperties)-->A6A1C(markUpdate:赋值更新的flags也叫update)
+
+  A53-->createWorkInProgress
+  A53-.tag类型进入不同case.->A6A
+end
+
+subgraph render2[构建FiberNode]
+  A6A3-.根据子节点类型创建fiebr节点.->B1(reconcileSingleElement) --> B2(createFiberFromElement) --> B3(createFiberFromTypeAndProps) --fiber.type也是在这里赋值--> B4(createFiber)--> B5(return new FiberNode)
+end
+
+subgraph beginWork2[beginWork第二阶段]
+  A6A2--current==null-->C1(mountChildFibers)-->C2(ChildReconciler)--case-->C3(placeSingleChild)
+end
+```
+
+#### commit流程图 详细见 05_3_commit阶段.md：
+```mermaid
+flowchart TD
+%% flowchart LR
+
+01(performSyncWorkOnRoot)-->commitRoot
+```
+
 ```javaScript
  // 会以不同的优先级注册本次更新的回调任务
   function ensureRootIsScheduled(root, currentTime) {

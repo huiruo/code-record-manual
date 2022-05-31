@@ -19108,6 +19108,7 @@
       // component is hitting the resume path. Figure out why. Possibly
       // related to `hidden`.
 
+      // 对比props生成updatePayload
       var updatePayload = prepareUpdate(instance, type, oldProps, newProps, rootContainerInstance, currentHostContext); // TODO: Type this specific to this type of component.
 
       workInProgress.updateQueue = updatePayload; // If the update payload indicates that there is a change or if there
@@ -22363,6 +22364,8 @@
     }
 
     if (current !== null) {
+      // 通过一系列判断逻辑判断当前节点是否可复用，用didReceiveUpdate来标记，
+      // 若可复用则走attemptEarlyBailoutIfNoScheduledUpdate。
       var oldProps = current.memoizedProps;
       var newProps = workInProgress.pendingProps;
 
@@ -22381,6 +22384,7 @@
           (workInProgress.flags & DidCapture) === NoFlags) {
           // No pending updates or context. Bail out now.
           didReceiveUpdate = false;
+          // bailoutOnAlreadyFinishedWork=> cloneChildFibers 顾名思义，会直接克隆一个fiber节点并返回。
           return attemptEarlyBailoutIfNoScheduledUpdate(current, workInProgress, renderLanes);
         }
 
@@ -22849,7 +22853,15 @@
   var focusedInstanceHandle = null;
   var shouldFireAfterActiveInstanceBlur = false;
   function commitBeforeMutationEffects(root, firstChild) {
+
+    console.log('分割线commitBeforeMutationEffects=======>start')
+    console.log('commitBeforeMutationEffects:', root, firstChild)
+    console.log('分割线commitBeforeMutationEffects=======>end')
+
     focusedInstanceHandle = prepareForCommit(root.containerInfo);
+
+    //nextEffect是一个全局指针，首次调用传入的firstChild是finishedWork
+
     nextEffect = firstChild;
     commitBeforeMutationEffects_begin(); // We no longer need to track the active instance fiber
 
@@ -22860,6 +22872,7 @@
   }
 
   function commitBeforeMutationEffects_begin() {
+    // commitBeforeMutationEffects_begin中会向下遍历child指针。
     while (nextEffect !== null) {
       var fiber = nextEffect; // This phase is only used for beforeActiveInstanceBlur.
 
@@ -23049,7 +23062,7 @@
             }
           } // Mount
 
-
+          // create即我们在副作用中指定的回调
           var create = effect.create;
 
           {
@@ -23075,6 +23088,7 @@
           }
 
           {
+            // 执行回调得到销毁函数，赋值给destroy，将来会在commitHookEffectListUnmount中执行
             var destroy = effect.destroy;
 
             if (destroy !== undefined && typeof destroy !== 'function') {
@@ -23176,6 +23190,7 @@
               if (finishedWork.mode & ProfileMode) {
                 try {
                   startLayoutEffectTimer();
+                  // 执行useLayoutEffect的回调
                   commitHookEffectListMount(Layout | HasEffect, finishedWork);
                 } finally {
                   recordLayoutEffectDuration(finishedWork);
@@ -23213,6 +23228,7 @@
                   if (finishedWork.mode & ProfileMode) {
                     try {
                       startLayoutEffectTimer();
+                      // 根据current是否存在执行不同生命周期
                       instance.componentDidMount();
                     } finally {
                       recordLayoutEffectDuration(finishedWork);
@@ -23732,8 +23748,7 @@
   }
 
   function commitPlacement(finishedWork) {
-
-
+    // 查找最近的父节点
     var parentFiber = getHostParentFiber(finishedWork); // Note: these two variables *must* always be updated together.
 
     switch (parentFiber.tag) {
@@ -23748,6 +23763,7 @@
             parentFiber.flags &= ~ContentReset;
           }
 
+          // 查找最近的兄弟节点
           var before = getHostSibling(finishedWork); // We only have the top Fiber that was inserted but we need to recurse down its
           // children to find all the terminal nodes.
 
@@ -23759,7 +23775,7 @@
       case HostPortal:
         {
           var _parent = parentFiber.stateNode.containerInfo;
-
+          // 查找最近的兄弟节点
           var _before = getHostSibling(finishedWork);
 
           insertOrAppendPlacementNodeIntoContainer(finishedWork, _before, _parent);
@@ -24205,6 +24221,7 @@
 
           if (flags & Update) {
             try {
+              // 执行所有useLayoutEffect的销毁函数
               commitHookEffectListUnmount(Insertion | HasEffect, finishedWork, finishedWork.return);
               commitHookEffectListMount(Insertion | HasEffect, finishedWork);
             } catch (error) {
@@ -26865,7 +26882,7 @@
     } // Always call this before exiting `commitRoot`, to ensure that any
     // additional work on this root is scheduled.
 
-
+    // 1. 检测常规(异步)任务, 如果有则会发起异步调度
     ensureRootIsScheduled(root, now());
 
     if (recoverableErrors !== null) {
@@ -26918,7 +26935,7 @@
       nestedUpdateCount = 0;
     } // If layout work was scheduled, flush it now.
 
-
+    // 2. 检测同步任务, 如果有则主动调用flushSyncCallbackQueue,再次进入fiber树构造循环
     flushSyncCallbacks();
 
     {
@@ -26998,7 +27015,9 @@
 
     var prevExecutionContext = executionContext;
     executionContext |= CommitContext;
+    // 执行useEffect的销毁函数
     commitPassiveUnmountEffects(root.current);
+    // 执行useEffect的create函数
     commitPassiveMountEffects(root, root.current, lanes, transitions); // TODO: Move to commitPassiveMountEffects
 
     {
