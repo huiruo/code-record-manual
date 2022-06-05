@@ -7,7 +7,6 @@ performSyncWorkOnRoot 或 performConcurrentWorkOnRoot 中进行的，执行哪�
 - mutation阶段： commitMutationEffects
 - layout阶段  commitLayoutEffects
 
-参考：https://www.jianshu.com/p/42c718d6306c
 ## commit流程图 
 performSyncWorkOnRoot render流程 详细见 05_3_commit阶段.md
 ```mermaid

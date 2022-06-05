@@ -1,17 +1,22 @@
-
-
-## 构建三个阶段
+参考：https://www.jianshu.com/p/42c718d6306c
+## 一.构建三个阶段
 即首先进入调度阶段调度本次更新任务，调度成功后进入render阶段，处理本次更新并生成fiber树，
 
 最后进入渲染阶段将fiber树渲染到视图中。
 调度器，协调器，渲染器的工作一一对应。
+- 调度器(Scheduler):scheduler，用于注册任务，并在合适的时机执行任务，通常与 Reconciler协调器配合使用。
 ```
-调度器(render):scheduler，用于注册任务，并在合适的时机执行任务，通常与协调器配合使用。
-
-协调器:react-reconciler，用于处理并生成fiber树（react中fiber节点即代表vnode，fiber树即vnode tree），输出给渲染器进行渲染。
-
-渲染器:react-dom用于web端，将协调器的输出结果渲染到web页面中
 ```
+
+- 协调器:react-reconciler，用于处理并生成fiber树（react中fiber节点即代表vnode，fiber树即vnode tree），输出给渲染器进行渲染。
+```
+Reconciler（协调器）的作用是收集变化的组件，最终让Renderer（渲染器）将变化的组件渲染的页面当中。
+收集变化的组件的过程我们称为render（协调）阶段。在此阶段，React会遍历current fiber tree并将
+fiber节点与对应的React element进行对比（也就是我们常说的diff），构造出新的fiber tree:workInProgress fiber tree。
+```
+
+- 渲染器:react-dom用于web端，将协调器的输出结果渲染到web页面中
+
 ![](./图2_react构建三个阶段.png)
 
 ## 二.协调阶段（Render）
@@ -20,13 +25,25 @@
 基本原理是在内存中绘制当前帧，绘制完毕后直接用当前帧替换上一帧，由于省掉了帧与帧之间替换的时间因此可以有效的避免闪烁问题。
 
 协调阶段的主要职责就是输出fiber树，react正是使用双缓存模型来完成fiber树的构建。
+```
+在协调阶段，React利用diff算法，将产生update的React element与current fiber tree中对应的节点进行比较，并最终在内存中
+生成workInProgress fiber tree。
+随后Renderer会依据workInProgress fiber tree将update渲染到页面上。
+
+同时根节点的current属性会指向workInProgress fiber tree，
+
+此时workInProgress fiber tree就变为current fiber tree。
+```
 
 react中最多会同时存在两颗fiber树，他们分别是workInProgressFiber树和currentFiber树，后面就简称（WIP和CUR），两棵树中的fiber节点通过alternate属性连接。
 - CUR代表页面当前状态（正在展示的内容）
 - WIP是正在内存中构建的fiber树，他代表了在本次更新后页面的状态。
 
 react应用的通过根fiber节点fiberRoot的current指针来完成两颗fiber树的更替。
-
+```javascript
+currentFiber.alternate === workInProgressFiber;
+workInProgressFiber.alternate === currentFiber;
+```
 - 页面首次渲染时，current为null，当WIP构建完成并完成渲染后，current指向WIP，即此时WIP变成CUR。
 
 - 当触发状态更新时，会重新生成一颗WIP，以此往复
@@ -35,30 +52,49 @@ react应用的通过根fiber节点fiberRoot的current指针来完成两颗fiber�
 
 
 ### 2-2 入口函数
-render阶段主要工作是构建WIP，他开始于 performSyncWorkOnRoot 函数或performConcurrentWorkOnRoot 函数，这取决于本次更新是同步更新还是异步更新。
+render阶段主要工作是构建WIP，协调阶段的入口为 performSyncWorkOnRoot 函数或performConcurrentWorkOnRoot 函数，这取决于本次更新是同步更新还是异步更新。
 ```mermaid
 flowchart  LR
 
-ensureRootIsScheduled --异步更新--> performSyncWorkOnRoot-->renderRootSync-->workLoopSync-->performUnitOfWork
+ensureRootIsScheduled --异步更新:legacy模式--> performSyncWorkOnRoot-->renderRootSync-->workLoopSync-->performUnitOfWork
 
-ensureRootIsScheduled --同步更新--> performConcurrentWorkOnRoot-->renderRootConcurrent-->workLoopConcurrent-->performUnitOfWork
+ensureRootIsScheduled --同步更新:concurrent模式--> performConcurrentWorkOnRoot-->renderRootConcurrent-->workLoopConcurrent-->performUnitOfWork
 ```
 
 详细一点
 beginWork 与 completeWork 二者是相互配合共同完成fiebr树的构建的。
+
+workLoopSync 的深度遍历具体见 06_辅_探索Reconciler.md
 ```mermaid
 flowchart TD
 %% flowchart LR
+  A0A(ensureRootIsScheduled)--同步更新-->A0A1(performConcurrentWorkOnRoot)
+  A0A--异步更新-->A0A2(performSyncWorkOnRoot)
 
-subgraph render1[render]
-  A1(performSyncWorkOnRoot)-->A2(renderRootSync)-->A3(workLoopSync) -->A4(performUnitOfWork)-->A5(beginWork$1)
+  A0A2(performSyncWorkOnRoot)-->A2
+  A0A2-->D1
+  A2(renderRootSync)-->A3(workLoopSync)-->A0Aif
+
+  A0Aif{{workInProgress!=null?}}--不为null-->A4
+  A0Aif--为null-->endW(结束当前循环)
+
+subgraph render1[协调阶段:render是一个深度优先遍历的过程核心函数beginWork和completeUnitOfWork]
+
+  A4(performUnitOfWork:深度遍历)
+
+  A4--遍历到的节点执行beginWork创建子fiber节点-->A5(beginWork$1处理完返回next)
+
+  A4--若当前节点不存在子节点:next=null-->A6B(completeUnitOfWork)
   
   A5--current=null初始化:tag进入不同case-->A6A(case:HostComponent为例)-->A6A1(updateHostComponent$1)-->A6A2(reconcileChildren)--current!=null-->A6A3(reconcileChildFibers)
 
   A5-.current!=null更新流程.->A51(attemptEarlyBailoutIfNoScheduledUpdate)-->A52(bailoutOnAlreadyFinishedWork)-->A53(cloneChildFibers)
 
-  A4-->A6B(completeUnitOfWork)
-  A6B-->A6B1[为传入的节点执行completeWork]--case:HostComponent-->A6B2(updateHostComponent)-->A6A1A(prepareUpdate:对比props)-->A6A1B(diffProperties)-->A6A1C(markUpdate:赋值更新的flags也叫update)
+  A6B-->A6B1[为传入的节点执行completeWork:执行不同tag]--case:HostComponent并且current!=null-->A6B2(update流程:updateHostComponent)-->A6A1A(prepareUpdate:对比props)-->A6A1B(diffProperties)-->A6A1C(markUpdate:赋值更新的flags也叫update)
+
+  A6B1--case:HostComponent-current=null-->A6B3(为fiber创建dom:createInstance)
+  A6B3--case:HostComponent-current=null-->A6B4(add child dom:appendAllChildren)
+  A6B3-->A6B3A(createElement)-->A6B3B(document.createElement)
 
   A53-->createWorkInProgress
   A53-.tag类型进入不同case.->A6A
@@ -71,14 +107,16 @@ end
 subgraph beginWork2[beginWork第二阶段]
   A6A2--current==null-->C1(mountChildFibers)-->C2(ChildReconciler)--case-->C3(placeSingleChild)
 end
-```
 
-#### commit流程图 详细见 05_3_commit阶段.md：
-```mermaid
-flowchart TD
-%% flowchart LR
+%% 提交阶段commit:15_3_commit阶段.md
+subgraph commit[提交阶段commit]
+  D1(commitRoot)-->D2(commitRootImpl)
+end
 
-01(performSyncWorkOnRoot)-->commitRoot
+%% layout阶段:15_3_commit阶段.md
+subgraph layout[layout阶段]
+  D2-->E1(commitLayoutEffect)
+end
 ```
 
 ```javaScript

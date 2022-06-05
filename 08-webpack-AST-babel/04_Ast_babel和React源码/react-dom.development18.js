@@ -9749,7 +9749,6 @@
   }
 
   function createElement(type, props, rootContainerElement, parentNamespace) {
-    console.log('react-dom.development18_createElement:', type, props)
     var isCustomComponentTag; // We create tags in the namespace of their parent container, except HTML
     // tags get no namespace.
 
@@ -9827,6 +9826,9 @@
       }
     }
 
+    console.log('分割线createElement=======>start', type, props)
+    console.log('createElement:', domElement)
+    console.log('分割线createElement=======>end')
     return domElement;
   }
   function createTextNode(text, rootContainerElement) {
@@ -19425,17 +19427,23 @@
                 markUpdate(workInProgress);
               }
             } else {
+              // 为当前fiber创建dom实例
               var instance = createInstance(type, newProps, rootContainerInstance, currentHostContext, workInProgress);
+              console.log('分割线completeWork=======>start')
+              // 将子孙dom节点追加到当前创建的dom节点上
+              console.log('将子孙dom节点追加到当前创建的dom节点上', instance)
+              console.log('分割线completeWork=======>end')
               appendAllChildren(instance, workInProgress, false, false);
+              // 将当前创建的挂载到stateNode属性上
               workInProgress.stateNode = instance; // Certain renderers require commit-time effects for initial mount.
               // (eg DOM renderer supports auto-focus for certain elements).
               // Make sure such renderers get scheduled for later work.
-
+              // 处理props（绑定回调，设置dom属性...）
               if (finalizeInitialChildren(instance, type, newProps, rootContainerInstance)) {
                 markUpdate(workInProgress);
               }
             }
-
+            // ref属性相关逻辑
             if (workInProgress.ref !== null) {
               // If there is a ref on a host node we need to schedule a callback
               markRef(workInProgress);
@@ -26539,6 +26547,7 @@
 
     if ((unitOfWork.mode & ProfileMode) !== NoMode) {
       startProfilerTimer(unitOfWork);
+      //对当前节点进行协调，如果存在子节点，则返回子节点的引用
       next = beginWork$1(current, unitOfWork, subtreeRenderLanes);
       stopProfilerTimerIfRunningAndRecordDelta(unitOfWork, true);
     } else {
@@ -26548,8 +26557,10 @@
     resetCurrentFiber();
     unitOfWork.memoizedProps = unitOfWork.pendingProps;
 
+    //如果无子节点，则代表当前的child链表已经遍历完
     if (next === null) {
       // If this doesn't spawn new work, complete the current work.
+      //此函数内部会帮我们找到下一个可执行的节点
       completeUnitOfWork(unitOfWork);
     } else {
       workInProgress = next;
@@ -26635,15 +26646,18 @@
         }
       }
 
+      //查看当前节点是否存在兄弟节点
       var siblingFiber = completedWork.sibling;
 
       if (siblingFiber !== null) {
         // If there is more work to do in this returnFiber, do that next.
+        // 若存在，便把siblingFiber节点作为下一个工作单元，
+        // 继续执行performUnitOfWork，执行当前节点并尝试遍历当前节点所在的child链表
         workInProgress = siblingFiber;
         return;
       } // Otherwise, return to the parent
 
-
+      // 如果不存在兄弟节点，则回溯到父节点，尝试查找父节点的兄弟节点
       completedWork = returnFiber; // Update the next thing we're working on in case something throws.
 
       workInProgress = completedWork;
