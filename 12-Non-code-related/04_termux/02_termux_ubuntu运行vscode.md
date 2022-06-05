@@ -18,6 +18,12 @@ code-server --port 6666 --host 0.0.0.0
 code-server --host 0.0.0.0
 ```
 
+### 配置？
+```
+cd /root/.local/share/code-server/User
+touch keybindings.json
+```
+
 ## 基础-创建文件夹和文件
 ```
 mkdir /root/log-codeserver
