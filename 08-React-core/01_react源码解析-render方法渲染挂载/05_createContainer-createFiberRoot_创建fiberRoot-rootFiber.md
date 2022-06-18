@@ -8,7 +8,6 @@ function createRootImpl(container, tag, options) {
   var root = createContainer(container, tag, hydrate);
   ...
 
-
   return root;
 }
 ```

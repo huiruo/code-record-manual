@@ -1,4 +1,3 @@
-参考：https://www.jianshu.com/p/c87cc324756f
 ## 一. completeUnitOfWork
 前面提到：
 render阶段的执行其实是一个深度优先遍历的过程，它有两个核心函数，beginWork和completeUnitOfWork,

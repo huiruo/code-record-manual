@@ -1,5 +1,3 @@
-
-
 ## 首先，Hooks是以单向链表的形式存储在 Fiber 的 memoizedState 属性身上
 ```mermaid
 graph LR
