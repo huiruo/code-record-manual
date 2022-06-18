@@ -24,6 +24,23 @@ cd /root/.local/share/code-server/User
 touch keybindings.json
 ```
 
+```
+insert:
+jj-- Esc
+tt-- C-v
+ty-- markdown
+
+Normal:
+tt-- C-v
+ty-- markdown
+zz--  quit
+zr--> activityBar
+zm--> terminal
+
+v:
+cc --> copy
+```
+
 ## 基础-创建文件夹和文件
 ```
 mkdir /root/log-codeserver
@@ -37,7 +54,6 @@ rm -rf testfile
 查看版本
 cat /etc/issue
 ```
-
 ## 安装 code 
 curl -fsSL https://code-server.dev/install.sh | sh
 ```
