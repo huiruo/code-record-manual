@@ -303,17 +303,9 @@ return (
 8. 执行div的completeWork
 
 最终会得到这样的一颗Fiber树:
-```mermaid
-flowchart LR
-  App--child-->div--chilid-->span
-  
-  div--return-->App
 
-  p--return-->div
-  p--child-->span2[span]
-  span2--return-->p
+## 渲染的 fiber 树结构 mermaid 见辅文件
+```
 
-  span--return-->div
-  span--sibling-->p
 ```
 至此，render阶段全部工作已经完成，我们得到了WIP以及对应的dom树，会被赋值给fiberRoot.finisheWork，接下来的工作就是将渲染WIP，也就是提交阶段（commit）的流程。

@@ -51,18 +51,8 @@ React 在以下三个假设的基础之上提出了一套 O(n) :
 ```
 
 ## 二.Diff
-```mermaid
-flowchart BR
-A1(reconcileChildren)
-A1-->A1if{{workInProgress!==null}}
-A1if--为null初始化-->A2A(mountChildFibers)--true-->A3
-A1if--不为null更新-->A2B(reconcileChildFibers)--false-->A3
+mermaid 流程 见辅文件
 
-%% 参考：06_辅3_ChildReconciler完整函数.js
-%% reconcileChildFibers内部会根据newChild（即新生成的ReactElement）的类型
-%% 和$$typeof属性调用不同的处理函数
-A3(ChildReconciler)--调用内部函数-->A4(reconcileChildFibers)
-```
 ### 2-1.Diff的入口函数为 reconcileChildren
 内部会通过current === null 区分当前fiber节点是mount还是update:
 mount-->mountChildFibers

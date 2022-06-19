@@ -137,65 +137,15 @@ Tree 构建的遍历顺序，它会以旧的fiber tree为蓝本，把每个fiber
 5. 如果没有都没有了，那么遍历结束
 
 结构：
-```mermaid
-%% flowchart LR
-flowchart RL
-%% flowchart BT
-%% flowchart TD
-%% flowchart TB
-
-  subgraph RootFiber [RootFiber]
-    rootFiber1[RootFiber]
-  end
-
-  subgraph wip [RootFiber]
-    _RootFiber---->A1--child-->B1--child-->C1--sibling-->C2
-
-    B1--sibling-->B2
-    B2--return-->A1
-
-    B2--child-->C3
-    C3--return-->B2
-
-    C3--sibling-->C4
-    C4--return-->B2
-
-    B1--return-->A1
-    C1--return-->B1
-    C2--return-->B1
-  end
-
-  rootFiber1<--alternate-->_RootFiber
-
-  fiberRoot--current-->RootFiber
-  RootFiber--stateNode-->fiberRoot
+```
+见 mermaid 文件
 ```
 
 遍历过程:
-```mermaid
-flowchart LR
-%% flowchart TD
-start-->A1--1-->B1--2-->C1--3-->C2
-
-C2--4-->B1
-B1--5-->B2
-B2--9-->A1
-B2--6-->C3
-C3--7-->C4
-C4--8-->B2
+```
+见 mermaid 文件
 ```
 
-#### 继续看看任务调度中 performUnitOfWork大致的实现
-```javaScript
-function performUnitOfWork(fiber: Fiber, topWork: Fiber) {
-  next = beginWork(current, workInProgress, nextRenderExpirationTime);
-  if (next === null) {
-    // If this doesn't spawn new work, complete the current work.
-    next = completeUnitOfWork(workInProgress);
-  }
-  return next
-}
-```
 以看出下一个工作单元是的确定，是由当前工作单元beginWork之后得到的，这也合情合理，毕竟没执行过当前工作单元，也就无法得知有无子节点生成。
 
 那我们继续看看beginWork中是如何判断下一个工作单元的。

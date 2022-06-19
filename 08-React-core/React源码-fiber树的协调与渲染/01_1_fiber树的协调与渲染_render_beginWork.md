@@ -53,70 +53,21 @@ workInProgressFiber.alternate === currentFiber;
 
 ### 2-2 入口函数
 render阶段主要工作是构建WIP，协调阶段的入口为 performSyncWorkOnRoot 函数或performConcurrentWorkOnRoot 函数，这取决于本次更新是同步更新还是异步更新。
-```mermaid
-flowchart  LR
 
-ensureRootIsScheduled --异步更新:legacy模式--> performSyncWorkOnRoot-->renderRootSync-->workLoopSync-->performUnitOfWork
-
-ensureRootIsScheduled --同步更新:concurrent模式--> performConcurrentWorkOnRoot-->renderRootConcurrent-->workLoopConcurrent-->performUnitOfWork
+## 入口函数mermaid流程见辅助文件
 ```
+
+```
+
+...
 
 详细一点
 beginWork 与 completeWork 二者是相互配合共同完成fiebr树的构建的。
 
 workLoopSync 的深度遍历具体见 06_辅_探索Reconciler.md
-```mermaid
-flowchart TD
-%% flowchart LR
-  A0A(ensureRootIsScheduled)--同步更新-->A0A1(performConcurrentWorkOnRoot)
-  A0A--异步更新-->A0A2(performSyncWorkOnRoot)
 
-  A0A2(performSyncWorkOnRoot)-->A2
-  A0A2-->D1
-  A2(renderRootSync)-->A3(workLoopSync)-->A0Aif
-
-  A0Aif{{workInProgress!=null?}}--不为null-->A4
-  A0Aif--为null-->endW(结束当前循环)
-
-subgraph render1[协调阶段:render是一个深度优先遍历的过程核心函数beginWork和completeUnitOfWork]
-
-  A4(performUnitOfWork:深度遍历)
-
-  A4--遍历到的节点执行beginWork创建子fiber节点-->A5(beginWork$1处理完返回next)
-
-  A4--若当前节点不存在子节点:next=null-->A6B(completeUnitOfWork)
-  
-  A5--current=null初始化:tag进入不同case-->A6A(case:HostComponent为例)-->A6A1(updateHostComponent$1)-->A6A2(reconcileChildren)--current!=null-->A6A3(reconcileChildFibers)
-
-  A5-.current!=null更新流程.->A51(attemptEarlyBailoutIfNoScheduledUpdate)-->A52(bailoutOnAlreadyFinishedWork)-->A53(cloneChildFibers)
-
-  A6B-->A6B1[为传入的节点执行completeWork:执行不同tag]--case:HostComponent并且current!=null-->A6B2(update流程:updateHostComponent)-->A6A1A(prepareUpdate:对比props)-->A6A1B(diffProperties)-->A6A1C(markUpdate:赋值更新的flags也叫update)
-
-  A6B1--case:HostComponent-current=null-->A6B3(为fiber创建dom:createInstance)
-  A6B3--case:HostComponent-current=null-->A6B4(add child dom:appendAllChildren)
-  A6B3-->A6B3A(createElement)-->A6B3B(document.createElement)
-
-  A53-->createWorkInProgress
-  A53-.tag类型进入不同case.->A6A
-end
-
-subgraph render2[构建FiberNode]
-  A6A3-.根据子节点类型创建fiebr节点.->B1(reconcileSingleElement) --> B2(createFiberFromElement) --> B3(createFiberFromTypeAndProps) --fiber.type也是在这里赋值--> B4(createFiber)--> B5(return new FiberNode)
-end
-
-subgraph beginWork2[beginWork第二阶段]
-  A6A2--current==null-->C1(mountChildFibers)-->C2(ChildReconciler)--case-->C3(placeSingleChild)
-end
-
-%% 提交阶段commit:15_3_commit阶段.md
-subgraph commit[提交阶段commit]
-  D1(commitRoot)-->D2(commitRootImpl)
-end
-
-%% layout阶段:15_3_commit阶段.md
-subgraph layout[layout阶段]
-  D2-->E1(commitLayoutEffect)
-end
+## 辅文件：fiber 流程 mermaid流程见辅助文件
+```
 ```
 
 ```javaScript
@@ -247,9 +198,10 @@ function ChildReconciler(shouldTrackSideEffects) {
 这两个函数事实上是同一个函数，即ChildReconciler的返回值reconcileChildFibers，只是传入ChildReconciler的参数shouldTrackSideEffects（追踪副作用）不同，事实上此参数与update时为fiber节点标记副作用（flags）的逻辑有关，后续在分析update的流程时会继续讨论，接下来我们看下reconcileChildFibers的实现逻辑：
 
 其主要职责就是根据子节点类型创建fiebr节点，以 reconcileSingleElement 为例看下其调用栈：
-```mermaid
-flowchart  LR
-reconcileChildFibers-->reconcileSingleElement --> createFiberFromElement --> createFiberFromTypeAndProps --> createFiber--> FiberNode[return new FiberNode]
+
+## reconcileSingleElement 调用栈 mermaid 流程见辅助文件
+```
+
 ```
 
 ```javaScript
@@ -441,5 +393,3 @@ reconcileChildrenArray 的职责可概括为:为所有子节点创建fiber节点
 前面在分析 performUnitOfWork 时提到，在当前节点的 completeUnitOfWork 流程中会判断当前节点有无兄弟节点，其判断的依据就是通过sibling指针。
 
 至此 beginWork 的大体逻辑已梳理完毕，接下来分析 completeUnitOfWork
-
-
