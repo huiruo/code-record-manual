@@ -21920,8 +21920,10 @@
         // root inside of batchedUpdates should be synchronous, but layout updates
         // should be deferred until the end of the batch.
 
+        console.log('更新流程-->0-b0:直接调用performSyncWorkOnRoot异步更新')
         performSyncWorkOnRoot(root);
       } else {
+        console.log('更新流程-->0-b1:准备调用ensureRootIsScheduled')
         ensureRootIsScheduled(root, eventTime);
         schedulePendingInteractions(root, lane);
 
@@ -21949,7 +21951,7 @@
         }
       } // Schedule other updates after in case the callback is sync.
 
-
+      console.log('更新流程-->0-b2:准备调用ensureRootIsScheduled')
       ensureRootIsScheduled(root, eventTime);
       schedulePendingInteractions(root, lane);
     } // We use this when assigning a lane for a transition inside
@@ -22056,10 +22058,13 @@
     if (newCallbackPriority === SyncLanePriority) {
       // Special case: Sync React callbacks are scheduled on a special
       // internal queue
+      console.log('更新流程-->0-c0:performSyncWorkOnRoot异步更新')
       newCallbackNode = scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root));
     } else if (newCallbackPriority === SyncBatchedLanePriority) {
+      console.log('更新流程-->0-c1:performSyncWorkOnRoot异步更新')
       newCallbackNode = scheduleCallback(ImmediatePriority$1, performSyncWorkOnRoot.bind(null, root));
     } else {
+      console.log('更新流程-->0-c2:performConcurrentWorkOnRoot同步更新')
       var schedulerPriorityLevel = lanePriorityToSchedulerPriority(newCallbackPriority);
       newCallbackNode = scheduleCallback(schedulerPriorityLevel, performConcurrentWorkOnRoot.bind(null, root));
     }
@@ -24717,6 +24722,7 @@
   var debugCounter = 1;
 
   function FiberNode(tag, pendingProps, key, mode) {
+    console.log('==欢迎来到B FiberNode!===')
     // Instance
     this.tag = tag;
     this.key = key;
@@ -24800,10 +24806,11 @@
 
   var createFiber = function (tag, pendingProps, key, mode) {
     // $FlowFixMe: the shapes are exact here but Flow doesn't like constructors
-    console.log('分割线createFiber=======>start', tag, 'pendingProps:', pendingProps, 'key:', key, 'mode:', mode)
+    // console.log('分割线createFiber=======>start', tag, 'pendingProps:', pendingProps, 'key:', key, 'mode:', mode)
     var fiberNode = new FiberNode(tag, pendingProps, key, mode);
-    console.log('createFiber:', fiberNode)
-    console.log('分割线createFiber=======>end')
+    // console.log('createFiber:', fiberNode)
+    // console.log('分割线createFiber=======>end')
+    console.log('==欢迎来到C FiberNode返回值', fiberNode)
     return fiberNode
     // return new FiberNode(tag, pendingProps, key, mode);
   };
@@ -25308,6 +25315,7 @@
   }
 
   function FiberRootNode(containerInfo, tag, hydrate) {
+    console.log('==欢迎来到A FiberRootNode!===')
     this.tag = tag;
     this.containerInfo = containerInfo;
     this.pendingChildren = null;
@@ -25490,9 +25498,11 @@
   * 仅仅返回了 createFiberRoot 的调用结果
   */
   function createContainer(containerInfo, tag, hydrate, hydrationCallbacks) {
+    console.log('更新流程FiberRoot:a-->createContainer')
     return createFiberRoot(containerInfo, tag, hydrate);
   }
   function updateContainer(element, container, parentComponent, callback) {
+    console.log('更新流程-->updateContainer本体')
     {
       onScheduleRoot(container, element);
     }
@@ -25544,6 +25554,7 @@
       update.callback = callback;
     }
 
+    console.log('更新流程-->updateContainer本体,调用enqueueUpdate和enqueueUpdate')
     enqueueUpdate(current$1, update);
     scheduleUpdateOnFiber(current$1, lane, eventTime);
     return lane;
@@ -26125,6 +26136,7 @@
     var fiberRoot;
 
     if (!root) {
+      console.log('更新流程-->0-a:初始化渲染')
       // Initial mount
       // 初始渲染
       // 初始化根 Fiber 数据结构
@@ -26166,13 +26178,13 @@
       // 初始化渲染不执行批量更新
       // 因为批量更新是异步的是可以被打断的, 但是初始化渲染应该尽快完成不能被打断
       // 所以不执行批量更新
-      console.log('legacyRenderSubtreeIntoContainer-初始化渲染不执行批量更新',)
+      console.log('更新流程-->0-a,初始化渲染不执行批量更新',)
       unbatchedUpdates(function () {
         updateContainer(children, fiberRoot, parentComponent, callback);
       });
     } else {
       // 非初始化渲染 即更新
-      console.log('legacyRenderSubtreeIntoContainer-非初始化渲染 即更新',)
+      console.log('更新流程-->1:即更新')
       fiberRoot = root._internalRoot;
 
       if (typeof callback === 'function') {
@@ -26186,6 +26198,7 @@
       } // Update
 
       // 更新流程
+      console.log('更新流程-->是2-->updateContainer')
       updateContainer(children, fiberRoot, parentComponent, callback);
     }
 
@@ -26243,8 +26256,6 @@
     return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
   }
   function render(element, container, callback) {
-    console.log('分割线render=======>start')
-    console.log('dom-render', element, container, callback)
     if (!isValidContainer(container)) {
       {
         throw Error("Target container is not a DOM element.");
@@ -26258,7 +26269,9 @@
         error('You are calling ReactDOM.render() on a container that was previously ' + 'passed to ReactDOM.createRoot(). This is not supported. ' + 'Did you mean to call root.render(element)?');
       }
     }
-    console.log('分割线render=======>end')
+
+    console.log('更新流程-->000,调用legacyRenderSubtreeIntoContainer')
+    console.log('dom-render', element, container, callback)
     return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
   }
   function unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {

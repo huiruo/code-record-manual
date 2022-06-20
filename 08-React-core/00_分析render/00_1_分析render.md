@@ -30,11 +30,11 @@ function render(element, container, callback) {
   }
 
   /*
-  parentComponent => null --------------- SSR 专用，父结点
-  children => element ------------ 需要渲染的 ReactElemtn
-  container => container ---------- HtmlElment
-  forceHydrate => false -------------- SSR 专用，通过 Hydrate 这里会是 true
-  callBack => callback ----------- 同上
+  parentComponent => null:SSR 专用，父结点
+  children => element:需要渲染的 ReactElemtn
+  container => container:HtmlElment
+  forceHydrate => false:SSR 专用，通过 Hydrate 这里会是 true
+  callBack => callback
   */
   return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
 }
@@ -99,9 +99,46 @@ if (typeof callback === 'function') {
   };
 }
 ```
-## 2-2.若 root 不存在：
+
+
+## 2-2.若root不存在：
 调用 legacyCreateRootFromDOMContainer(contaiber,forceHydrate) 初始化 root。
 将 root 赋值给 container._reactRootContainer,取出 root 中的_internalRoot 作为 fiberRoot。
 
+### legacyCreateRootFromDOMContainer
+调用 legacyCreateRootFromDOMContainer(contaiber,forceHydrate) 初始化 root。
+作用：清空container,创建root:
+```
+参数：
+container:HTMLElement
+forceHydrate:fasle
+```
+
+将root赋值给container._reactRootContainer,取出 root 中的_internalRoot 作为 fiberRoot。
+
+调用 updateContainer(children,fiberRoot,parentComponent,callBack)。
+```javaScript
+// 注意这里调用的时候，是非批量的。因为是初始化的内部挂载，所以需要使用非批量更新
+unbatchedUpdates(() => {
+  updateContainer(children, fiberRoot, parentComponent, callback);
+});
+
+// updateContainer() 就到了更新流程
+```
+
+- 根据 forceHydrate 和 container 上是否已经被标记是一个 ReactContainer 来判断是否需要清空 container（SSR 不需要清空，但是 web 端初始化情况）
+
+- 创建一个 root 结点
+
+```javaScript
+shouleHydrate = forceHydrate && isReactContainer(contaiber)?{ hydrate:true }
+
+调用 createLegacyRoot(container,shouleHydrate)
+```
+
+## createLegacyRoot
+```
 container --------------- HTMLElement
-forceHydrate ------------ 同上
+options:shouleHydrate --- 忽略
+```
+

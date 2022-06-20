@@ -1,11 +1,15 @@
 
+https://developer.huawei.com/consumer/cn/forum/topic/0202480991169840069
+React 创建了update，并且将 update 放入 updateQueue 中,接下来就是任务调度的过程。任务调度的起点是 scheduleUpdateOnFiber 方法
+
 ## 辅助文件：mermaid 入口函数
 ```mermaid
 flowchart  LR
 
-ensureRootIsScheduled --异步更新:legacy模式--> performSyncWorkOnRoot-->renderRootSync-->workLoopSync-->performUnitOfWork
+scheduleUpdateOnFiber-->A1
+A1(ensureRootIsScheduled) --异步更新:legacy模式--> performSyncWorkOnRoot-->renderRootSync-->workLoopSync-->performUnitOfWork
 
-ensureRootIsScheduled --同步更新:concurrent模式--> performConcurrentWorkOnRoot-->renderRootConcurrent-->workLoopConcurrent-->performUnitOfWork
+A1 --同步更新:concurrent模式--> performConcurrentWorkOnRoot-->renderRootConcurrent-->workLoopConcurrent-->performUnitOfWork
 ```
 
 ## fiber 流程

@@ -25462,6 +25462,7 @@
         }
       }
 
+      console.log('更新流程-->0-b0:准备调用ensureRootIsScheduled')
       ensureRootIsScheduled(root, eventTime);
 
       if (lane === SyncLane && executionContext === NoContext && (fiber.mode & ConcurrentMode) === NoMode && // Treat `act` as if it's inside `batchedUpdates`, even in legacy mode.
@@ -25620,8 +25621,11 @@
           ReactCurrentActQueue$1.didScheduleLegacyUpdate = true;
         }
 
+        console.log('更新流程-->0-c0:performSyncWorkOnRoot')
         scheduleLegacySyncCallback(performSyncWorkOnRoot.bind(null, root));
       } else {
+
+        console.log('更新流程-->0-c1:performSyncWorkOnRoot')
         scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root));
       }
 
@@ -25672,7 +25676,7 @@
           schedulerPriorityLevel = NormalPriority;
           break;
       }
-
+      console.log('更新流程-->0-c2:performConcurrentWorkOnRoot')
       newCallbackNode = scheduleCallback$1(schedulerPriorityLevel, performConcurrentWorkOnRoot.bind(null, root));
     }
 
@@ -28027,6 +28031,7 @@
   }
 
   function FiberNode(tag, pendingProps, key, mode) {
+    console.log('==欢迎来到B FiberNode!===')
     // Instance
     this.tag = tag;
     this.key = key;
@@ -28107,7 +28112,9 @@
 
   var createFiber = function (tag, pendingProps, key, mode) {
     // $FlowFixMe: the shapes are exact here but Flow doesn't like constructors
-    return new FiberNode(tag, pendingProps, key, mode);
+    var fiberNode = new FiberNode(tag, pendingProps, key, mode)
+    console.log('==欢迎来到C FiberNode返回值', fiberNode)
+    return fiberNode;
   };
 
   function shouldConstruct$1(Component) {
@@ -28591,6 +28598,7 @@
   }
 
   function FiberRootNode(containerInfo, tag, hydrate, identifierPrefix, onRecoverableError) {
+    console.log('==欢迎来到A FiberRootNode!===')
     this.tag = tag;
     this.containerInfo = containerInfo;
     this.pendingChildren = null;
@@ -28653,7 +28661,6 @@
     identifierPrefix, onRecoverableError, transitionCallbacks) {
     var root = new FiberRootNode(containerInfo, tag, hydrate, identifierPrefix, onRecoverableError);
     // stateNode is any.
-
 
     var uninitializedFiber = createHostRootFiber(tag, isStrictMode);
     root.current = uninitializedFiber;
@@ -28775,6 +28782,7 @@
   function createContainer(containerInfo, tag, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError, transitionCallbacks) {
     var hydrate = false;
     var initialChildren = null;
+    console.log('更新流程FiberRoot:a-->createContainer')
     return createFiberRoot(containerInfo, tag, hydrate, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
   }
   function createHydrationContainer(initialChildren, // TODO: Remove `callback` when we delete legacy mode.
@@ -28799,6 +28807,7 @@
     return root;
   }
   function updateContainer(element, container, parentComponent, callback) {
+    console.log('更新流程-->updateContainer本体')
     {
       onScheduleRoot(container, element);
     }
@@ -28845,6 +28854,7 @@
       update.callback = callback;
     }
 
+    console.log('更新流程-->updateContainer本体,调用enqueueUpdate和enqueueUpdate')
     enqueueUpdate(current$1, update);
     var root = scheduleUpdateOnFiber(current$1, lane, eventTime);
 
@@ -29468,6 +29478,7 @@
 
   function legacyCreateRootFromDOMContainer(container, initialChildren, parentComponent, callback, isHydrationContainer) {
     if (isHydrationContainer) {
+      console.log('更新流程-->1-a:初始化渲染')
       if (typeof callback === 'function') {
         var originalCallback = callback;
 
@@ -29489,6 +29500,7 @@
       flushSync();
       return root;
     } else {
+      console.log('更新流程-->0-a:初始化渲染')
       // First clear any existing content.
       var rootSibling;
 
@@ -29519,6 +29531,7 @@
 
       listenToAllSupportedEvents(_rootContainerElement); // Initial mount should not be batched.
 
+      console.log('更新流程-->0-a,初始化渲染不执行批量更新',)
       flushSync(function () {
         updateContainer(initialChildren, _root, parentComponent, callback);
       });
@@ -29544,6 +29557,7 @@
     var root;
 
     if (!maybeRoot) {
+      console.log('更新流程-->0-a0:初始化渲染')
       // Initial mount
       root = legacyCreateRootFromDOMContainer(container, children, parentComponent, callback, forceHydrate);
     } else {
@@ -29558,7 +29572,7 @@
         };
       } // Update
 
-
+      console.log('更新流程-->1-a1:即更新')
       updateContainer(children, root, parentComponent, callback);
     }
 
@@ -29613,7 +29627,6 @@
     return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
   }
   function render(element, container, callback) {
-    console.log('render函数=====>')
     {
       error('ReactDOM.render is no longer supported in React 18. Use createRoot ' + 'instead. Until you switch to the new API, your app will behave as ' + "if it's running React 17. Learn " + 'more: https://reactjs.org/link/switch-to-createroot');
     }
@@ -29630,6 +29643,8 @@
       }
     }
 
+    console.log('更新流程-->000,调用legacyRenderSubtreeIntoContainer')
+    console.log('dom-render', element, container, callback)
     return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
   }
   function unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {
