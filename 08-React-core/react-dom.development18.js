@@ -28031,7 +28031,7 @@
   }
 
   function FiberNode(tag, pendingProps, key, mode) {
-    console.log('==欢迎来到B FiberNode!===')
+    // console.log('==欢迎来到B FiberNode!===')
     // Instance
     this.tag = tag;
     this.key = key;
