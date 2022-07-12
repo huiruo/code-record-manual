@@ -33,3 +33,21 @@ service redis-server restart
 在查看端口情况如下:
 netstat -talnp
 ```
+
+## windows Redis
+```
+C:\Program Files\Redis
+
+redis-server.exe redis.windows.conf
+
+常见的redis服务命令：
+
+       卸载redis服务-------------redis-server --service-uninstall
+
+       开启redis服务-------------redis-server --service-start
+
+       停止redis服务-------------redis-server --service-stop
+
+设置密码由于开机启动配置文件为
+redis.windows-service.conf，文件内部有设置密码项，所以我们修改redis.windows-service.conf文件，
+```
